@@ -1,6 +1,6 @@
 package ru.vad1mchk.progr.lab05.client.datatypes
 
-import ru.vad1mchk.progr.lab05.client.exceptions.IllegalDataValueException
+import ru.vad1mchk.progr.lab05.client.exceptions.InvalidDataValueException
 import ru.vad1mchk.progr.lab05.client.util.Wrappable
 
 /**
@@ -25,11 +25,11 @@ class Coordinates : Wrappable {
         if (this === o) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if ((o == null) || (javaClass != o.javaClass)) {
             return false
         }
         val that = o as Coordinates
-        return x == that.x && java.lang.Float.compare(that.y, y) == 0
+        return x == that.x && that.y.compareTo(y) == 0
     }
 
     override fun hashCode(): Int {
@@ -50,7 +50,7 @@ class Coordinates : Wrappable {
         fun unwrap(str: String): Coordinates {
             val coordinates = Coordinates()
             if (!str.toRegex().matches("^-?[0-9]{1,10}:-?([0-9]+\\.[0-9]*|[0-9]*\\.[0-9]+|[0-9]+)$")) {
-                throw IllegalDataValueException("Coordinates are stored in an invalid format")
+                throw InvalidDataValueException("Coordinates are stored in an invalid format")
             }
             val index = str.indexOf(':')
             val xStr = str.substring(0, index)
@@ -62,7 +62,7 @@ class Coordinates : Wrappable {
                 coordinates.y = y
                 coordinates
             } catch (e: NumberFormatException) {
-                throw IllegalDataValueException("Coordinates have an invalid number format", e)
+                throw InvalidDataValueException("Coordinates have an invalid number format", e)
             }
         }
     }

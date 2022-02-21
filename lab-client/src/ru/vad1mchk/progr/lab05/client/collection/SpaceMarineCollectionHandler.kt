@@ -1,9 +1,12 @@
 package ru.vad1mchk.progr.lab05.client.collection
 
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
+import ru.vad1mchk.progr.lab05.client.messages.Messages
+import java.lang.String.join
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Class to handle the collection of SpaceMarines specifically
@@ -12,35 +15,33 @@ class SpaceMarineCollectionHandler : CollectionHandler<SpaceMarine> {
     /**
      * Collection of SpaceMarines
      */
-    override val collection: LinkedList<SpaceMarine>
+    override val collection: LinkedList<SpaceMarine> = LinkedList()
 
     /**
      * Set of unique identifiers already existing in collection
      */
-    private val uniqueIds: HashSet<Int>
+    private val uniqueIds: HashSet<Int> = HashSet()
 
     /**
      * Date of collection initialization
      */
-    private val initializationDate: LocalDate
-
-    init {
-        collection = LinkedList()
-        uniqueIds = HashSet()
-        initializationDate = LocalDate.now()
-    }
+    private val initializationDate: LocalDate = LocalDate.now()
 
     override fun sort() {
-        Collections.sort(collection)
+        collection.sort()
     }
 
     override fun info(): String {
+        val uniqueIdsAsStrings: ArrayList<String> = ArrayList()
+        for (id in uniqueIds) {
+            uniqueIdsAsStrings.add(id.toString())
+        }
         return String.format(
-            "Collection of SpaceMarine\n\tType: %s\n\tInitialization date: %s\n\tSize: %d elements\n\tIDs taken: %s",
+            Messages.get("infoFormatString"),
             collection.javaClass.simpleName,
             initializationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
             collection.size,
-            uniqueIds
+            if (collection.isEmpty()) "none" else java.lang.String.join(", ", uniqueIdsAsStrings)
         )
     }
 

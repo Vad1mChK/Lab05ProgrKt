@@ -1,46 +1,64 @@
 package ru.vad1mchk.progr.lab05.client
 
-import ru.vad1mchk.progr.lab05.client.commands.Command
+import ru.vad1mchk.progr.lab05.client.collection.SpaceMarineCollectionHandler
+import ru.vad1mchk.progr.lab05.client.commands.CommandExecutor
 import ru.vad1mchk.progr.lab05.client.commands.CommandReader
 import ru.vad1mchk.progr.lab05.client.commands.HistoryStorage
-import ru.vad1mchk.progr.lab05.client.exceptions.IllegalFileArgumentException
+import ru.vad1mchk.progr.lab05.client.exceptions.*
+import ru.vad1mchk.progr.lab05.client.messages.Messages
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 
 
-class Client private constructor() {
-    /**
-     * Private primary constructor for the client application.
-     * Should not be called
-     */
-    init {
-        throw UnsupportedOperationException("This is an utility class and can not be instantiated")
-    }
-
-    companion object {
-        const val TEST = 20
-
-        /**
-         * Main method for the client application
-         *
-         * @param args Command line arguments
-         */
-        @Throws(IllegalFileArgumentException::class)
-        @JvmStatic
-        fun main(args: Array<String>) {
-            val reader = CommandReader(System.`in`)
-            val history = HistoryStorage()
-            var currentCommand: Command?
-            if (args.size != 1) {
-                throw IllegalFileArgumentException()
-            }
-            val path = args[0]
-            do {
-                currentCommand = reader.read()
-                if (currentCommand != null) {
-                    history.addCommand(currentCommand)
-                }
-            } while (currentCommand?.commandType != Command.CommandType.EXIT)
-            println("End.\nHistory:")
-            println(history)
+fun main(args: Array<String>) {
+    val collectionFile: File
+    try {
+        collectionFile = validateArgs(args)
+    } catch (e: Exception) {
+        if (e is ProgramArgumentException || e is AccessFileException) {
+            println(Messages.get("badgeError")+e.message)
+            return
+        } else {
+            throw e
         }
     }
+    val collectionFileInputStream = FileInputStream(collectionFile)
+    val commandReader = CommandReader(System.`in`)
+    val commandExecutor = CommandExecutor(commandReader,
+        SpaceMarineCollectionHandler(),
+        FileOutputStream(collectionFile),
+        HistoryStorage()
+    )
+    while (true) {
+        try {
+            commandExecutor.executeCommand(commandReader.read())
+        } catch (e: ProgramExitException) {
+            break
+        }
+    }
+}
+
+fun validateArgs(args: Array<String>): File {
+    if (args.isEmpty()) {
+        throw EmptyProgramArgumentException(Messages.get("emptyProgramArgumentException"))
+    }
+    if (args.size > 1) {
+        throw InvalidProgramArgumentException(Messages.get("invalidProgramArgumentExceptionMoreThanOne"))
+    }
+    val fileName = args[0]
+    if (!StringBuffer(fileName).endsWith(".csv")) {
+        throw InvalidProgramArgumentException(Messages.get("invalidProgramArgumentExceptionNotCSV"))
+    }
+    val collectionFile = File(fileName)
+    val collectionFileInputStream: FileInputStream
+    try {
+        collectionFileInputStream = FileInputStream(collectionFile)
+    } catch (e: FileNotFoundException){
+        throw AccessFileException(Messages.get("accessFileException"), e)
+    } catch (e: Exception) {
+        throw Exception()
+    }
+    return collectionFile
 }
