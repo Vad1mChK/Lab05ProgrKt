@@ -2,20 +2,19 @@ package ru.vad1mchk.progr.lab05.client.collection
 
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.messages.Messages
-import java.lang.String.join
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Class to handle the collection of SpaceMarines specifically
  */
-class SpaceMarineCollectionHandler : CollectionHandler<SpaceMarine> {
+class SpaceMarineCollectionHandler(
     /**
      * Collection of SpaceMarines
      */
-    override val collection: LinkedList<SpaceMarine> = LinkedList()
+    val collection: LinkedList<SpaceMarine>
+) : CollectionHandler<SpaceMarine> {
 
     /**
      * Set of unique identifiers already existing in collection
@@ -43,6 +42,12 @@ class SpaceMarineCollectionHandler : CollectionHandler<SpaceMarine> {
             collection.size,
             if (collection.isEmpty()) "none" else java.lang.String.join(", ", uniqueIdsAsStrings)
         )
+    }
+
+    override fun show() {
+        for (marine in collection) {
+            println(marine)
+        }
     }
 
     override fun add(marine: SpaceMarine) {
@@ -78,14 +83,12 @@ class SpaceMarineCollectionHandler : CollectionHandler<SpaceMarine> {
     }
 
     override fun updateById(id: Int, newMarine: SpaceMarine) {
-        var idx = 0
-        for (marine in collection) {
+        for ((idx, marine) in collection.withIndex()) {
             if (marine.id == id) {
                 newMarine.id = id
                 collection[idx] = newMarine
                 return
             }
-            idx++
         }
     }
 
@@ -115,5 +118,9 @@ class SpaceMarineCollectionHandler : CollectionHandler<SpaceMarine> {
         }
         healthList.sortWith(Comparator { left, right -> (right!!).compareTo(left!!) })
         println(healthList)
+    }
+
+    override fun clear() {
+        collection.clear()
     }
 }

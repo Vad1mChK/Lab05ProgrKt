@@ -7,22 +7,17 @@ import java.time.format.DateTimeFormatter
  * Class to wrap LocalDate to String for further serialization
  * and unwrap String to LocalDate after deserialization
  */
-class DateWrapperUnwrapper private constructor() {
-    init {
-        throw UnsupportedOperationException("This is an utility class and can not be instantiated")
+object DateWrapperUnwrapper {
+    /**
+     * Wraps the LocalDate into a String representation
+     *
+     * @param date LocalDate to wrap
+     * @return string representation in the form of "dd.MM.yyyy",
+     * where dd - day, MM - month, yyyy - year
+     */
+    fun wrap(date: LocalDate): String {
+        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
-
-    companion object {
-        /**
-         * Wraps the LocalDate into a String representation
-         *
-         * @param date LocalDate to wrap
-         * @return string representation in the form of "dd.MM.yyyy",
-         * where dd - day, MM - month, yyyy - year
-         */
-        fun wrap(date: LocalDate): String {
-            return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-        }
 
         /**
          * Unwraps the string representation into a LocalDate object
@@ -34,5 +29,4 @@ class DateWrapperUnwrapper private constructor() {
         fun unwrap(str: String?): LocalDate {
             return LocalDate.parse(str, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
         }
-    }
 }

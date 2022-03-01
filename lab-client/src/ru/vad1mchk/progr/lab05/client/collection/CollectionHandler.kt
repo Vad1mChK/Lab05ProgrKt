@@ -1,7 +1,5 @@
 package ru.vad1mchk.progr.lab05.client.collection
 
-import java.util.*
-
 /**
  * Interface to be implemented by handler of LinkedList collection
  *
@@ -9,16 +7,9 @@ import java.util.*
 </T> */
 interface CollectionHandler<T> {
     /**
-     * Sort the collection according to the comparison rules
+     * Sorts the collection according to the comparison rules
      */
     fun sort()
-
-    /**
-     * Getter of collection
-     *
-     * @return collection
-     */
-    val collection: LinkedList<T>
 
     /**
      * Informs the user about collection type, initialization date, element count
@@ -26,6 +17,11 @@ interface CollectionHandler<T> {
      * @return information string
      */
     fun info(): String
+
+    /**
+     * Prints all the collection elements in String representation
+     */
+    fun show()
 
     /**
      * Adds element to collection
@@ -63,6 +59,11 @@ interface CollectionHandler<T> {
      * @param newElement new element to replace the old one
      */
     fun updateById(id: Int, newElement: T)
+
+    /**
+     * Clears the collection
+     */
+    fun clear()
 
     /**
      * Calculates size of the collection

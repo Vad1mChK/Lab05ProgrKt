@@ -6,6 +6,8 @@ import ru.vad1mchk.progr.lab05.client.commands.CommandReader
 import ru.vad1mchk.progr.lab05.client.commands.HistoryStorage
 import ru.vad1mchk.progr.lab05.client.exceptions.*
 import ru.vad1mchk.progr.lab05.client.messages.Messages
+import ru.vad1mchk.progr.lab05.client.util.CollectionLoader
+import ru.vad1mchk.progr.lab05.client.util.CollectionSaver
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -18,17 +20,21 @@ fun main(args: Array<String>) {
         collectionFile = validateArgs(args)
     } catch (e: Exception) {
         if (e is ProgramArgumentException || e is AccessFileException) {
-            println(Messages.get("badgeError")+e.message)
+            println(Messages.get("badgeError") + e.message)
             return
         } else {
             throw e
         }
     }
     val collectionFileInputStream = FileInputStream(collectionFile)
+    val collectionFileOutputStream = FileOutputStream(collectionFile)
+    val collection = CollectionLoader.load(collectionFileInputStream)
+    CollectionSaver.save(collection, collectionFileOutputStream)
     val commandReader = CommandReader(System.`in`)
-    val commandExecutor = CommandExecutor(commandReader,
-        SpaceMarineCollectionHandler(),
-        FileOutputStream(collectionFile),
+    val commandExecutor = CommandExecutor(
+        commandReader,
+        SpaceMarineCollectionHandler(collection),
+        collectionFileOutputStream,
         HistoryStorage()
     )
     while (true) {
@@ -38,6 +44,7 @@ fun main(args: Array<String>) {
             break
         }
     }
+
 }
 
 fun validateArgs(args: Array<String>): File {
@@ -54,9 +61,10 @@ fun validateArgs(args: Array<String>): File {
     val collectionFile = File(fileName)
     val collectionFileInputStream: FileInputStream
     try {
+        if (!collectionFile.canRead()) throw CannotReadFileException()
         collectionFileInputStream = FileInputStream(collectionFile)
     } catch (e: FileNotFoundException){
-        throw AccessFileException(Messages.get("accessFileException"), e)
+        throw AccessFileException(Messages.get("accessFileExceptionNotFound"), e)
     } catch (e: Exception) {
         throw Exception()
     }

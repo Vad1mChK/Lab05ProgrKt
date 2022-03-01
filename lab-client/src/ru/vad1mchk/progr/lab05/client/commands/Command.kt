@@ -60,7 +60,7 @@ class Command(str: String) {
     init {
         val arr = str.trim().split("(\\s)(?=(?:[^\"]|\"[^\"]*\")*$)".toRegex()).toTypedArray()
         val len = arr.size
-        if (arr.isEmpty()) {
+        if (arr.isEmpty() || arr[0] == "") {
             throw EmptyCommandException()
         }
         validate(arr)

@@ -55,13 +55,15 @@ class Messages private constructor(): ResourceBundle(){
             "emptyProgramArgumentException" to "Collection file must be specified.",
             "invalidProgramArgumentExceptionMoreThanOne" to "Exactly one argument must be passed.",
             "invalidProgramArgumentExceptionNotCSV" to "Collection file must be in *.csv format.",
-            "accessFileException" to "File with this name cannot be found or accessed.",
+            "accessFileException" to "File cannot be found.",
+            "cannotReadFileException" to "File cannot be read.",
+            "cannotWriteFileException" to "File cannot be written.",
             "invalidCommandNameException" to "No command with name \"%s\" found.",
             "invalidCommandArgumentExceptionMissingArg" to "Command \"%s\" must have an argument.",
             "invalidCommandArgumentExceptionUnwantedArgs" to "Command \"%s\" must not have arguments.",
             "invalidCommandArgumentExceptionMoreThanOne" to "Command \"%s\" can only have one argument.",
             "invalidCommandArgumentExceptionIllegalDatatype" to "Argument of command \"%s\" must be of type %s."
-            ).toMutableMap()
+        ).toMutableMap()
         fun get(key: String): String {
             if (contents.containsKey(key)) {
                 return contents[key] as String
