@@ -1,6 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.datatypes
 
 import ru.vad1mchk.progr.lab05.client.exceptions.ValidationException
+import ru.vad1mchk.progr.lab05.client.messages.Messages
 
 data class Chapter(
     val name: String,
@@ -18,4 +19,12 @@ data class Chapter(
         }
     }
 
+    override fun toString(): String {
+        return String.format(
+            Messages["infoChapterRepresentationFormatString"],
+            name,
+            parentLegion ?: "-",
+            marinesCount
+        )
+    }
 }

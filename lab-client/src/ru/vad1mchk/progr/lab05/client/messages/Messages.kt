@@ -14,11 +14,21 @@ object Messages {
         NONE("");
     }
 
-    val map = hashMapOf<String, String>(
-        "fatalErrorNoProgramArguments" to "No arguments given: should be exactly one, collection path",
-        "fatalErrorTooManyProgramArguments" to "Too many arguments (%d) given: should be exactly one, collection path",
+    private val map = hashMapOf<String, String>(
+        "fatalErrorNoProgramArguments" to "No arguments given: should be exactly one (collection path)",
+        "fatalErrorTooManyProgramArguments" to "Too many arguments (%d) given: should be exactly one (collection path)",
         "errorCollectionNotFound" to "Collection cannot be found",
+        "errorIDCollision" to "Element with ID %d already exists, newer element ignored",
+        "errorInvalidEnumConstant" to "None of the constants: %s match",
+        "errorInvalidFieldFormatCoordinates" to "Invalid coordinates format, should be x:y",
         "errorInvalidFieldFormatDate" to "Invalid date format, should be DD.MM.YYYY",
+        "errorInvalidFieldTypeCoordinates" to "Coordinates fields should be of types int and float",
+        "errorInvalidFieldTypeChapterMarineCount" to "Chapter marine count should be of type int",
+        "errorInvalidFieldValueChapterName" to "Chapter name should not be null nor empty",
+        "errorInvalidFieldValueChapterMarineCountNull" to "Chapter marine count should not be null",
+        "errorValidationSpaceMarineID" to "ID should not be less than %d",
+        "errorValidationSpaceMarineHealth" to "Health should be greater than %f",
+        "errorValidationSpaceMarineHeartCount" to "Heart count should be in range (%d; %d]",
         "helpString" to """
             help
                 Print help for available commands.
@@ -61,6 +71,17 @@ object Messages {
                 initialization date: %s
             )
         """.trimIndent(),
+        "infoSpaceMarineRepresentationFormatString" to """
+            %s [%d]:
+                coordinates: %s,
+                creation date: %s,
+                health: %.2f,
+                heart count: %d,
+                %s,
+                melee weapon: %s,
+                chapter: %s
+        """.trimIndent(),
+        "infoChapterRepresentationFormatString" to "Chapter (name: %s, parent legion: %s, marines count: %d)"
     )
 
     operator fun get(key: String): String {
@@ -76,9 +97,4 @@ object Messages {
     fun say(level: Level = Level.NONE, messageFormat: String, vararg args: Any?) {
         println(level.badge + String.format(messageFormat, *args))
     }
-
-    fun sayByKey(level: Level = Level.NONE, messageKey: String, vararg args: Any?) {
-        println(level.badge + String.format(this[messageKey], *args))
-    }
-
 }

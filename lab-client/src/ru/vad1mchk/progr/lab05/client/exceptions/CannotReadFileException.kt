@@ -1,6 +1,6 @@
 package ru.vad1mchk.progr.lab05.client.exceptions
 
-class CannotReadFileException: FileException {
+class CannotReadFileException : FileException {
     constructor() : super()
     constructor(message: String) : super(message)
     constructor(cause: Throwable) : super(cause)

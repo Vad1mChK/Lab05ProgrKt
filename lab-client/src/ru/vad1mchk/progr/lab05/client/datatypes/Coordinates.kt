@@ -16,6 +16,6 @@ data class Coordinates(val x: Int, val y: Float) : Validated {
     }
 
     override fun toString(): String {
-        return "$x:$y"
+        return "($x, $y)"
     }
 }
