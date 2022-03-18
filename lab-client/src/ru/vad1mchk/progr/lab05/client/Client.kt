@@ -2,6 +2,7 @@ package ru.vad1mchk.progr.lab05.client
 
 import ru.vad1mchk.progr.lab05.client.commands.Clear
 import ru.vad1mchk.progr.lab05.client.commands.Info
+import ru.vad1mchk.progr.lab05.client.commands.PrintFieldDescendingHealth
 import ru.vad1mchk.progr.lab05.client.commands.Show
 import ru.vad1mchk.progr.lab05.client.datatypes.Coordinates
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
@@ -14,7 +15,6 @@ fun main(args: Array<String>) {
     val path = FileSystems.getDefault().getPath("lab-client", "collection.csv")
     Deserializer.file = path.toFile()
     Deserializer.read()
-    Clear().execute()
     SpaceMarineCollectionManager.addWithId(
         2007,
         SpaceMarine(
@@ -28,6 +28,5 @@ fun main(args: Array<String>) {
             null
         )
     )
-    Info().execute()
-    Show().execute()
+    PrintFieldDescendingHealth().execute()
 }

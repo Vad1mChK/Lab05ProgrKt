@@ -96,4 +96,11 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
             }
         }
     }
+
+    fun printFieldDescendingHealth() {
+        val healths = collection.map { it.health }.sortedDescending()
+        for (health in healths) {
+            println(health)
+        }
+    }
 }
