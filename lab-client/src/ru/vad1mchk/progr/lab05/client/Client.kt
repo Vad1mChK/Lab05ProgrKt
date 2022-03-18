@@ -28,5 +28,5 @@ fun main(args: Array<String>) {
             null
         )
     )
-    PrintFieldDescendingHealth().execute()
+    Info().execute()
 }

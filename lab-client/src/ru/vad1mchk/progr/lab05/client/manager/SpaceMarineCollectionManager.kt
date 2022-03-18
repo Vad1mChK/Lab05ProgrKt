@@ -1,5 +1,6 @@
 package ru.vad1mchk.progr.lab05.client.manager
 
+import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.exceptions.IDCollisionException
 import ru.vad1mchk.progr.lab05.client.messages.Messages
@@ -94,6 +95,30 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
             if (oldElement > element) {
                 removeById(oldElement.id)
             }
+        }
+    }
+
+    fun filterLessThanMeleeWeapon(meleeWeapon: MeleeWeapon) {
+        val filteredCollection = LinkedList<SpaceMarine>()
+        for (element in filteredCollection) {
+            if (element.meleeWeapon != null && element.meleeWeapon < meleeWeapon) {
+                filteredCollection += element
+            }
+        }
+        for (element in filteredCollection.sorted()) {
+            println(element)
+        }
+    }
+
+    fun filterGreaterThanHeartCount(heartCount: Long) {
+        val filteredCollection = LinkedList<SpaceMarine>()
+        for (element in filteredCollection) {
+            if (element.heartCount > heartCount) {
+                filteredCollection += element
+            }
+        }
+        for (element in filteredCollection.sorted()) {
+            println(element)
         }
     }
 
