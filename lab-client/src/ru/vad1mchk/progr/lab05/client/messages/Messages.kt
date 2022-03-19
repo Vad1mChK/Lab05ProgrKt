@@ -19,6 +19,7 @@ object Messages {
         "fatalErrorTooManyProgramArguments" to "Too many arguments (%d) given: should be exactly one (collection path)",
         "errorCollectionNotFound" to "Collection cannot be found",
         "errorIDCollision" to "Element with ID %d already exists, newer element ignored",
+        "errorInvalidCommandName" to "No such command: %s",
         "errorInvalidEnumConstant" to "None of the constants: %s match",
         "errorInvalidFieldFormatCoordinates" to "Invalid coordinates format, should be x:y",
         "errorInvalidFieldFormatDate" to "Invalid date format, should be DD.MM.YYYY",
@@ -26,6 +27,7 @@ object Messages {
         "errorInvalidFieldTypeChapterMarineCount" to "Chapter marine count should be of type int",
         "errorInvalidFieldValueChapterName" to "Chapter name should not be null nor empty",
         "errorInvalidFieldValueChapterMarineCountNull" to "Chapter marine count should not be null",
+        "errorValidationCoordinateX" to "Coordinates should be greater than %d",
         "errorValidationSpaceMarineID" to "ID should not be less than %d",
         "errorValidationSpaceMarineHealth" to "Health should be greater than %f",
         "errorValidationSpaceMarineHeartCount" to "Heart count should be in range (%d; %d]",
@@ -72,7 +74,7 @@ object Messages {
             )
         """.trimIndent(),
         "infoSpaceMarineRepresentationFormatString" to """
-            %s [%d]:
+            $escapeCharacter[3m%s$escapeCharacter[0m [%d]:
                 coordinates: %s,
                 creation date: %s,
                 health: %.2f,
@@ -81,7 +83,14 @@ object Messages {
                 melee weapon: %s,
                 chapter: %s
         """.trimIndent(),
-        "infoChapterRepresentationFormatString" to "Chapter (name: %s, parent legion: %s, marines count: %d)"
+        "infoChapterRepresentationFormatString" to "Chapter (name: %s, parent legion: %s, marines count: %d)",
+        "inputMarineName" to "Enter name ($escapeCharacter[3mnon-empty string$escapeCharacter[0m): ",
+        "inputCoordinateX" to "Enter coordinate x ($escapeCharacter[3mint > %d $escapeCharacter[0m): ",
+        "inputCoordinateY" to "Enter coordinate y ($escapeCharacter[3mfloat$escapeCharacter[0m): ",
+        "inputMarineHealth" to "Enter health ($escapeCharacter[3mfloat > 0.0$escapeCharacter[0m): ",
+        "inputMarineHeartCount" to "Enter heart count ($escapeCharacter[3m1 <= long <= 3$escapeCharacter[0m): ",
+        "inputMarineLoyal" to "Enter if it is loyal ($escapeCharacter[3mboolean$escapeCharacter[0m): ",
+        "inputMarineMeleeWeapon" to "Enter melee weapon ($escapeCharacter[3mone of the following constants: {%s}$escapeCharacter[0m, leave blank for null):"
     )
 
     operator fun get(key: String): String {
@@ -94,7 +103,7 @@ object Messages {
         return map[key]!!
     }
 
-    fun say(level: Level = Level.NONE, messageFormat: String, vararg args: Any?) {
+    fun say(messageFormat: String, level: Level = Level.NONE, vararg args: Any?) {
         println(level.badge + String.format(messageFormat, *args))
     }
 }

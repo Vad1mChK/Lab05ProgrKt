@@ -1,6 +1,5 @@
 package ru.vad1mchk.progr.lab05.client.manager
 
-import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.exceptions.IDCollisionException
 import ru.vad1mchk.progr.lab05.client.messages.Messages
@@ -47,8 +46,8 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
         if (hasId(id)) {
             throw IDCollisionException(String.format(Messages["errorIDCollision"], id))
         } else {
-            collection.add(newElement)
-            uniqueIds.add(id)
+            collection += newElement
+            uniqueIds += id
         }
     }
 
@@ -69,8 +68,8 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     override fun removeById(id: Int) {
         for (element in collection) {
             if (element.id == id) {
-                collection.remove(element)
-                uniqueIds.remove(id)
+                collection -= element
+                uniqueIds -= id
                 return
             }
         }
@@ -98,28 +97,14 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
         }
     }
 
-    fun filterLessThanMeleeWeapon(meleeWeapon: MeleeWeapon) {
+    fun filteredCollection(function: (SpaceMarine) -> Boolean): LinkedList<SpaceMarine> {
         val filteredCollection = LinkedList<SpaceMarine>()
-        for (element in filteredCollection) {
-            if (element.meleeWeapon != null && element.meleeWeapon < meleeWeapon) {
+        for (element in collection) {
+            if (function(element)) {
                 filteredCollection += element
             }
         }
-        for (element in filteredCollection.sorted()) {
-            println(element)
-        }
-    }
-
-    fun filterGreaterThanHeartCount(heartCount: Long) {
-        val filteredCollection = LinkedList<SpaceMarine>()
-        for (element in filteredCollection) {
-            if (element.heartCount > heartCount) {
-                filteredCollection += element
-            }
-        }
-        for (element in filteredCollection.sorted()) {
-            println(element)
-        }
+        return filteredCollection
     }
 
     fun printFieldDescendingHealth() {

@@ -13,6 +13,6 @@ import ru.vad1mchk.progr.lab05.client.messages.Messages
  */
 class Info : Command {
     override fun execute() {
-        Messages.say(Messages.Level.INFO, SpaceMarineCollectionManager.info())
+        Messages.say(SpaceMarineCollectionManager.info(), level = Messages.Level.INFO)
     }
 }

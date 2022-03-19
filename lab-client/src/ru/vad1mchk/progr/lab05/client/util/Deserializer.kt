@@ -10,13 +10,24 @@ import ru.vad1mchk.progr.lab05.client.messages.Messages
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
+import java.io.Reader
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+/**
+ * Object class to deserialize the collection stored in CSV file.
+ */
 object Deserializer {
+    /**
+     * The file variable
+     */
     lateinit var file: File
 
-    fun read() {
+    /**
+     * Reads the collection file and automatically passes it to
+     * collection manager
+     */
+    fun readFile() {
         val lines = ArrayList<ArrayList<String?>>()
         BufferedReader(FileReader(file)).let { reader ->
             var currentLine: String?
@@ -54,11 +65,19 @@ object Deserializer {
                     )
                 )
             } catch (e: IDCollisionException) {
-                Messages.say(Messages.Level.ERROR, e.message!!)
+                Messages.say(e.message!!, level = Messages.Level.ERROR)
             }
         }
     }
 
+    /**
+     * Splits the line into multiple ones using comma as a delimiter,
+     * treating the escaped commas (almost) correctly. Empty strings
+     * will become null
+     *
+     * @param line Line to split
+     * @return Array list of strings?
+     */
     private fun splitPrimary(line: String): ArrayList<String?> {
         val array = ArrayList<String?>()
         for (word in line.split(Regex(",(?=([^\"]*\"[^\"]*\")*[^\"]*\$)"))) {
@@ -67,6 +86,15 @@ object Deserializer {
         return array
     }
 
+    /**
+     * Splits the line into multiple anes using the secondary delimiter
+     * (colon ':')
+     * It is used to split fields (Coordinates and Chapter) into subfields.
+     * Backslash '\' is used to escape the colon
+     *
+     * @param line Line to split
+     * @return Array list of strings?
+     */
     private fun splitSecondary(line: String): ArrayList<String?> {
         val array = ArrayList<String?>()
         for (word in line.reversed().split(Regex(":(?=(\\\\\\\\)*+[^\\\\])"))) {
@@ -75,6 +103,14 @@ object Deserializer {
         return array
     }
 
+    /**
+     * Parses the local date if it matches the format:
+     * "dd.MM.yyyy", where "dd" - day, "MM" - month, "yyyy" - year
+     * @param dateString string representation of date
+     * @return local date
+     * @throws InvalidFieldFormatException if the string does not
+     * match the date format
+     */
     private fun parseDate(dateString: String): LocalDate {
         if (!dateString.matches(
                 Regex(
@@ -87,8 +123,17 @@ object Deserializer {
         return LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
 
+    /**
+     * Parses the coordinates represented by int and float values split
+     * by colon ':', like "x:y"
+     *
+     * @param coordinatesString string representation of coordinates
+     * @return coordinates
+     * @throws InvalidFieldFormatException if the coordinates do not match the format
+     * @throws InvalidFieldTypeException if the coordinates are not of correct type
+     */
     private fun parseCoordinates(coordinatesString: String): Coordinates {
-        if (!coordinatesString.matches(Regex("^-?\\d+:-?(\\d+\\.\\d*|\\d*\\.\\d+)\$"))) {
+        if (!coordinatesString.matches(Regex("^-?\\d+:-?(\\d+\\.\\d*|\\d*\\.\\d+|\\d*)\$"))) {
             throw InvalidFieldFormatException(Messages["errorInvalidFieldFormatCoordinates"])
         }
         splitSecondary(coordinatesString).let {
@@ -102,6 +147,13 @@ object Deserializer {
         }
     }
 
+    /**
+     * Parses melee weapon as an enum constant
+     * @param meleeWeaponString string representation of melee weapon
+     * @return melee weapon if the string is not null, else null
+     * @throws InvalidEnumConstantException if the string does not
+     * correspond to a MeleeWeapon constant
+     */
     private fun parseMeleeWeapon(meleeWeaponString: String?): MeleeWeapon? {
         if (meleeWeaponString == null) return null
         try {
@@ -116,6 +168,14 @@ object Deserializer {
         }
     }
 
+    /**
+     * Parses chapter represented by a string delimited by colon
+     * @param chapterString string representation of a chapter
+     * @return chapter the string is not null, else null
+     * @throws InvalidFieldValueException if the chapter name is null or empty,
+     * or if the marine count is null
+     * @throws InvalidFieldTypeException if marine count is not an int
+     */
     private fun parseChapter(chapterString: String?): Chapter? {
         if (chapterString == null) return null
         splitSecondary(chapterString).let {
