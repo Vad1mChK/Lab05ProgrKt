@@ -90,7 +90,10 @@ object Messages {
         "inputMarineHealth" to "Enter health ($escapeCharacter[3mfloat > 0.0$escapeCharacter[0m): ",
         "inputMarineHeartCount" to "Enter heart count ($escapeCharacter[3m1 <= long <= 3$escapeCharacter[0m): ",
         "inputMarineLoyal" to "Enter if it is loyal ($escapeCharacter[3mboolean$escapeCharacter[0m): ",
-        "inputMarineMeleeWeapon" to "Enter melee weapon ($escapeCharacter[3mone of the following constants: {%s}$escapeCharacter[0m, leave blank for null):"
+        "inputMarineMeleeWeapon" to "Enter melee weapon ($escapeCharacter[3mone of the following constants: {%s}$escapeCharacter[0m, leave blank for null):",
+        "inputMarineChapterName" to "Enter chapter name (leave blank if you don't want to input chapter): ",
+        "inputMarineChapterParentLegion" to "Enter chapter parent legion (leave blank for null): ",
+        "inputMarineChapterMarinesCount" to "Enter chapter marines count (%d < int < %d): ",
     )
 
     operator fun get(key: String): String {
