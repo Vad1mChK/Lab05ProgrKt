@@ -1,5 +1,13 @@
-help
 info
-clear
-history
-exit
+add
+Мия Фэй
+-99
+98
+3.0
+3
+true
+WHIP
+
+print_field_descending_health
+save
+execute_script lab-client/script2
