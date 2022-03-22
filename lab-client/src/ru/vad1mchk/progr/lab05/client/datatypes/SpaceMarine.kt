@@ -117,7 +117,7 @@ data class SpaceMarine(
             heartCount,
             loyal,
             meleeWeapon,
-            chapter?:",,"
+            chapter ?: ",,"
         ).joinToString(",") { (it ?: "").toString() }
     }
 

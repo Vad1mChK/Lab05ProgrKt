@@ -5,7 +5,6 @@ import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.util.DateFormatter
 import java.io.BufferedWriter
 import java.io.File
-import java.io.FileWriter
 import java.io.OutputStreamWriter
 
 /**
@@ -19,7 +18,7 @@ object Serializer {
      * Function that saves the collection to a file.
      */
     fun save() {
-        val lines = arrayListOf<String> (
+        val lines = arrayListOf<String>(
             "${DateFormatter.format(SpaceMarineCollectionManager.initializationDate)}${",".repeat(11)}",
             "id,name,coordinateX,coordinateY,creationDate,health,heartCount,loyal,meleeWeapon,chapterName,chapterParentLegion,chapterMarinesCount"
         )

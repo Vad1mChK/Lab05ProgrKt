@@ -9,7 +9,6 @@ plugins {
 group = "me.vadimchk"
 version = "1.0-SNAPSHOT"
 
-
 repositories {
     mavenCentral()
 }

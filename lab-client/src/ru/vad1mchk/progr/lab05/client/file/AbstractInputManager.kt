@@ -1,17 +1,20 @@
 package ru.vad1mchk.progr.lab05.client.file
 
 import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
-import ru.vad1mchk.progr.lab05.client.datatypes.*
+import ru.vad1mchk.progr.lab05.client.datatypes.Chapter
+import ru.vad1mchk.progr.lab05.client.datatypes.Coordinates
+import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
+import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.exceptions.InvalidDataException
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import java.time.LocalDate
-import java.util.Scanner
+import java.util.*
 
 /**
  * Basic implementation of [InputManager] that
  * defines common behavior for its descendants.
  */
-abstract class AbstractInputManager(var scanner: Scanner): InputManager {
+abstract class AbstractInputManager(var scanner: Scanner) : InputManager {
     init {
         scanner.useDelimiter("\n")
     }
@@ -46,7 +49,7 @@ abstract class AbstractInputManager(var scanner: Scanner): InputManager {
     override fun readCoordinateY(): Float {
         scanner.nextLine().trim().also {
             try {
-                if(!it.toFloat().isFinite()) {
+                if (!it.toFloat().isFinite()) {
                     throw InvalidDataException(Messages.exceptionDataInvalidNumberShouldBeFinite)
                 }
                 return it.toFloat()
@@ -63,7 +66,7 @@ abstract class AbstractInputManager(var scanner: Scanner): InputManager {
     override fun readHealth(): Double {
         scanner.nextLine().trim().also {
             try {
-                if(it.toDouble() <= SpaceMarine.MIN_HEALTH) {
+                if (it.toDouble() <= SpaceMarine.MIN_HEALTH) {
                     throw InvalidDataException(
                         String.format(
                             Messages.exceptionDataInvalidNumberShouldBeGreaterThanFloat,
@@ -71,7 +74,7 @@ abstract class AbstractInputManager(var scanner: Scanner): InputManager {
                         )
                     )
                 }
-                if(!it.toDouble().isFinite()) {
+                if (!it.toDouble().isFinite()) {
                     throw InvalidDataException(Messages.exceptionDataInvalidNumberShouldBeFinite)
                 }
                 return it.toDouble()
@@ -85,7 +88,7 @@ abstract class AbstractInputManager(var scanner: Scanner): InputManager {
         scanner.nextLine().trim().also {
             try {
                 if (it.toLong() !in
-                    (SpaceMarine.MIN_HEART_COUNT .. SpaceMarine.MAX_HEART_COUNT)
+                    (SpaceMarine.MIN_HEART_COUNT..SpaceMarine.MAX_HEART_COUNT)
                 ) {
                     throw InvalidDataException(
                         String.format(
@@ -108,17 +111,17 @@ abstract class AbstractInputManager(var scanner: Scanner): InputManager {
 
     override fun readMeleeWeapon(): MeleeWeapon? {
         scanner.nextLine().trim().also {
-            if(it.isEmpty()) return null
+            if (it.isEmpty()) return null
             try {
                 return MeleeWeapon.valueOf(it)
-            }
-            catch (e: IllegalArgumentException) {
+            } catch (e: IllegalArgumentException) {
                 throw InvalidDataException(
                     String.format(
                         Messages.exceptionDataInvalidEnumConstant,
                         MeleeWeapon.listConstants()
                     ),
-                    e)
+                    e
+                )
             }
         }
     }
@@ -139,7 +142,7 @@ abstract class AbstractInputManager(var scanner: Scanner): InputManager {
         scanner.nextLine().trim().also {
             try {
                 if (it.toInt() !in
-                    (Chapter.MIN_MARINES_COUNT .. Chapter.MAX_MARINES_COUNT)
+                    (Chapter.MIN_MARINES_COUNT..Chapter.MAX_MARINES_COUNT)
                 ) {
                     throw InvalidDataException(
                         String.format(

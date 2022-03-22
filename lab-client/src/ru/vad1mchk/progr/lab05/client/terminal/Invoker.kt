@@ -1,11 +1,15 @@
 package ru.vad1mchk.progr.lab05.client.terminal
 
 import ru.vad1mchk.progr.lab05.client.collection.SpaceMarineCollectionManager
-import ru.vad1mchk.progr.lab05.client.command.*
+import ru.vad1mchk.progr.lab05.client.command.Command
+import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
 import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.exceptions.*
-import ru.vad1mchk.progr.lab05.client.file.*
+import ru.vad1mchk.progr.lab05.client.file.ConsoleInputManager
+import ru.vad1mchk.progr.lab05.client.file.FileInputManager
+import ru.vad1mchk.progr.lab05.client.file.FileManager
+import ru.vad1mchk.progr.lab05.client.file.InputManager
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import java.nio.file.FileSystems
@@ -18,12 +22,14 @@ import java.util.*
  * between console mode and script mode and controls
  * pretty much everything.
  */
-class Invoker(var inputManager: InputManager){
+class Invoker(var inputManager: InputManager) {
     private val commandMap = HashMap<String, Command>()
     private var isRunning = false
+
     companion object {
         private val pathStack = Stack<Path>()
     }
+
     private var currentScriptPath: Path?
 
     init {
@@ -244,7 +250,12 @@ class Invoker(var inputManager: InputManager){
      */
     fun runCommand(commandName: String, argument: String?) {
         try {
-            if (!isRegistered(commandName)) throw InvalidCommandNameException(String.format(Messages.exceptionInvalidCommandName, commandName))
+            if (!isRegistered(commandName)) throw InvalidCommandNameException(
+                String.format(
+                    Messages.exceptionInvalidCommandName,
+                    commandName
+                )
+            )
             commandMap[commandName]!!(argument)
             HistoryStorage.add(commandName)
         } catch (e: CommandException) {

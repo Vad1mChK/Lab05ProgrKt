@@ -106,7 +106,11 @@ class ConsoleInputManager : AbstractInputManager(Scanner(System.`in`)) {
     override fun readChapterMarinesCount(): Int {
         while (true) {
             try {
-                OutputManager.say(Messages.inputChapterMarinesCount, Chapter.MIN_MARINES_COUNT, Chapter.MAX_MARINES_COUNT)
+                OutputManager.say(
+                    Messages.inputChapterMarinesCount,
+                    Chapter.MIN_MARINES_COUNT,
+                    Chapter.MAX_MARINES_COUNT
+                )
                 return super.readChapterMarinesCount()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)

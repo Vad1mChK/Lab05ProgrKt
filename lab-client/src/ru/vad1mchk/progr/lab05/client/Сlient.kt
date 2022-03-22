@@ -2,7 +2,8 @@ package ru.vad1mchk.progr.lab05.client
 
 import ru.vad1mchk.progr.lab05.client.csv.Deserializer
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
-import ru.vad1mchk.progr.lab05.client.exceptions.*
+import ru.vad1mchk.progr.lab05.client.exceptions.EndProgramException
+import ru.vad1mchk.progr.lab05.client.exceptions.FileException
 import ru.vad1mchk.progr.lab05.client.file.ConsoleInputManager
 import ru.vad1mchk.progr.lab05.client.file.FileManager
 import ru.vad1mchk.progr.lab05.client.file.InputManager

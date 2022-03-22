@@ -1,9 +1,12 @@
 package ru.vad1mchk.progr.lab05.client.file
 
 import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
-import ru.vad1mchk.progr.lab05.client.datatypes.*
+import ru.vad1mchk.progr.lab05.client.datatypes.Chapter
+import ru.vad1mchk.progr.lab05.client.datatypes.Coordinates
+import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
+import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.exceptions.InvalidDataException
-import java.util.Scanner
+import java.util.*
 
 /**
  * Base interface for all input managers.

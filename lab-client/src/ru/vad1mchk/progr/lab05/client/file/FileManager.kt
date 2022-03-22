@@ -31,14 +31,11 @@ object FileManager {
         if (path.toFile().exists()) {
             if ((file.canRead() || !checkIfCanRead) && (file.canWrite() || !checkIfCanWrite)) {
                 return file
-            }
-            else if (!file.canRead() && (file.canWrite() || !checkIfCanWrite)){
+            } else if (!file.canRead() && (file.canWrite() || !checkIfCanWrite)) {
                 throw FileAccessException(Messages.errorFileAccessRead)
-            }
-            else if (!file.canWrite() && (file.canRead() || !checkIfCanRead)){
+            } else if (!file.canWrite() && (file.canRead() || !checkIfCanRead)) {
                 throw FileAccessException(Messages.errorFileAccessWrite)
-            }
-            else {
+            } else {
                 throw FileAccessException(Messages.errorFileAccessReadWrite)
             }
         } else {

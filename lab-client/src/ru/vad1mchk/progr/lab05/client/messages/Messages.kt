@@ -28,10 +28,12 @@ object Messages {
     const val exceptionDataInvalidNumberShouldBeFinite = "Cannot parse field: number should be finite."
     const val exceptionDataInvalidNumberShouldBeGreaterThanFloat = "Cannot parse field: number should be > %f."
     const val exceptionDataInvalidNumberShouldBeGreaterThanInt = "Cannot parse field: number should be > %d."
-    const val exceptionDataInvalidNumberShouldBeInRangeIntOrLong = "Cannot parse field: number should be in range (%d; %d)."
+    const val exceptionDataInvalidNumberShouldBeInRangeIntOrLong =
+        "Cannot parse field: number should be in range (%d; %d)."
     const val exceptionFileNotExists = "Cannot open file: file does not exist."
     const val exceptionInvalidCommandArgumentShouldBeInt = "Cannot execute command: argument should be int."
-    const val exceptionInvalidCommandArgumentPathNotAccessible = "Cannot execute command: argument should be an accessible path."
+    const val exceptionInvalidCommandArgumentPathNotAccessible =
+        "Cannot execute command: argument should be an accessible path."
     const val exceptionMalformedElement = "Cannot parse element: the entry in the collection file was malformed."
     const val exceptionMissingCommandArgument = "Cannot execute command: missing an argument."
     const val exceptionIdentifierCollision = "Cannot add element: id %d already exists in collection."
