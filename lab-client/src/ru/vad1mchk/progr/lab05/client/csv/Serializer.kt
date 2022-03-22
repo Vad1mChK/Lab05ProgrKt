@@ -6,6 +6,7 @@ import ru.vad1mchk.progr.lab05.client.util.DateFormatter
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.OutputStreamWriter
 
 /**
  * Object to used to serialize the collection
@@ -25,7 +26,7 @@ object Serializer {
         for (spaceMarine in SpaceMarineCollectionManager) {
             lines.add(serializeMarine(spaceMarine))
         }
-        BufferedWriter(FileWriter(file)).use { bufferedWriter ->
+        BufferedWriter(OutputStreamWriter(file.outputStream())).use { bufferedWriter ->
             for (line in lines) {
                 bufferedWriter.write(line)
                 bufferedWriter.newLine()

@@ -66,7 +66,7 @@ class ConsoleInputManager : AbstractInputManager(Scanner(System.`in`)) {
     override fun readHeartCount(): Long {
         while (true) {
             try {
-                OutputManager.say(Messages.inputCoordinateX, SpaceMarine.MIN_HEART_COUNT, SpaceMarine.MAX_HEART_COUNT)
+                OutputManager.say(Messages.inputHeartCount, SpaceMarine.MIN_HEART_COUNT, SpaceMarine.MAX_HEART_COUNT)
                 return super.readHeartCount()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
