@@ -198,7 +198,7 @@ abstract class AbstractInputManager(var scanner: Scanner) : InputManager {
                 }
             }
         } catch (e: NoSuchElementException) {
-            throw EndProgramException()
+            throw EndProgramException(Messages.exceptionEndProgram)
         }
     }
 
