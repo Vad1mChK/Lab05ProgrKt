@@ -1,13 +1,11 @@
-info
 add
-Мия Фэй
--99
-98
-3.0
+Мия Фей
+123
+333.456
+0.01
 3
 true
-WHIP
+POWER_SWORD
 
-print_field_descending_health
-save
-execute_script lab-client/script2
+info
+execute_script script

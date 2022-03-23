@@ -1,4 +1,4 @@
-package ru.vad1mchk.progr.lab05.client.file
+package ru.vad1mchk.progr.lab05.client.io
 
 import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
 import ru.vad1mchk.progr.lab05.client.datatypes.Chapter
@@ -70,7 +70,10 @@ interface InputManager {
     /**
      * Reads `loyal` of [SpaceMarine] from input.
      * @return `heartCount` as a boolean.
+     * @throws InvalidDataException if `loyal` cannot
+     * be parsed.
      */
+    @Throws(InvalidDataException::class)
     fun readLoyal(): Boolean
 
     /**

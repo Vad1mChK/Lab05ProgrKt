@@ -25,6 +25,7 @@ object Messages {
     const val exceptionDataInvalidEnumConstant = "Cannot parse field: should be one of the enum constants %s or null."
     const val exceptionDataInvalidNotNull = "Cannot parse field: should not be null nor empty."
     const val exceptionDataInvalidNumberFormat = "Cannot parse field: should be a number."
+    const val exceptionDataInvalidBoolean = "Cannot parse field: should be a boolean."
     const val exceptionDataInvalidNumberShouldBeFinite = "Cannot parse field: number should be finite."
     const val exceptionDataInvalidNumberShouldBeGreaterThanFloat = "Cannot parse field: number should be > %f."
     const val exceptionDataInvalidNumberShouldBeGreaterThanInt = "Cannot parse field: number should be > %d."
@@ -40,6 +41,7 @@ object Messages {
     const val exceptionIdentifierNotExists = "Cannot update/remove element: id %d does not exist in collection."
     const val exceptionRecursiveScriptCall = "Cannot execute script: attempted to call a script recursively."
     const val exceptionInvalidCommandName = "Cannot execute command: invalid command name \"%s\"."
+    const val exceptionEndProgram = "Exiting program."
 
 
     const val warningNoProgramArguments =

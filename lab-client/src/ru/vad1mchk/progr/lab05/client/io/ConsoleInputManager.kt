@@ -1,11 +1,10 @@
-package ru.vad1mchk.progr.lab05.client.file
+package ru.vad1mchk.progr.lab05.client.io
 
 import ru.vad1mchk.progr.lab05.client.datatypes.Chapter
 import ru.vad1mchk.progr.lab05.client.datatypes.Coordinates
 import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.exceptions.InvalidDataException
-import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import java.time.LocalDate
 import java.util.*
@@ -75,8 +74,14 @@ class ConsoleInputManager : AbstractInputManager(Scanner(System.`in`)) {
     }
 
     override fun readLoyal(): Boolean {
-        OutputManager.say(Messages.inputLoyal)
-        return super.readLoyal()
+        while (true) {
+            try {
+                OutputManager.say(Messages.inputLoyal)
+                return super.readLoyal()
+            } catch (e: InvalidDataException) {
+                OutputManager.sayException(e)
+            }
+        }
     }
 
     override fun readMeleeWeapon(): MeleeWeapon? {
@@ -99,7 +104,7 @@ class ConsoleInputManager : AbstractInputManager(Scanner(System.`in`)) {
 
     override fun readChapterParentLegion(): String? {
         OutputManager.say(Messages.inputChapterParentLegion)
-        OutputManager.sayWarning(Messages.warningNullChapter)
+        OutputManager.sayWarning(Messages.warningNullChapterParentLegion)
         return super.readChapterName()
     }
 

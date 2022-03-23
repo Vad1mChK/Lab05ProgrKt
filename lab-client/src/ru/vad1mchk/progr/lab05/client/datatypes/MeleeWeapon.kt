@@ -11,7 +11,7 @@ enum class MeleeWeapon {
 
     companion object {
         fun listConstants(): String {
-            return MeleeWeapon.values().joinToString(",", "{", "}")
+            return MeleeWeapon.values().joinToString(", ", "{", "}")
         }
     }
 }

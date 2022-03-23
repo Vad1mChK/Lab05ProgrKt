@@ -6,10 +6,10 @@ import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
 import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.exceptions.*
-import ru.vad1mchk.progr.lab05.client.file.ConsoleInputManager
-import ru.vad1mchk.progr.lab05.client.file.FileInputManager
+import ru.vad1mchk.progr.lab05.client.io.ConsoleInputManager
+import ru.vad1mchk.progr.lab05.client.io.FileInputManager
 import ru.vad1mchk.progr.lab05.client.file.FileManager
-import ru.vad1mchk.progr.lab05.client.file.InputManager
+import ru.vad1mchk.progr.lab05.client.io.InputManager
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import java.nio.file.FileSystems
@@ -124,7 +124,7 @@ class Invoker(var inputManager: InputManager) {
 
         register("exit", object : Command {
             override fun invoke(arg: String?) {
-                isRunning = false
+                throw EndProgramException(Messages.exceptionEndProgram)
             }
         })
 
@@ -217,15 +217,21 @@ class Invoker(var inputManager: InputManager) {
 
 
     /**
-     * Switches to console mode.
+     * Switches to console mode. Receives input from user through a
+     * command-line interface.
      */
     fun consoleMode() {
         inputManager = ConsoleInputManager()
         isRunning = true
         while (isRunning) {
             OutputManager.inviteInput()
-            val pair: CommandWrapper = inputManager.readCommand()
-            runCommand(pair.commandName, pair.argument)
+            try {
+                val pair: CommandWrapper = inputManager.readCommand()
+                runCommand(pair.commandName, pair.argument)
+            } catch (e: EndProgramException) {
+                OutputManager.say(e.message!!)
+                isRunning = false
+            }
         }
     }
 
@@ -237,8 +243,13 @@ class Invoker(var inputManager: InputManager) {
         inputManager = FileInputManager(path)
         isRunning = true
         while (isRunning && inputManager.scanner().hasNextLine()) {
-            val pair: CommandWrapper = inputManager.readCommand()
-            runCommand(pair.commandName, pair.argument)
+            try {
+                val pair: CommandWrapper = inputManager.readCommand()
+                runCommand(pair.commandName, pair.argument)
+            } catch (e: EndProgramException) {
+                OutputManager.say(e.message!!)
+                isRunning = false
+            }
         }
     }
 
@@ -264,6 +275,8 @@ class Invoker(var inputManager: InputManager) {
             OutputManager.sayException(e)
         } catch (e: FileException) {
             OutputManager.sayError(e)
+        } catch (e: EndProgramException) {
+            throw e
         }
     }
 

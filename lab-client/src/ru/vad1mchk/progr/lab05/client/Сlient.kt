@@ -4,9 +4,9 @@ import ru.vad1mchk.progr.lab05.client.csv.Deserializer
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
 import ru.vad1mchk.progr.lab05.client.exceptions.EndProgramException
 import ru.vad1mchk.progr.lab05.client.exceptions.FileException
-import ru.vad1mchk.progr.lab05.client.file.ConsoleInputManager
+import ru.vad1mchk.progr.lab05.client.io.ConsoleInputManager
 import ru.vad1mchk.progr.lab05.client.file.FileManager
-import ru.vad1mchk.progr.lab05.client.file.InputManager
+import ru.vad1mchk.progr.lab05.client.io.InputManager
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import ru.vad1mchk.progr.lab05.client.terminal.Invoker

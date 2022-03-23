@@ -1,14 +1,17 @@
-package ru.vad1mchk.progr.lab05.client.file
+package ru.vad1mchk.progr.lab05.client.io
 
 import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
 import ru.vad1mchk.progr.lab05.client.datatypes.Chapter
 import ru.vad1mchk.progr.lab05.client.datatypes.Coordinates
 import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
+import ru.vad1mchk.progr.lab05.client.exceptions.EndProgramException
 import ru.vad1mchk.progr.lab05.client.exceptions.InvalidDataException
 import ru.vad1mchk.progr.lab05.client.messages.Messages
+import ru.vad1mchk.progr.lab05.client.util.BooleanParser
 import java.time.LocalDate
 import java.util.*
+import kotlin.NoSuchElementException
 
 /**
  * Basic implementation of [InputManager] that
@@ -106,7 +109,7 @@ abstract class AbstractInputManager(var scanner: Scanner) : InputManager {
     }
 
     override fun readLoyal(): Boolean {
-        return scanner.nextLine().trim().toBoolean()
+        return BooleanParser.parse(scanner.nextLine().trim())
     }
 
     override fun readMeleeWeapon(): MeleeWeapon? {
@@ -183,15 +186,19 @@ abstract class AbstractInputManager(var scanner: Scanner) : InputManager {
     }
 
     override fun readCommand(): CommandWrapper {
-        scanner.nextLine().trim().also { commandString ->
-            return if (' ' in commandString) {
-                CommandWrapper(
-                    commandString.split(" ", limit = 2)[0],
-                    commandString.split(" ", limit = 2)[1]
-                )
-            } else {
-                CommandWrapper(commandString)
+        try {
+            scanner.nextLine().trim().also { commandString ->
+                return if (' ' in commandString) {
+                    CommandWrapper(
+                        commandString.split(" ", limit = 2)[0],
+                        commandString.split(" ", limit = 2)[1]
+                    )
+                } else {
+                    CommandWrapper(commandString)
+                }
             }
+        } catch (e: NoSuchElementException) {
+            throw EndProgramException()
         }
     }
 

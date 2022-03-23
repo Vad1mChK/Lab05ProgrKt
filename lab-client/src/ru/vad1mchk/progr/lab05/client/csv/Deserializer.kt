@@ -77,11 +77,11 @@ object Deserializer {
                         line[6]!!.toLong(),
                         line[7].toBoolean(),
                         line[8]?.let { MeleeWeapon.valueOf(it) },
-                        Chapter(
+                        if (!line[9].isNullOrBlank()) Chapter(
                             line[9]!!,
                             line[10],
                             line[11]!!.toInt()
-                        )
+                        ) else null
 
                     ).also {
                         if (it.validate()) {
