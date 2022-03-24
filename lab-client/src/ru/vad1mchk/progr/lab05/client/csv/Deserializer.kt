@@ -10,6 +10,7 @@ import ru.vad1mchk.progr.lab05.client.exceptions.InvalidDataException
 import ru.vad1mchk.progr.lab05.client.exceptions.MalformedElementException
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
+import ru.vad1mchk.progr.lab05.client.util.BooleanParser
 import ru.vad1mchk.progr.lab05.client.util.DateFormatter
 import java.io.BufferedReader
 import java.io.File
@@ -75,7 +76,7 @@ object Deserializer {
                         DateFormatter.parse(line[4]!!),
                         line[5]!!.toDouble(),
                         line[6]!!.toLong(),
-                        line[7].toBoolean(),
+                        BooleanParser.parse(line[7]),
                         line[8]?.let { MeleeWeapon.valueOf(it) },
                         if (!line[9].isNullOrBlank()) Chapter(
                             line[9]!!,
