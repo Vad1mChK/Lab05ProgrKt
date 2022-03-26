@@ -12,6 +12,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/lab-client" />
+            <option value="$PROJECT_DIR$/lab-common" />
+            <option value="$PROJECT_DIR$/lab-server" />
           </set>
         </option>
       </GradleProjectSettings>
