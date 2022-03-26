@@ -25,7 +25,7 @@ import java.util.regex.Pattern
 object Deserializer {
     lateinit var file: File
 
-    val csvPattern: Pattern = Pattern.compile(Messages.regexSplitCSVString)
+    private val csvPattern: Pattern = Pattern.compile(Messages.regexSplitCSVString)
 
     /**
      * Function that loads the collection from a file and deserializes it.
@@ -116,6 +116,8 @@ object Deserializer {
      * @return [ArrayList] of nullable strings
      */
     private fun splitString(csvString: String): ArrayList<String?> {
-        return ArrayList(csvString.split(csvPattern).map { it.replace("\",\"", ",").trim().ifBlank { null } })
+        return ArrayList(csvString.split(csvPattern).map {
+            it.replace("\",\"", ",").replace("\"\"", "\"").trim().ifBlank { null }
+        })
     }
 }

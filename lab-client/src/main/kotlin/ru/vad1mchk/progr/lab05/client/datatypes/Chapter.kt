@@ -48,7 +48,7 @@ data class Chapter(
     }
 
     override fun toString(): String {
-        return name.replace(",", "\",\"") + "," + (parentLegion ?: "").replace(",", "\",\"") + ",$marinesCount"
+        return name.replace("\"", "\"\"").replace(",", "\",\"") + "," + (parentLegion ?: "").replace(",", "\",\"") + ",$marinesCount"
     }
 
     override fun toCoolerString(): String {

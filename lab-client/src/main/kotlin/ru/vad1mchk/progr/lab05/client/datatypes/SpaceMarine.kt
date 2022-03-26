@@ -110,7 +110,7 @@ data class SpaceMarine(
     override fun toString(): String {
         return listOf(
             id,
-            name.replace(",", "\",\""),
+            name.replace("\"", "\"\"").replace(",", "\",\""),
             coordinates,
             DateFormatter.format(creationDate),
             health,
