@@ -9,8 +9,8 @@ object Messages {
 
     const val badgeError = "[$escapeCharacter[91;1mERROR$escapeCharacter[0m] "
     const val badgeException = "[$escapeCharacter[91;1mEXCEPTION$escapeCharacter[0m] "
-    const val badgeInfo = "[$escapeCharacter[34;1mINFO$escapeCharacter[0m] "
-    const val badgeWarning = "[$escapeCharacter[33;1mWARNING$escapeCharacter[0m] "
+    const val badgeInfo = "[$escapeCharacter[94;1mINFO$escapeCharacter[0m] "
+    const val badgeWarning = "[$escapeCharacter[93;1mWARNING$escapeCharacter[0m] "
 
     const val errorFileAccessRead = "Cannot read file: not enough permissions."
     const val errorFileAccessWrite = "Cannot write file: not enough permissions."

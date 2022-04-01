@@ -6,7 +6,7 @@ import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
 import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.exceptions.*
-import ru.vad1mchk.progr.lab05.client.io.ConsoleInputManager
+import ru.vad1mchk.progr.lab05.client.io.TerminalInputManager
 import ru.vad1mchk.progr.lab05.client.io.FileInputManager
 import ru.vad1mchk.progr.lab05.client.file.FileManager
 import ru.vad1mchk.progr.lab05.client.io.InputManager
@@ -221,7 +221,7 @@ class Invoker(var inputManager: InputManager) {
      * command-line interface.
      */
     fun consoleMode() {
-        inputManager = ConsoleInputManager()
+        inputManager = TerminalInputManager()
         isRunning = true
         while (isRunning) {
             OutputManager.inviteInput()

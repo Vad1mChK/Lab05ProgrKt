@@ -4,7 +4,7 @@ import ru.vad1mchk.progr.lab05.client.csv.Deserializer
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
 import ru.vad1mchk.progr.lab05.client.exceptions.EndProgramException
 import ru.vad1mchk.progr.lab05.client.exceptions.FileException
-import ru.vad1mchk.progr.lab05.client.io.ConsoleInputManager
+import ru.vad1mchk.progr.lab05.client.io.TerminalInputManager
 import ru.vad1mchk.progr.lab05.client.file.FileManager
 import ru.vad1mchk.progr.lab05.client.io.InputManager
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
@@ -26,8 +26,8 @@ fun main(args: Array<String>) {
     Deserializer.file = file
     Serializer.file = file
     Deserializer.load()
-    val consoleInputManager: InputManager = ConsoleInputManager()
-    val invoker = Invoker(consoleInputManager)
+    val terminalInputManager: InputManager = TerminalInputManager()
+    val invoker = Invoker(terminalInputManager)
     invoker.consoleMode()
 }
 
