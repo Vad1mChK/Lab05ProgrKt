@@ -48,7 +48,7 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
         OutputManager.sayInfo(
             Messages.infoString,
             collection.javaClass.simpleName,
-            SpaceMarine.Companion::class.java.simpleName,
+            SpaceMarine::class.simpleName,
             collection.size,
             DateFormatter.format(initializationDate)
         )

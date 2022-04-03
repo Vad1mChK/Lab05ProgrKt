@@ -27,7 +27,7 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("ru.vad1mchk.progr.lab05.client.ClientKt")
+    mainClass.set("ClientKt")
 }
 
 buildscript {
