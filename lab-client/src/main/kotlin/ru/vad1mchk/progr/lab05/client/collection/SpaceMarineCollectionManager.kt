@@ -3,6 +3,7 @@ package ru.vad1mchk.progr.lab05.client.collection
 import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.client.exceptions.IdentifierCollisionException
+import ru.vad1mchk.progr.lab05.client.exceptions.IdentifierNotExistsException
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import ru.vad1mchk.progr.lab05.client.util.DateFormatter
@@ -77,21 +78,13 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     override fun updateById(id: Int, newElement: SpaceMarine) {
-        if (id !in uniqueIds) {
-            throw IdentifierCollisionException(String.format(Messages.exceptionIdentifierNotExists, id))
-        }
-        for (element in collection) {
-            if (element.id == id) {
-                collection.remove(element)
-                break
-            }
-        }
-        collection.add(newElement)
+        removeById(id)
+        addById(id, newElement)
     }
 
     override fun removeById(id: Int) {
         if (id !in uniqueIds) {
-            throw IdentifierCollisionException(String.format(Messages.exceptionIdentifierNotExists, id))
+            throw IdentifierNotExistsException(String.format(Messages.exceptionIdentifierNotExists, id))
         }
         for (element in collection) {
             if (element.id == id) {

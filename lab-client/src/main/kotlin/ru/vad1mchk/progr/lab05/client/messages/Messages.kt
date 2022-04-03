@@ -133,6 +133,5 @@ object Messages {
     const val inputChapterMarinesCount = "Input chapter marines count (int in range (%d..%d)):"
 
     const val inputInvitation = "Enter command $ "
-
-    const val successScriptExecution = "Successfully executed script: %s."
+    const val scriptExecutionEnd = "Executed script: %s."
 }

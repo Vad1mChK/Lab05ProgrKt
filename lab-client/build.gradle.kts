@@ -28,5 +28,8 @@ buildscript {
     }
 }
 
-apply(plugin = "org.jetbrains.dokka")
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
+}
 
+apply(plugin = "org.jetbrains.dokka")

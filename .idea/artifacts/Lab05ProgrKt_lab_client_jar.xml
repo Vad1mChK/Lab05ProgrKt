@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Lab05ProgrKt.lab-client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Lab05ProgrKt_lab_client_jar</output-path>
+    <root id="archive" name="Lab05ProgrKt.lab-client.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/lab-server/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

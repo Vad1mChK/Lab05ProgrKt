@@ -59,7 +59,7 @@ class Invoker(var inputManager: InputManager) {
             }
         })
 
-        register("update_by_id", object : Command {
+        register("update", object : Command {
             override fun invoke(arg: String?) {
                 if (arg == null) {
                     throw MissingCommandArgumentException(Messages.exceptionMissingCommandArgument)
@@ -118,7 +118,7 @@ class Invoker(var inputManager: InputManager) {
                 val process: Invoker = Invoker(inputManager)
                 process.fileMode(path)
                 pathStack.pop()
-                OutputManager.sayInfo(Messages.successScriptExecution, path.fileName)
+                OutputManager.sayInfo(Messages.scriptExecutionEnd, path.fileName)
             }
         })
 
@@ -269,14 +269,15 @@ class Invoker(var inputManager: InputManager) {
             )
             commandMap[commandName]!!(argument)
             HistoryStorage.add(commandName)
-        } catch (e: CommandException) {
-            OutputManager.sayException(e)
-        } catch (e: InvalidDataException) {
-            OutputManager.sayException(e)
-        } catch (e: FileException) {
-            OutputManager.sayError(e)
-        } catch (e: EndProgramException) {
-            throw e
+        } catch (e: Exception) {
+            if (e is InvalidDataException || e is CommandException || e is CollectionException) {
+                OutputManager.sayException(e)
+            }
+            else if (e is FileException) {
+                OutputManager.sayError(e)
+            } else if (e is EndProgramException) {
+                throw e
+            }
         }
     }
 
