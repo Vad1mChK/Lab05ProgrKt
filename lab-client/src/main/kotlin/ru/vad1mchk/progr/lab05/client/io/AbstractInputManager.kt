@@ -72,6 +72,7 @@ abstract class AbstractInputManager(var scanner: Scanner) : InputManager {
                 if (it.toDouble() <= SpaceMarine.MIN_HEALTH) {
                     throw InvalidDataException(
                         String.format(
+                            Locale.ROOT,
                             Messages.exceptionDataInvalidNumberShouldBeGreaterThanFloat,
                             SpaceMarine.MIN_HEALTH
                         )
