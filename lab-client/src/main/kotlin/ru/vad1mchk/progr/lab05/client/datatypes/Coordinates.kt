@@ -37,7 +37,7 @@ data class Coordinates(val x: Int, val y: Float) : Comparable<Coordinates>, Vali
     }
 
     override fun toString(): String {
-        return String.format(Locale.ROOT, "%d,%f", x, y)
+        return String.format(Locale.ROOT, "%d,%s", x, y)
     }
 
     fun toCoolerString(): String {

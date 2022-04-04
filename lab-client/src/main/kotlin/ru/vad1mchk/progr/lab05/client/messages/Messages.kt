@@ -53,7 +53,7 @@ object Messages {
     const val warningNullChapterParentLegion =
         "If you leave the input blank, the parent legion will be treated as null."
 
-    const val formatCoordinates = "Coordinates (%d, %f)"
+    const val formatCoordinates = "Coordinates (%d, %s)"
     const val formatLocalDate = "dd.MM.yyyy"
     val formatChapter = "\n" + """
         name: %s
@@ -64,7 +64,7 @@ object Messages {
         %s (id: %d):
             coordinates: %s
             creation date: %s
-            health: %f
+            health: %s
             heart count: %d
             loyal: %s
             melee weapon: %s

@@ -18,6 +18,7 @@ object Serializer {
      * Function that saves the collection to a file.
      */
     fun save() {
+        SpaceMarineCollectionManager.sort()
         val lines = arrayListOf<String>(
             "${DateFormatter.format(SpaceMarineCollectionManager.initializationDate)}${",".repeat(11)}",
             "id,name,coordinateX,coordinateY,creationDate,health,heartCount,loyal,meleeWeapon,chapterName,chapterParentLegion,chapterMarinesCount"

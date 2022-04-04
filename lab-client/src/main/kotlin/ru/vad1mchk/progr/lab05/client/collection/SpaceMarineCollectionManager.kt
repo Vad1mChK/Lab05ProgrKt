@@ -55,6 +55,7 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     override fun show() {
+        sort()
         for (element in collection) {
             OutputManager.say(element.toCoolerString())
         }
