@@ -27,7 +27,7 @@ object Messages {
     const val exceptionDataInvalidNumberFormat = "Cannot parse field: should be a number."
     const val exceptionDataInvalidBoolean = "Cannot parse field: should be a boolean."
     const val exceptionDataInvalidNumberShouldBeFinite = "Cannot parse field: number should be finite."
-    const val exceptionDataInvalidNumberShouldBeGreaterThanFloat = "Cannot parse field: number should be > %f."
+    const val exceptionDataInvalidNumberShouldBeGreaterThanFloat = "Cannot parse field: number should be > %s."
     const val exceptionDataInvalidNumberShouldBeGreaterThanInt = "Cannot parse field: number should be > %d."
     const val exceptionDataInvalidNumberShouldBeInRangeIntOrLong =
         "Cannot parse field: number should be in range (%d; %d)."
@@ -124,7 +124,7 @@ object Messages {
     const val inputName = "Input name (non-empty string):"
     const val inputCoordinateX = "Input coordinate x (int > %d):"
     const val inputCoordinateY = "Input coordinate y (finite float):"
-    const val inputHealth = "Input health (finite double > %f):"
+    const val inputHealth = "Input health (finite double > %s):"
     const val inputHeartCount = "Input heart count (long in range (%d..%d)):"
     const val inputLoyal = "Input if it is loyal (boolean):"
     const val inputMeleeWeapon = "Input melee weapon (one of the following constants: %s):"
