@@ -19,8 +19,7 @@ import java.time.LocalDate
 import java.util.regex.Pattern
 
 /**
- * Object used to deserialize the collection
- * stored in a file and load it.
+ * Object used to deserialize the collection stored in a file and load it.
  */
 object Deserializer {
     lateinit var file: File
@@ -112,8 +111,7 @@ object Deserializer {
     }
 
     /**
-     * Splits the CSV string, using comma (`,`) as a
-     * delimiter
+     * Splits the CSV string, using comma (`,`) as a delimiter
      * @param csvString
      * @return [ArrayList] of nullable strings
      */

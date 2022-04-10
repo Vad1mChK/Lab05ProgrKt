@@ -8,8 +8,7 @@ import java.io.File
 import java.io.OutputStreamWriter
 
 /**
- * Object to used to serialize the collection
- * stored in memory and save it to a file.
+ * Object to used to serialize the collection stored in memory and save it to a file.
  */
 object Serializer {
     lateinit var file: File
@@ -35,8 +34,7 @@ object Serializer {
     }
 
     /**
-     * Wraps a [SpaceMarine] object into a string representation
-     * suitable for serialization.
+     * Wraps a [SpaceMarine] object into a string representation suitable for serialization.
      * @param spaceMarine [SpaceMarine] object to serialize.
      * @return CSV string representation of a [SpaceMarine].
      */

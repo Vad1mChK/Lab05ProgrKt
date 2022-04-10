@@ -11,11 +11,9 @@ import ru.vad1mchk.progr.lab05.client.messages.Messages
 import ru.vad1mchk.progr.lab05.client.util.BooleanParser
 import java.time.LocalDate
 import java.util.*
-import kotlin.NoSuchElementException
 
 /**
- * Basic implementation of [InputManager] that
- * defines common behavior for its descendants.
+ * Basic implementation of [InputManager] that  defines common behavior for its descendants.
  */
 abstract class AbstractInputManager(var scanner: Scanner) : InputManager {
     init {

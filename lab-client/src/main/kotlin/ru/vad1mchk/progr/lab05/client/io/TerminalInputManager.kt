@@ -10,8 +10,7 @@ import java.time.LocalDate
 import java.util.*
 
 /**
- * This class manages input from terminal / standard
- * input.
+ * This class manages input from terminal / standard input.
  */
 class TerminalInputManager : AbstractInputManager(Scanner(System.`in`)) {
     override fun readName(): String {

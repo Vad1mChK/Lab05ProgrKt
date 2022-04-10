@@ -4,15 +4,12 @@ import ru.vad1mchk.progr.lab05.client.messages.Messages
 import java.util.*
 
 /**
- * Object to work with console output. Has pre-defined
- * methods to print errors, exceptions, information,
- * and warnings.
+ * Object to work with console output. Has pre-defined methods to print errors, exceptions, information, and warnings.
  */
 object OutputManager {
 
     /**
-     * Prints a message just like `System.out.printf()`,
-     * but with newline.
+     * Prints a message just like `System.out.printf()`, but with newline.
      * @param format Format string.
      * @param args Optional arguments.
      */
@@ -21,8 +18,7 @@ object OutputManager {
     }
 
     /**
-     * Prints a message from a caught exception (if it had any)
-     * with an ERROR badge on it.
+     * Prints a message from a caught exception (if it had any) with an ERROR badge on it.
      * @param format Format string.
      * @param args Optional arguments.
      */
@@ -31,8 +27,7 @@ object OutputManager {
     }
 
     /**
-     * Prints a message from a caught exception (if it had any)
-     * with an ERROR badge on it.
+     * Prints a message from a caught exception (if it had any) with an ERROR badge on it.
      * @param e Exception to get the message from.
      */
     fun sayError(e: Exception) {
@@ -40,8 +35,7 @@ object OutputManager {
     }
 
     /**
-     * Prints a message from a caught exception (if it had any)
-     * with an EXCEPTION badge on it.
+     * Prints a message from a caught exception (if it had any) with an EXCEPTION badge on it.
      * @param format Format string.
      * @param args Optional arguments.
      */
@@ -50,8 +44,7 @@ object OutputManager {
     }
 
     /**
-     * Prints a message from a caught exception (if it had any)
-     * with an ERROR badge on it.
+     * Prints a message from a caught exception (if it had any) with an ERROR badge on it.
      * @param e Exception to get the message from.
      */
     fun sayException(e: Exception) {

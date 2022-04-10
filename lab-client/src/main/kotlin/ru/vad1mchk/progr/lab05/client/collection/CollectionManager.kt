@@ -5,8 +5,7 @@ import ru.vad1mchk.progr.lab05.client.exceptions.IdentifierNotExistsException
 import java.util.*
 
 /**
- * Base interface for a manager that works with
- * a collection of type [T] stored in a [LinkedList].
+ * Base interface for a manager that works with a collection of type [T] stored in a [LinkedList].
  * @param T element type
  */
 interface CollectionManager<T> {
@@ -19,14 +18,12 @@ interface CollectionManager<T> {
 
 
     /**
-     * Sorts the collection according to the [T]
-     * sorting rules.
+     * Sorts the collection according to the [T] natural sorting order.
      */
     fun sort()
 
     /**
-     * Filters out all the elements that match the condition
-     * using the lambda function.
+     * Filters out all the elements that match the condition using the lambda function.
      * @param function Lambda function.
      * @return [LinkedList] of elements that match the condition.
      */
@@ -45,8 +42,8 @@ interface CollectionManager<T> {
     operator fun contains(element: T): Boolean
 
     /**
-     * Prints the following information about the collection:
-     * collection type, elements type, size and initialization date.
+     * Prints the following information about the collection: collection type, elements type, size and initialization
+     * date.
      * @return Information string.
      */
     fun info()
@@ -57,8 +54,7 @@ interface CollectionManager<T> {
     fun show()
 
     /**
-     * Add a [newElement] with the newly-generated identifier to
-     * the collection.
+     * Add a [newElement] with the newly-generated identifier to the collection.
      * @param newElement Element to add.
      */
     fun add(newElement: T)
@@ -67,8 +63,7 @@ interface CollectionManager<T> {
      * Adds the [newElement] with the specified [id] to the collection.
      * @param id Identifier of the new element.
      * @param newElement Element to add.
-     * @throws IdentifierCollisionException when attempting to add
-     * a new element by the already existing identifier.
+     * @throws IdentifierCollisionException when attempting to add a new element by the already existing identifier.
      */
     @Throws(IdentifierCollisionException::class)
     fun addById(id: Int, newElement: T)
@@ -77,8 +72,7 @@ interface CollectionManager<T> {
      * Replaces the element with the specified [id] with [newElement].
      * @param id Identifier of the element.
      * @param newElement Element to replace the old element with.
-     * @throws IdentifierNotExistsException when attempting to update
-     * an element by a non-existent identifier.
+     * @throws IdentifierNotExistsException when attempting to update an element by a non-existent identifier.
      */
     @Throws(IdentifierNotExistsException::class)
     fun updateById(id: Int, newElement: T)
@@ -86,8 +80,7 @@ interface CollectionManager<T> {
     /**
      * Deletes the element with the specified [id].
      * @param id Identifier of the element.
-     * @throws IdentifierNotExistsException when attempting to delete
-     * an element by a non-existent identifier.
+     * @throws IdentifierNotExistsException when attempting to delete an element by a non-existent identifier.
      */
     @Throws(IdentifierNotExistsException::class)
     fun removeById(id: Int)
@@ -98,8 +91,7 @@ interface CollectionManager<T> {
     fun clear()
 
     /**
-     * Adds a [newElement] with the newly-generated identifier to
-     * the collection if it is less than all others.
+     * Adds a [newElement] with the newly-generated identifier to the collection if it is less than all others.
      * @param newElement Element to add.
      */
     fun addIfMin(newElement: T)

@@ -39,20 +39,17 @@ data class SpaceMarine(
         const val MIN_ID = 1
 
         /**
-         * Strict minimum value of [health]. If it's less or equal to this,
-         * it will lead to validation error.
+         * Strict minimum value of [health]. If it's less or equal to this, it will lead to validation failure.
          */
         const val MIN_HEALTH = 0.0
 
         /**
-         * Minimum value for [heartCount]. It should be greater or equal to
-         * this.
+         * Minimum value for [heartCount]. It should be greater or equal to this.
          */
         const val MIN_HEART_COUNT = 1
 
         /**
-         * Maximum value for [heartCount]. It should be less or equal to
-         * this.
+         * Maximum value for [heartCount]. It should be less or equal to this.
          */
         const val MAX_HEART_COUNT = 3
     }

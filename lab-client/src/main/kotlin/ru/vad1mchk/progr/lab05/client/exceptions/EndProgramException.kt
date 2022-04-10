@@ -1,8 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.exceptions
 
 /**
- * Exception thrown whenever the program or the current
- * script has to be stopped forcefully.
+ * Exception thrown whenever the program or the current script has to be stopped forcefully.
  */
 class EndProgramException : RuntimeException {
     constructor() : super()

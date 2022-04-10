@@ -7,13 +7,11 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 /**
- * Object that can format or parse date represented
- * by the pattern in [Messages.formatLocalDate].
+ * Object that can format or parse date represented by the pattern in [Messages.formatLocalDate].
  */
 object DateFormatter {
     /**
-     * Formats date with the [DateTimeFormatter] of pattern
-     * in [Messages.formatLocalDate]
+     * Formats date with the [DateTimeFormatter] of pattern in [Messages.formatLocalDate].
      * @param date [LocalDate] that needs to be formatted.
      * @return String representation of [date].
      */
@@ -22,8 +20,7 @@ object DateFormatter {
     }
 
     /**
-     * Parses the string representation with the [DateTimeFormatter]
-     * according to pattern in [Messages.formatLocalDate]
+     * Parses the string representation with the [DateTimeFormatter] according to pattern in [Messages.formatLocalDate].
      * @param formatted The formatted string.
      * @return [LocalDate] parsed from the string.
      * @throws InvalidDataException if date is represented in an invalid format.

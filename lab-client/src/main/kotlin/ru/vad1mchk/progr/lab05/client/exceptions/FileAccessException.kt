@@ -1,8 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.exceptions
 
 /**
- * Exception thrown when file doesn't have enough
- * access permissions to read or write
+ * Exception thrown when file doesn't have enough access permissions to read or write.
  */
 class FileAccessException : FileException {
     constructor() : super()

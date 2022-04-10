@@ -12,8 +12,7 @@ import java.util.*
 data class Coordinates(val x: Int, val y: Float) : Comparable<Coordinates>, Validated {
     companion object {
         /**
-         * Strict minimum value of [x] coordinate. All values less
-         * or equal will lead to validation error.
+         * Strict minimum value of [x] coordinate. All values less or equal will lead to validation failure.
          */
         const val MIN_X = -817
     }

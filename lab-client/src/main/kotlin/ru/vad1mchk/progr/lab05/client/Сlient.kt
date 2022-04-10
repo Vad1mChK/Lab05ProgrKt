@@ -4,9 +4,7 @@ import ru.vad1mchk.progr.lab05.client.csv.Deserializer
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
 import ru.vad1mchk.progr.lab05.client.exceptions.EndProgramException
 import ru.vad1mchk.progr.lab05.client.exceptions.FileException
-import ru.vad1mchk.progr.lab05.client.io.TerminalInputManager
 import ru.vad1mchk.progr.lab05.client.file.FileManager
-import ru.vad1mchk.progr.lab05.client.io.InputManager
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import ru.vad1mchk.progr.lab05.client.terminal.Invoker
@@ -26,18 +24,14 @@ fun main(args: Array<String>) {
     Deserializer.file = file
     Serializer.file = file
     Deserializer.load()
-    val terminalInputManager: InputManager = TerminalInputManager()
-    val invoker = Invoker(terminalInputManager)
-    invoker.consoleMode()
+    Invoker().terminalMode()
 }
 
 /**
- * Function that validates program arguments and determines the
- * collection file, ending execution if it is impossible.
+ * Function that validates program arguments and determines the collection file, ending execution if it is impossible.
  * @param args Program arguments.
  * @return Collection file to open.
- * @throws EndProgramException if there are issues with loading
- * the collection file.
+ * @throws EndProgramException if there are issues with loading the collection file.
  */
 fun pickFile(args: Array<String>): File {
     if (args.size > 1) {

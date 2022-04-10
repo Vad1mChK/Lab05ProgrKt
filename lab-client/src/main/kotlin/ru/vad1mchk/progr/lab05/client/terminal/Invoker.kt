@@ -6,11 +6,11 @@ import ru.vad1mchk.progr.lab05.client.command.CommandWrapper
 import ru.vad1mchk.progr.lab05.client.csv.Serializer
 import ru.vad1mchk.progr.lab05.client.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.client.exceptions.*
-import ru.vad1mchk.progr.lab05.client.io.TerminalInputManager
-import ru.vad1mchk.progr.lab05.client.io.FileInputManager
 import ru.vad1mchk.progr.lab05.client.file.FileManager
+import ru.vad1mchk.progr.lab05.client.io.FileInputManager
 import ru.vad1mchk.progr.lab05.client.io.InputManager
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
+import ru.vad1mchk.progr.lab05.client.io.TerminalInputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import java.nio.file.FileSystems
 import java.nio.file.Path
@@ -18,11 +18,10 @@ import java.util.*
 
 
 /**
- * Object that invokes all the commands, also switches
- * between console mode and script mode and controls
- * pretty much everything.
+ * Object that invokes all the commands, also switches between console mode and script mode and controls pretty much
+ * everything.
  */
-class Invoker(var inputManager: InputManager) {
+class Invoker(var inputManager: InputManager = TerminalInputManager()) {
     private val commandMap = HashMap<String, Command>()
     private var isRunning = false
 
@@ -30,10 +29,9 @@ class Invoker(var inputManager: InputManager) {
         private val pathStack = Stack<Path>()
     }
 
-    private var currentScriptPath: Path?
+    private var currentScriptPath: Path? = null
 
     init {
-        currentScriptPath = null
 
         register("help", object : Command {
             override fun invoke(arg: String?) {
@@ -115,7 +113,7 @@ class Invoker(var inputManager: InputManager) {
                     throw RecursiveScriptCallException(Messages.exceptionRecursiveScriptCall)
                 }
                 pathStack.push(path)
-                val process: Invoker = Invoker(inputManager)
+                val process = Invoker(inputManager)
                 process.fileMode(path)
                 pathStack.pop()
                 OutputManager.sayInfo(Messages.scriptExecutionEnd, path.fileName)
@@ -176,9 +174,7 @@ class Invoker(var inputManager: InputManager) {
                         )
                     )
                 }
-                SpaceMarineCollectionManager.filterGreaterThanHeartCount(
-                    heartCount
-                )
+                SpaceMarineCollectionManager.filterGreaterThanHeartCount(heartCount)
             }
         })
 
@@ -195,11 +191,9 @@ class Invoker(var inputManager: InputManager) {
     }
 
     /**
-     * Registers the command in the command map, so
-     * it can be invoked later using execute function.
-     *
-     * @param commandName
-     * @param command
+     * Registers the command in the command map, so it can be invoked later using execute function.
+     * @param commandName Name of the command to call it by.
+     * @param command Command to register.
      */
     private fun register(commandName: String, command: Command) {
         commandMap[commandName] = command
@@ -207,7 +201,6 @@ class Invoker(var inputManager: InputManager) {
 
     /**
      * Checks if the command by a specified name is registered.
-     *
      * @param commandName Name of command to check.
      * @return `true` if it is registered, else `false`.
      */
@@ -217,10 +210,9 @@ class Invoker(var inputManager: InputManager) {
 
 
     /**
-     * Switches to console mode. Receives input from user through a
-     * command-line interface.
+     * Switches to terminal mode. Receives input from user through a command-line interface.
      */
-    fun consoleMode() {
+    fun terminalMode() {
         inputManager = TerminalInputManager()
         isRunning = true
         while (isRunning) {
@@ -254,8 +246,7 @@ class Invoker(var inputManager: InputManager) {
     }
 
     /**
-     * Runs the command with an argument (if it is not
-     * null).
+     * Runs the command with an argument (if it is not null).
      * @param commandName Name of the command to run.
      * @param argument Command argument.
      */

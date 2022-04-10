@@ -11,8 +11,7 @@ import java.time.LocalDate
 import java.util.*
 
 /**
- * Implementation of [CollectionManager] designed to
- * work with [SpaceMarine]s specifically.
+ * Implementation of [CollectionManager] designed to work with [SpaceMarine] specifically.
  */
 object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     private val collection = LinkedList<SpaceMarine>()
@@ -119,8 +118,7 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     /**
-     * Prints all elements that have the meleeWeapon field less than
-     * the specified [meleeWeapon].
+     * Prints all elements that have the meleeWeapon field less than the specified [meleeWeapon].
      * @param meleeWeapon [MeleeWeapon] to compare with.
      */
     fun filterLessThanMeleeWeapon(meleeWeapon: MeleeWeapon) {
@@ -134,8 +132,7 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     /**
-     * Prints all elements that have the heartCount field greater than
-     * the specified [heartCount].
+     * Prints all elements that have the heartCount field greater than the specified [heartCount].
      * @param heartCount heart count value to compare with.
      */
     fun filterGreaterThanHeartCount(heartCount: Long) {

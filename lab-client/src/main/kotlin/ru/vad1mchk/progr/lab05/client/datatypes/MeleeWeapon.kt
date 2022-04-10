@@ -1,8 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.datatypes
 
 /**
- * Enum class to store different types of melee weapons
- * that may or may not be equipped by [SpaceMarine].
+ * Enum class to store different types of melee weapons that may or may not be equipped by [SpaceMarine].
  */
 enum class MeleeWeapon {
     CHAIN_SWORD,
@@ -11,7 +10,7 @@ enum class MeleeWeapon {
 
     companion object {
         fun listConstants(): String {
-            return MeleeWeapon.values().joinToString(", ", "{", "}")
+            return values().joinToString(", ", "{", "}")
         }
     }
 }

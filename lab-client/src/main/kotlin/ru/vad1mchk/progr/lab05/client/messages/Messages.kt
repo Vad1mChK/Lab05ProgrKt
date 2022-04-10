@@ -1,8 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.messages
 
 /**
- * Object to store messages and all string resources,
- * including formats and regex strings.
+ * Object to store messages and all string resources, including formats and regex strings.
  */
 object Messages {
     private const val escapeCharacter = 27.toChar()

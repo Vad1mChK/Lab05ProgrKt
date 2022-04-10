@@ -1,8 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.exceptions
 
 /**
- * Exception thrown when the collection file does
- * not have the .CSV extension.
+ * Exception thrown when the collection file does not have the .CSV extension.
  */
 class FileNotCSVException : FileException {
     constructor() : super()

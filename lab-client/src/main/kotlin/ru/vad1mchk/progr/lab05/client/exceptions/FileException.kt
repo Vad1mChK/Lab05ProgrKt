@@ -1,8 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.exceptions
 
 /**
- * Base exception for all exceptions that have to
- * do with files.
+ * Base exception for all exceptions that have to do with files.
  */
 open class FileException : RuntimeException {
     constructor() : super()

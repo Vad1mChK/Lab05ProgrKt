@@ -9,14 +9,12 @@ data class Chapter(
 ) : Comparable<Chapter>, Validated, Represented {
     companion object {
         /**
-         * Minimum value of [marinesCount]. It should be greater or
-         * equal to this.
+         * Minimum value of [marinesCount]. It should be greater or equal to this.
          */
         const val MIN_MARINES_COUNT = 1
 
         /**
-         * Maximum value of [marinesCount]. It should be less or
-         * equal to this.
+         * Maximum value of [marinesCount]. It should be less or equal to this.
          */
         const val MAX_MARINES_COUNT = 1000
     }

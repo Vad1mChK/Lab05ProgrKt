@@ -1,8 +1,7 @@
 package ru.vad1mchk.progr.lab05.client.exceptions
 
 /**
- * Exception thrown when attempting to replace or delete
- * an element by a non-existent identifier.
+ * Exception thrown when attempting to replace or delete an element by a non-existent identifier.
  */
 class IdentifierNotExistsException : CollectionException {
     constructor() : super()
