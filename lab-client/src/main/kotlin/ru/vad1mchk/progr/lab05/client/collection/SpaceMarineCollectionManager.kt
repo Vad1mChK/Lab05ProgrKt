@@ -7,6 +7,7 @@ import ru.vad1mchk.progr.lab05.client.exceptions.IdentifierNotExistsException
 import ru.vad1mchk.progr.lab05.client.io.OutputManager
 import ru.vad1mchk.progr.lab05.client.messages.Messages
 import ru.vad1mchk.progr.lab05.client.util.DateFormatter
+import ru.vad1mchk.progr.lab05.client.util.SpaceMarineComparator
 import java.time.LocalDate
 import java.util.*
 
@@ -28,7 +29,7 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     override fun sort() {
-        collection.sort()
+        collection.sortWith(SpaceMarineComparator)
     }
 
     override fun filteredCollection(function: (SpaceMarine) -> Boolean): LinkedList<SpaceMarine> {
