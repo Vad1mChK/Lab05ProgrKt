@@ -5,7 +5,7 @@ import java.text.Collator
 import java.util.*
 
 /**
- * Object that compares two instances of [SpaceMarine] according to some special rules. Does not allow null values.
+ * Object that compares two instances of [SpaceMarine] according to some special rules. Does not allow `null` values.
  */
 object SpaceMarineComparator : Comparator<SpaceMarine> {
     override fun compare(left: SpaceMarine, right: SpaceMarine): Int {
