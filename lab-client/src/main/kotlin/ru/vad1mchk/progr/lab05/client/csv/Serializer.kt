@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter
  * Object to used to serialize the collection stored in memory and save it to a file.
  */
 object Serializer {
-    lateinit var file: File
+    private lateinit var file: File
 
     /**
      * Function that saves the collection to a file.
@@ -31,6 +31,14 @@ object Serializer {
                 bufferedWriter.newLine()
             }
         }
+    }
+
+    /**
+     * Sets the file to save the collection into.
+     * @param file Destination file.
+     */
+    fun setFile(file: File) {
+        this.file = file
     }
 
     /**

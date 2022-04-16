@@ -15,21 +15,24 @@ import ru.vad1mchk.progr.lab05.client.util.DateFormatter
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.nio.file.Files
+import java.nio.file.attribute.FileTime
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.regex.Pattern
 
 /**
  * Object used to deserialize the collection stored in a file and load it.
  */
 object Deserializer {
-    lateinit var file: File
-
     private val csvPattern: Pattern = Pattern.compile(Messages.regexSplitCSVString)
 
     /**
      * Function that loads the collection from a file and deserializes it.
+     * @param file File to read the collection from.
      */
-    fun load() {
+    fun load(file: File) {
         val lines = ArrayList<ArrayList<String?>>()
         var currentLine: String? = ""
         BufferedReader(InputStreamReader(file.inputStream())).use { bufferedReader ->
@@ -42,16 +45,14 @@ object Deserializer {
         }
         if (lines.isEmpty()) {
             SpaceMarineCollectionManager.initialize(LocalDate.now())
-            OutputManager.sayWarning(Messages.warningUnspecifiedInitializationDate)
             return
         }
-        try {
-            lines[0][0]?.let { DateFormatter.parse(it) }?.let { SpaceMarineCollectionManager.initialize(it) }
-            lines.removeFirst()
-        } catch (e: InvalidDataException) {
-            OutputManager.sayException(e)
-            SpaceMarineCollectionManager.initialize(LocalDate.now())
-        }
+        SpaceMarineCollectionManager.initialize(
+            LocalDateTime.ofInstant(
+                (Files.getAttribute(file.toPath(), "creationTime") as FileTime).toInstant(),
+                ZoneId.systemDefault()
+            ).toLocalDate()
+        )
         val normalSize = lines.removeFirst().size
         for (line in lines) {
             try {

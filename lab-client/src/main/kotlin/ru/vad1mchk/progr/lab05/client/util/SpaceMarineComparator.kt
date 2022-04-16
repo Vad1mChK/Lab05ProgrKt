@@ -10,7 +10,7 @@ import java.util.*
 object SpaceMarineComparator : Comparator<SpaceMarine> {
     override fun compare(left: SpaceMarine, right: SpaceMarine): Int {
         val collator = Collator.getInstance(Locale("ru", "RU"))
-        return collator.compare(left, right).also {
+        return collator.compare(left.name, right.name).also {
             if (it == 0) {
                 return compareValuesBy(
                     left,

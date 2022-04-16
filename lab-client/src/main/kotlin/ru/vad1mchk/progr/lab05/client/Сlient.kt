@@ -21,10 +21,10 @@ fun main(args: Array<String>) {
         return
     }
     OutputManager.say(Messages.greetingString)
-    Deserializer.file = file
-    Serializer.file = file
-    Deserializer.load()
+    Deserializer.load(file)
+    Serializer.setFile(file)
     Invoker().terminalMode()
+    Serializer.save()
 }
 
 /**

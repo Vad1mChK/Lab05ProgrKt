@@ -45,8 +45,6 @@ object Messages {
 
     const val warningNoProgramArguments =
         "No collection file was specified. Enter a path if you want to try to create a new file, or leave blank if you want to exit."
-    const val warningUnspecifiedInitializationDate =
-        "No initialization date was specified. Assuming the collection is initialized now..."
     const val warningNullMeleeWeapon = "If you leave the input blank, the melee weapon will be treated as null."
     const val warningNullChapter = "If you leave the input blank, the chapter will be treated as null."
     const val warningNullChapterParentLegion =
