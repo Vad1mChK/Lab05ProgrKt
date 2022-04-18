@@ -7,11 +7,11 @@ plugins {
     id("org.jetbrains.dokka")
 }
 
-group = "me.vadimchk"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
+    flatDir {
+        dirs("../lab-common")
+    }
 }
 
 tasks.withType<KotlinCompile> {
@@ -26,6 +26,10 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
     }
+}
+
+dependencies {
+    implementation(project(":lab-common"))
 }
 
 tasks.dokkaHtml.configure {

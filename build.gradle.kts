@@ -7,15 +7,15 @@ plugins {
     id("org.jetbrains.dokka") version "1.6.10"
 }
 
-group = "me.vadimchk"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
+    mavenLocal {
+        metadataSources
+    }
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation("$group", name, "$version")
 }
 
 tasks.test {
@@ -34,6 +34,12 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
     }
+}
+
+dependencies {
+    api(
+        "$group", name, "$version"
+    )
 }
 
 apply(plugin = "org.jetbrains.dokka")

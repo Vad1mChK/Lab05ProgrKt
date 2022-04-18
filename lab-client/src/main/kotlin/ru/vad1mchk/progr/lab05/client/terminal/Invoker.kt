@@ -18,8 +18,8 @@ import java.util.*
 
 
 /**
- * Object that invokes all the commands, also switches between console mode and script mode and controls pretty much
- * everything.
+ * Object that invokes all the commands, also switches between terminal mode and script mode and controls the invocation
+ * process.
  */
 class Invoker(var inputManager: InputManager = TerminalInputManager()) {
     private val commandMap = HashMap<String, Command>()
