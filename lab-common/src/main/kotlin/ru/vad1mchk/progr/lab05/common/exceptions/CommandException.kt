@@ -3,6 +3,7 @@ package ru.vad1mchk.progr.lab05.common.exceptions
 /**
  * Base class for all exceptions that have to do with commands.
  */
+@Suppress("unused")
 open class CommandException : RuntimeException {
     constructor() : super()
     constructor(message: String) : super(message)

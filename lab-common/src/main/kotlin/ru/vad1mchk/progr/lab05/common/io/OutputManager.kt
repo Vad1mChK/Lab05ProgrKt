@@ -1,75 +1,127 @@
 package ru.vad1mchk.progr.lab05.common.io
 
-import ru.vad1mchk.progr.lab05.common.messages.Messages
-import java.util.*
+import org.fusesource.jansi.Ansi.ansi
+import ru.vad1mchk.progr.lab05.common.messages.Message
+import ru.vad1mchk.progr.lab05.common.messages.StringResources
+import java.io.PrintStream
 
 /**
- * Object to work with console output. Has pre-defined methods to print errors, exceptions, information, and warnings.
+ * Object to manage terminal output.
  */
 object OutputManager {
+    var printStream = PrintStream(System.`out`)
+    private val stringResources = StringResources()
 
     /**
-     * Prints a message just like `System.out.printf()`, but with newline.
-     * @param format Format string.
-     * @param args Optional arguments.
+     * Prints a message, inferring the badge from its type.
+     * @param message Message to print.
      */
-    fun say(format: String, vararg args: Any?) {
-        println(String.format(Locale.ROOT, format, *args))
+    fun say(message: Message) {
+        printStream.println(message.getText())
     }
 
     /**
-     * Prints a message from a caught exception (if it had any) with an ERROR badge on it.
-     * @param format Format string.
-     * @param args Optional arguments.
+     * A lightweight variation of [say] method -- only prints a string without having to create a new [Message] object.
+     * @param messageText Text to print.
      */
-    fun sayError(format: String, vararg args: Any?) {
-        println(Messages.badgeError + String.format(format, *args))
+    fun sayString(messageText: String,) {
+        printStream.println(messageText)
     }
 
     /**
-     * Prints a message from a caught exception (if it had any) with an ERROR badge on it.
-     * @param e Exception to get the message from.
+     * A lightweight variation of [say] method -- only prints a string without having to create a new [Message] object.
+     * @param messageText Text to print.
+     * @param messageArguments Arguments to format the string with.
      */
-    fun sayError(e: Exception) {
-        say(Messages.badgeError + (e.message ?: ""))
+    fun sayString(messageText: String, vararg messageArguments: Any?) {
+        printStream.println(messageText.format(* messageArguments))
     }
 
     /**
-     * Prints a message from a caught exception (if it had any) with an EXCEPTION badge on it.
-     * @param format Format string.
-     * @param args Optional arguments.
+     * Prints a message of this error with the badge.
+     * @param e Error to print.
      */
-    fun sayException(format: String, vararg args: Any?) {
-        println(Messages.badgeException + String.format(format, *args))
+    fun sayError(e: Error) {
+        printStream.println(
+            ansi().a('[').fgRed().bold().a(stringResources.getString("error badge")).reset().a(e.message)
+                .reset()
+        )
     }
 
     /**
-     * Prints a message from a caught exception (if it had any) with an ERROR badge on it.
-     * @param e Exception to get the message from.
+     * Prints text with the error badge.
+     * @param messageText Text of message to print.
+     * @param messageArguments Optional arguments of this message.
+     */
+    fun sayError(messageText: String, vararg messageArguments: Any?) {
+        printStream.println(
+            ansi().a('[').fgRed().bold().a(stringResources.getString("error badge")).reset().a("] ")
+                .a(messageText.format(* messageArguments)).reset()
+        )
+    }
+
+    /**
+     * Prints a message of this exception with the badge.
+     * @param e Exception to print.
      */
     fun sayException(e: Exception) {
-        say(Messages.badgeException + (e.message ?: ""))
+        printStream.println(
+            ansi().a('[').fgRed().bold().a(stringResources.getString("exception badge")).reset().a("] ")
+                .a(e.message).reset()
+        )
     }
 
     /**
-     * Prints a message with an INFO badge on it.
-     * @param format Format string.
-     * @param args Optional arguments.
+     * Prints text with the exception badge.
+     * @param messageText Text of message to print.
+     * @param messageArguments Optional arguments of this message.
      */
-    fun sayInfo(format: String, vararg args: Any?) {
-        println(Messages.badgeInfo + String.format(format, *args))
+    fun sayException(messageText: String, vararg messageArguments: Any?) {
+        printStream.println(
+            ansi().a('[').fgRed().bold().a(stringResources.getString("exception badge")).reset().a("] ")
+                .a(messageText.format(* messageArguments)).reset()
+        )
     }
 
     /**
-     * Prints a message with a WARNING badge on it.
-     * @param format Format string.
-     * @param args Optional arguments.
+     * Prints text with the warning badge.
+     * @param messageText Text of message to print.
+     * @param messageArguments Optional arguments of this message.
      */
-    fun sayWarning(format: String, vararg args: Any?) {
-        println(Messages.badgeWarning + String.format(format, *args))
+    fun sayWarning(messageText: String, vararg messageArguments: Any?) {
+        printStream.println(
+            ansi().a('[').fgYellow().bold().a(stringResources.getString("warning badge")).reset().a("] ")
+                .a(messageText.format(* messageArguments)).reset()
+        )
     }
 
-    fun inviteInput() {
-        print(Messages.inputInvitation)
+    /**
+     * Prints text with the info badge.
+     * @param messageText Text of message to print.
+     * @param messageArguments Optional arguments of this message.
+     */
+    fun sayInfo(messageText: String, vararg messageArguments: Any?) {
+        printStream.println(
+            ansi().a('[').fgCyan().bold().a(stringResources.getString("info badge")).reset().a("] ")
+                .a(messageText.format(* messageArguments)).reset()
+        )
+    }
+
+    /**
+     * Displays a greeting sequence to the user.
+     * @param isServer If the user is on the server side.
+     */
+    fun greet(isServer: Boolean = false) {
+        printStream.println(stringResources.getString("greeting ${if (isServer) "server" else "client"}"))
+    }
+
+    /**
+     * Prints input invitation for the next command of the user.
+     * @param isServer If the user is on the server side.
+     */
+    fun inviteInput(isServer: Boolean = false) {
+        printStream.print(
+            stringResources.getString("input invitation ${if (isServer) "server" else "client"}")
+        )
     }
 }

@@ -1,10 +1,10 @@
 package ru.vad1mchk.progr.lab05.common.datatypes
 
-import ru.vad1mchk.progr.lab05.common.messages.Messages
-import ru.vad1mchk.progr.lab05.common.util.DateFormatter
+import ru.vad1mchk.progr.lab05.common.messages.StringResources
+import ru.vad1mchk.progr.lab05.common.util.ValueFormatter
+import java.io.Serializable
 import java.time.LocalDate
 import java.util.*
-import java.io.Serializable
 
 /**
  * Class to store information about a space marine. Enough said.
@@ -47,12 +47,12 @@ data class SpaceMarine(
         /**
          * Minimum value for [heartCount]. It should be greater or equal to this.
          */
-        const val MIN_HEART_COUNT = 1
+        const val MIN_HEART_COUNT = 1L
 
         /**
          * Maximum value for [heartCount]. It should be less or equal to this.
          */
-        const val MAX_HEART_COUNT = 3
+        const val MAX_HEART_COUNT = 3L
     }
 
     override fun compareTo(other: SpaceMarine): Int {
@@ -110,7 +110,7 @@ data class SpaceMarine(
             id,
             name.replace("\"", "\"\"").replace(",", "\",\""),
             coordinates,
-            DateFormatter.format(creationDate),
+            creationDate.toString(),
             health,
             heartCount,
             loyal,
@@ -119,19 +119,19 @@ data class SpaceMarine(
         ).joinToString(",") { (it ?: "").toString() }
     }
 
-    override fun toCoolerString(): String {
+    override fun toCoolerString(locale: Locale): String {
+        val formatter = ValueFormatter(locale)
         return String.format(
-            Locale.ROOT,
-            Messages.formatSpaceMarine,
+            StringResources().getString("SpaceMarine format"),
             name,
-            id,
-            coordinates.toCoolerString(),
-            DateFormatter.format(creationDate),
-            health,
-            heartCount,
-            loyal,
-            meleeWeapon ?: "-",
-            chapter?.toCoolerString() ?: "-"
+            formatter.formatInt(id),
+            coordinates.toCoolerString(locale),
+            formatter.formatLocalDate(creationDate),
+            formatter.formatDouble(health),
+            formatter.formatLong(heartCount),
+            formatter.formatBoolean(loyal),
+            formatter.formatMeleeWeapon(meleeWeapon),
+            chapter?.toCoolerString(locale) ?: "-"
         )
     }
 }

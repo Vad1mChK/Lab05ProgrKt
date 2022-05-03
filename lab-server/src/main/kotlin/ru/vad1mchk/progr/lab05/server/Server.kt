@@ -1,23 +1,31 @@
 package ru.vad1mchk.progr.lab05.server
 
 import ru.vad1mchk.progr.lab05.common.datatypes.Coordinates
+import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
-import ru.vad1mchk.progr.lab05.server.collection.SpaceMarineCollectionManager
+import ru.vad1mchk.progr.lab05.common.io.OutputManager
+import ru.vad1mchk.progr.lab05.common.io.TerminalInputManager
+import ru.vad1mchk.progr.lab05.server.application.ServerApplication
+import ru.vad1mchk.progr.lab05.server.util.Configuration
 import java.time.LocalDate
+import java.util.*
 
-fun main(args: Array<String>) {
-    SpaceMarineCollectionManager.add(
-        SpaceMarine("Phoenix", Coordinates(837, 888.0f), LocalDate.now(), 0.5, 3, true, null, null ),
-    )
-    SpaceMarineCollectionManager.add(
-        SpaceMarine("Miles", Coordinates(837, 888.0f), LocalDate.now(), 0.5, 2, true, null, null ),
-    )
-    SpaceMarineCollectionManager.add(
-        SpaceMarine("Godot", Coordinates(837, 888.0f), LocalDate.now(), 0.5, 1, true, null, null ),
-    )
-    SpaceMarineCollectionManager.add(
-        SpaceMarine("Maya", Coordinates(837, 888.0f), LocalDate.now(), 0.4, 2, true, null, null ),
-    )
-    SpaceMarineCollectionManager.removeGreater(SpaceMarine("Miles", Coordinates(837, 888.0f), LocalDate.now(), 0.5, 1, true, null, null ))
-    SpaceMarineCollectionManager.show()
+/**
+ * Main entry point of the program from the server side.
+ */
+object Server {
+    /**
+     * Main entry point of the program from the server side. You must specify the path to collection file.
+     * @param args Arguments of the program.
+     * */
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val inputManager = TerminalInputManager(locale = Locale.ROOT, isServer = true)
+        while (true) {
+            inputManager.readCommand().also {
+                println("name: "+it.commandName)
+                println("args: "+it.commandArguments.toList())
+            }
+        }
+    }
 }

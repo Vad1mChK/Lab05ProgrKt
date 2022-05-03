@@ -1,6 +1,5 @@
 package ru.vad1mchk.progr.lab05.common.io
 
-import ru.vad1mchk.progr.lab05.common.connection.CommandMessage
 import ru.vad1mchk.progr.lab05.common.datatypes.Chapter
 import ru.vad1mchk.progr.lab05.common.datatypes.Coordinates
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
@@ -109,10 +108,10 @@ interface InputManager {
     fun readSpaceMarine(): SpaceMarine
 
     /**
-     * Creates a command message with arguments from input.
-     * @return The command message.
+     * Creates a command with arguments from input.
+     * @return The command wrapper that contains its name and arguments.
      */
-    fun readCommand(): CommandMessage
+    fun readCommand(): CommandWrapper
 
     /**
      * Gets the scanner currently used by this implementation of the interface.

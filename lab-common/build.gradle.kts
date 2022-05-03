@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
     kotlin("jvm")
@@ -15,19 +14,10 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-    }
-}
-
-tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("dokka"))
-}
-
 apply(plugin = "org.jetbrains.dokka")
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.fusesource.jansi", "jansi", "2.4.0")
 }
 
 val compileKotlin: KotlinCompile by tasks

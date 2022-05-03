@@ -1,7 +1,7 @@
 package ru.vad1mchk.progr.lab05.common.datatypes
 
 /**
- * Interface for datatypes that should undergo validation whilst deserializing the collection file.
+ * Interface for data types that should undergo validation whilst deserializing the collection file.
  */
 interface Validated {
     /**

@@ -1,9 +1,10 @@
 package ru.vad1mchk.progr.lab05.common.datatypes
 
 import ru.vad1mchk.progr.lab05.common.datatypes.Coordinates.Companion.MIN_X
-import ru.vad1mchk.progr.lab05.common.messages.Messages
-import java.util.*
+import ru.vad1mchk.progr.lab05.common.messages.StringResources
+import ru.vad1mchk.progr.lab05.common.util.ValueFormatter
 import java.io.Serializable
+import java.util.*
 
 /**
  * Data class to store coordinates.
@@ -40,8 +41,12 @@ data class Coordinates(val x: Int, val y: Float) : Comparable<Coordinates>, Vali
         return String.format(Locale.ROOT, "%d,%s", x, y)
     }
 
-    fun toCoolerString(): String {
-        return String.format(Locale.ROOT, Messages.formatCoordinates, x, y)
+    fun toCoolerString(locale: Locale): String {
+        val formatter = ValueFormatter(locale)
+        return StringResources().getString("Coordinates format").format(
+            formatter.formatInt(x),
+            formatter.formatFloat(y)
+        )
     }
 
     override fun compareTo(other: Coordinates): Int {

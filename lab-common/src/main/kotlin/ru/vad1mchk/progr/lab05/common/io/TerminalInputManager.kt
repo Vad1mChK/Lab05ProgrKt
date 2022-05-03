@@ -1,19 +1,26 @@
 package ru.vad1mchk.progr.lab05.common.io
 
-import ru.vad1mchk.progr.lab05.common.datatypes.*
+import ru.vad1mchk.progr.lab05.common.datatypes.Chapter
+import ru.vad1mchk.progr.lab05.common.datatypes.Coordinates
+import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
+import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.exceptions.InvalidDataException
-import ru.vad1mchk.progr.lab05.common.messages.Messages
+import ru.vad1mchk.progr.lab05.common.messages.Message
+import ru.vad1mchk.progr.lab05.common.util.ValueFormatter
 import java.time.LocalDate
 import java.util.*
 
 /**
  * This class manages input from terminal / standard input.
  */
-class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
+class TerminalInputManager(
+    locale: Locale,
+    val isServer: Boolean = false
+) : AbstractInputManager(Scanner(System.`in`), locale) {
     override fun readName(): String {
         while (true) {
             try {
-                OutputManager.say(Messages.inputName)
+                OutputManager.sayString(stringResources.getString("input name"))
                 return super.readName()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
@@ -24,7 +31,9 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
     override fun readCoordinateX(): Int {
         while (true) {
             try {
-                OutputManager.say(Messages.inputCoordinateX, Coordinates.MIN_X)
+                OutputManager.sayString(
+                    stringResources.getString("input Coordinates x"), formatter.formatInt(Coordinates.MIN_X)
+                )
                 return super.readCoordinateX()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
@@ -35,7 +44,7 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
     override fun readCoordinateY(): Float {
         while (true) {
             try {
-                OutputManager.say(Messages.inputCoordinateY)
+                OutputManager.sayString(stringResources.getString("input Coordinates y"))
                 return super.readCoordinateY()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
@@ -50,7 +59,9 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
     override fun readHealth(): Double {
         while (true) {
             try {
-                OutputManager.say(Messages.inputHealth, SpaceMarine.MIN_HEALTH)
+                OutputManager.sayString(
+                    stringResources.getString("input health"), formatter.formatDouble(SpaceMarine.MIN_HEALTH)
+                )
                 return super.readHealth()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
@@ -61,7 +72,11 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
     override fun readHeartCount(): Long {
         while (true) {
             try {
-                OutputManager.say(Messages.inputHeartCount, SpaceMarine.MIN_HEART_COUNT, SpaceMarine.MAX_HEART_COUNT)
+                OutputManager.sayString(
+                    stringResources.getString("input heartCount"),
+                    formatter.formatLong(SpaceMarine.MIN_HEART_COUNT),
+                    formatter.formatLong(SpaceMarine.MAX_HEART_COUNT)
+                )
                 return super.readHeartCount()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
@@ -72,7 +87,9 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
     override fun readLoyal(): Boolean {
         while (true) {
             try {
-                OutputManager.say(Messages.inputLoyal)
+                OutputManager.sayString(
+                    stringResources.getString("input loyal")
+                )
                 return super.readLoyal()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
@@ -83,8 +100,8 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
     override fun readMeleeWeapon(): MeleeWeapon? {
         while (true) {
             try {
-                OutputManager.say(Messages.inputMeleeWeapon, MeleeWeapon.listConstants())
-                OutputManager.sayWarning(Messages.warningNullMeleeWeapon)
+                OutputManager.sayWarning(stringResources.getString("warning nullMeleeWeapon"))
+                OutputManager.sayString(stringResources.getString("input meleeWeapon"), MeleeWeapon.listConstants())
                 return super.readMeleeWeapon()
             } catch (e: InvalidDataException) {
                 OutputManager.sayException(e)
@@ -93,24 +110,24 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
     }
 
     override fun readChapterName(): String? {
-        OutputManager.say(Messages.inputChapterName)
-        OutputManager.sayWarning(Messages.warningNullChapter)
+        OutputManager.sayWarning(stringResources.getString("warning nullChapter"))
+        OutputManager.sayString(stringResources.getString("input Chapter name"))
         return super.readChapterName()
     }
 
     override fun readChapterParentLegion(): String? {
-        OutputManager.say(Messages.inputChapterParentLegion)
-        OutputManager.sayWarning(Messages.warningNullChapterParentLegion)
+        OutputManager.sayWarning(stringResources.getString("warning nullParentLegion"))
+        OutputManager.sayString(stringResources.getString("input Chapter parentLegion"))
         return super.readChapterName()
     }
 
     override fun readChapterMarinesCount(): Int {
         while (true) {
             try {
-                OutputManager.say(
-                    Messages.inputChapterMarinesCount,
-                    Chapter.MIN_MARINES_COUNT,
-                    Chapter.MAX_MARINES_COUNT
+                OutputManager.sayString(
+                    stringResources.getString("input Chapter marinesСount"),
+                    formatter.formatInt(Chapter.MIN_MARINES_COUNT),
+                    formatter.formatInt(Chapter.MAX_MARINES_COUNT)
                 )
                 return super.readChapterMarinesCount()
             } catch (e: InvalidDataException) {
@@ -140,5 +157,10 @@ class TerminalInputManager : InputManagerImpl(Scanner(System.`in`)) {
             readMeleeWeapon(),
             readChapter()
         )
+    }
+
+    override fun readCommand(): CommandWrapper {
+        OutputManager.inviteInput(isServer)
+        return super.readCommand()
     }
 }

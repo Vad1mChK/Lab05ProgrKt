@@ -1,7 +1,9 @@
 package ru.vad1mchk.progr.lab05.common.datatypes
 
-import ru.vad1mchk.progr.lab05.common.messages.Messages
+import ru.vad1mchk.progr.lab05.common.messages.StringResources
+import ru.vad1mchk.progr.lab05.common.util.ValueFormatter
 import java.io.Serializable
+import java.util.*
 
 data class Chapter(
     val name: String,
@@ -47,10 +49,17 @@ data class Chapter(
     }
 
     override fun toString(): String {
-        return name.replace("\"", "\"\"").replace(",", "\",\"") + "," + (parentLegion ?: "").replace(",", "\",\"") + ",$marinesCount"
+        return name.replace("\"", "\"\"").replace(",", "\",\"") + "," + (parentLegion ?: "").replace(
+            ",",
+            "\",\""
+        ) + ",$marinesCount"
     }
 
-    override fun toCoolerString(): String {
-        return String.format(Messages.formatChapter, name, parentLegion ?: "-", marinesCount)
+    override fun toCoolerString(locale: Locale): String {
+        return StringResources().getString("Chapter format").format(
+            name,
+            parentLegion ?: "-",
+            ValueFormatter(locale).formatInt(marinesCount)
+        )
     }
 }

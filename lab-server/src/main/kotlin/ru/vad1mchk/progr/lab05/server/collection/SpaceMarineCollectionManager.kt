@@ -1,39 +1,41 @@
 package ru.vad1mchk.progr.lab05.server.collection
 
-import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
+import ru.vad1mchk.progr.lab05.common.collection.CollectionManager
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.exceptions.IdentifierCollisionException
 import ru.vad1mchk.progr.lab05.common.exceptions.IdentifierNotExistsException
-import ru.vad1mchk.progr.lab05.common.io.OutputManager
-import ru.vad1mchk.progr.lab05.common.messages.Messages
-import ru.vad1mchk.progr.lab05.common.util.DateFormatter
+import ru.vad1mchk.progr.lab05.common.util.SpaceMarineComparator
+import ru.vad1mchk.progr.lab05.common.util.ValueFormatter
+import ru.vad1mchk.progr.lab05.server.util.Configuration
 import java.time.LocalDate
 import java.util.*
-import kotlin.streams.toList
+import java.util.stream.Collectors
 
 /**
- * Implementation of [CollectionManager] designed to work with [SpaceMarine] specifically.
+ * TODO
+ *
  */
-object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
+class SpaceMarineCollectionManager(private val comparisonLocale: Locale) : CollectionManager<SpaceMarine> {
     private val collection = LinkedList<SpaceMarine>()
     private val uniqueIds = HashSet<Int>()
-    lateinit var initializationDate: LocalDate
-        private set
+    private var initializationDate: LocalDate = LocalDate.now()
+    private val comparator = SpaceMarineComparator(comparisonLocale)
+    private val stringResources = Configuration.STRING_RESOURCES
 
     override fun generateId(): Int {
-        var newId: Int
-        do {
-            newId = (SpaceMarine.MIN_ID..Int.MAX_VALUE).random()
-        } while (newId in uniqueIds)
+        var newId: Int = SpaceMarine.MIN_ID
+        while (newId in uniqueIds) {
+            newId++
+        }
         return newId
     }
 
-    override fun sort() {
-        collection.sort()
+    override fun collection(): LinkedList<SpaceMarine> {
+        return LinkedList(collection.sortedWith(comparator))
     }
 
     override fun filteredCollection(function: (SpaceMarine) -> Boolean): LinkedList<SpaceMarine> {
-        return LinkedList(collection.stream().filter(function).toList())
+        return LinkedList(collection.stream().filter { function(it) }.collect(Collectors.toList()))
     }
 
     override fun iterator(): MutableIterator<SpaceMarine> {
@@ -44,21 +46,14 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
         return element in collection
     }
 
-    override fun info() {
-        OutputManager.sayInfo(
-            Messages.infoString,
+    override fun info(): String {
+        return String.format(
+            stringResources.getString("collection info"),
             collection.javaClass.simpleName,
             SpaceMarine::class.simpleName,
-            collection.size,
-            DateFormatter.format(initializationDate)
+            size(),
+            ValueFormatter(Configuration.currentLocale).formatLocalDate(initializationDate)
         )
-    }
-
-    override fun show() {
-        sort()
-        for (element in collection) {
-            OutputManager.say(element.toCoolerString())
-        }
     }
 
     override fun add(newElement: SpaceMarine) {
@@ -70,29 +65,30 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     override fun addById(id: Int, newElement: SpaceMarine) {
-        newElement.id = id
         if (id in uniqueIds) {
-            throw IdentifierCollisionException(String.format(Messages.exceptionIdentifierCollision, id))
+            throw IdentifierCollisionException(stringResources.getString("IdentifierCollisionException").format(id))
         }
-        collection.add(newElement)
         uniqueIds.add(id)
+        collection.add(newElement.also { it.id = id })
     }
 
     override fun updateById(id: Int, newElement: SpaceMarine) {
-        removeById(id)
-        addById(id, newElement)
+        if (id !in uniqueIds) {
+            throw IdentifierNotExistsException(
+                stringResources.getString("IdentifierNotExistsException update").format(id)
+            )
+        }
+        collection.removeIf { it.id == id }
+        collection.add(newElement.also { it.id = id })
     }
 
     override fun removeById(id: Int) {
         if (id !in uniqueIds) {
-            throw IdentifierNotExistsException(String.format(Messages.exceptionIdentifierNotExists, id))
+            throw IdentifierNotExistsException(
+                stringResources.getString("IdentifierNotExistsException remove").format(id)
+            )
         }
-        for (element in collection) {
-            if (element.id == id) {
-                collection.remove(element)
-                break
-            }
-        }
+        collection.removeIf { it.id == id }
         uniqueIds.remove(id)
     }
 
@@ -102,40 +98,23 @@ object SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     override fun addIfMin(newElement: SpaceMarine) {
-        if (collection.stream().anyMatch { it <= newElement }) return
+        if (collection.stream().anyMatch { comparator.compare(it, newElement) < 0 }) return
         collection.add(newElement)
     }
 
     override fun removeGreater(comparisonElement: SpaceMarine) {
-        LinkedList(collection).stream().filter { it > comparisonElement }.forEach { removeById(it.id) }
+        collection.removeIf { comparator.compare(it, comparisonElement) > 0 }
+    }
+
+    override fun size(): Int {
+        return collection.size
     }
 
     /**
-     * Prints all elements that have the meleeWeapon field less than the specified [meleeWeapon].
-     * @param meleeWeapon [MeleeWeapon] to compare with.
+     * Sets a new initialization date for this collection when reading it from a file anew.
+     * @param initializationDate Initialization date to set.
      */
-    fun filterLessThanMeleeWeapon(meleeWeapon: MeleeWeapon) {
-        collection.stream().filter { it.meleeWeapon?.let {mw -> mw < meleeWeapon} ?: false }.forEach { println(it.toCoolerString()) }
-    }
-
-    /**
-     * Prints all elements that have the heartCount field greater than the specified [heartCount].
-     * @param heartCount heart count value to compare with.
-     */
-    fun filterGreaterThanHeartCount(heartCount: Long) {
-        collection.stream().filter { it.heartCount > heartCount }.forEach { println(it.toCoolerString()) }
-    }
-
-    /**
-     * Prints health values of all elements sorted descending.
-     */
-    fun printFieldDescendingHealth() {
-        for (health in collection.map { it.health }.sortedDescending()) {
-            OutputManager.say(health.toString())
-        }
-    }
-
-    fun initialize(initializationDate: LocalDate) {
-        SpaceMarineCollectionManager.initializationDate = initializationDate
+    fun initializeWithDate(initializationDate: LocalDate) {
+        this.initializationDate = initializationDate
     }
 }

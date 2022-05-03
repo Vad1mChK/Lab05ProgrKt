@@ -18,15 +18,6 @@ application {
     mainClass.set("ServerKt")
 }
 
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-    }
-}
-
-tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("dokka"))
-}
 
 apply(plugin = "org.jetbrains.dokka")
 dependencies {
@@ -42,4 +33,10 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "ru.vad1mchk.progr.lab05.server.Server"
+    }
 }

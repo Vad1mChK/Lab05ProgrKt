@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
     kotlin("jvm") version "1.5.10"
@@ -34,6 +33,10 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
     }
+}
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
 }
 
 dependencies {

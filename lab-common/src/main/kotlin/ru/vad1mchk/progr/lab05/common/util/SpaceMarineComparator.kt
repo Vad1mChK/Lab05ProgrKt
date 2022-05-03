@@ -5,27 +5,25 @@ import java.text.Collator
 import java.util.*
 
 /**
- * Object that compares two instances of [SpaceMarine] according to some special rules. Does not allow `null` values.
- * It is planned to use a collator of the current locale in the future. For now, the locale is hardcoded.
+ * Comparator that compares instances of [SpaceMarine] using a collator of the current locale. The comparison is in the
+ * following order: `name`, `coordinates`, `creationDate`, `health`, `heartCount`, `loyal`, `meleeWeapon`, `chapter`,
+ * `id`.
+ * @property Locale to use for string collation.
  */
-object SpaceMarineComparator : Comparator<SpaceMarine> {
-    override fun compare(left: SpaceMarine, right: SpaceMarine): Int {
-        val collator = Collator.getInstance(Locale("ru", "RU"))
-        return collator.compare(left.name, right.name).also {
-            if (it == 0) {
-                return compareValuesBy(
-                    left,
-                    right,
-                    SpaceMarine::coordinates,
-                    SpaceMarine::creationDate,
-                    SpaceMarine::health,
-                    SpaceMarine::heartCount,
-                    SpaceMarine::loyal,
-                    SpaceMarine::meleeWeapon,
-                    SpaceMarine::chapter,
-                    SpaceMarine::id
-                )
-            }
-        }
+class SpaceMarineComparator(val desiredLocale: Locale) : Comparator<SpaceMarine> {
+    override fun compare(left: SpaceMarine?, right: SpaceMarine?): Int {
+        if (left == null || right == null) return compareValues(left, right)
+        val collator = Collator.getInstance(desiredLocale)
+        return Comparator
+            .comparing(SpaceMarine::name, collator)
+            .thenComparing(SpaceMarine::coordinates)
+            .thenComparing(SpaceMarine::creationDate)
+            .thenComparing(SpaceMarine::health)
+            .thenComparing(SpaceMarine::heartCount)
+            .thenComparing(SpaceMarine::loyal)
+            .thenComparing(SpaceMarine::meleeWeapon, nullsFirst())
+            .thenComparing(SpaceMarine::chapter, nullsFirst(ChapterComparator(desiredLocale)))
+            .thenComparing(SpaceMarine::id)
+            .compare(left, right)
     }
 }

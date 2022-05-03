@@ -1,14 +1,16 @@
 package ru.vad1mchk.progr.lab05.common.datatypes
 
+import java.util.*
+
 /**
- * Interface for classes that could have a string representation other than the default [toString] method used in
- * serialization.
+ * Interface that provides a more user-friendly string representation of an object. It looks somewhat like the YAML
+ * format.
  */
 interface Represented {
     /**
-     * Provides a more user-friendly string representation used in the console output. It looks somewhat like the YAML
-     * format.
+     * Provides a user-friendly string representation used in the console output according to the current locale.
+     * @param locale Locale to use.
      * @return A string representation.
      */
-    fun toCoolerString(): String
+    fun toCoolerString(locale: Locale): String
 }
