@@ -86,19 +86,6 @@ interface CollectionManager<T : Any> {
     fun clear()
 
     /**
-     * Adds a [newElement] with the newly-generated identifier to the collection if it is less than all others.
-     * @param newElement Element to add.
-     */
-    fun addIfMin(newElement: T)
-
-    /**
-     * Removes all elements greater than [comparisonElement]
-     * from the collection.
-     * @param comparisonElement Element to compare with.
-     */
-    fun removeGreater(comparisonElement: T)
-
-    /**
      * Calculates the size of the collection.
      * @return The size of the collection stored in this manager.
      */

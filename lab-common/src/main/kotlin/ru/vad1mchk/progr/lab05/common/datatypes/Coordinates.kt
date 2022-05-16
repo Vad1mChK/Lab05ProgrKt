@@ -13,6 +13,7 @@ import java.util.*
  */
 data class Coordinates(val x: Int, val y: Float) : Comparable<Coordinates>, Validated, Serializable {
     companion object {
+        private val serialVersionUID = 42069667L
         /**
          * Strict minimum value of [x] coordinate. All values less or equal will lead to validation failure.
          */

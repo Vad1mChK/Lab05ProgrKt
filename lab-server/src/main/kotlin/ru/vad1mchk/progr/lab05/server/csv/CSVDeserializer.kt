@@ -102,7 +102,7 @@ class CSVDeserializer {
                         list[11]!!.toInt()
                     )
                 }
-            )
+            ).also { it.id = id }
         } catch (e: NullPointerException) {
             throw InvalidDataException(stringResources.getString("InvalidDataException notNull"), e)
         } catch (e: NumberFormatException) {

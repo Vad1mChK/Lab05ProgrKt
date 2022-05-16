@@ -47,6 +47,7 @@ class Message : Serializable {
     }
 
     companion object {
+        private val serialVersionUID = 42069670L
         val stringResources = StringResources()
     }
 

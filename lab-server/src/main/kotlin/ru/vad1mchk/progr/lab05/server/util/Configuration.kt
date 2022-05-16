@@ -2,7 +2,8 @@ package ru.vad1mchk.progr.lab05.server.util
 
 import ru.vad1mchk.progr.lab05.common.messages.StringResources
 import ru.vad1mchk.progr.lab05.server.collection.SpaceMarineCollectionManager
-import ru.vad1mchk.progr.lab05.server.commands.ServerCommander
+import ru.vad1mchk.progr.lab05.server.commands.Commander
+import java.io.File
 import java.util.*
 
 /**
@@ -10,8 +11,9 @@ import java.util.*
  */
 object Configuration {
     var isWorking = true
+    lateinit var collectionFile: File
     var currentLocale: Locale = Locale.US
     val COLLECTION_MANAGER = SpaceMarineCollectionManager(currentLocale)
-    val COMMANDER = ServerCommander()
+    val COMMANDER = Commander()
     val STRING_RESOURCES = StringResources()
 }

@@ -21,11 +21,5 @@ object Server {
     @JvmStatic
     fun main(args: Array<String>) {
         val inputManager = TerminalInputManager(locale = Locale.ROOT, isServer = true)
-        while (true) {
-            inputManager.readCommand().also {
-                println("name: "+it.commandName)
-                println("args: "+it.commandArguments.toList())
-            }
-        }
     }
 }

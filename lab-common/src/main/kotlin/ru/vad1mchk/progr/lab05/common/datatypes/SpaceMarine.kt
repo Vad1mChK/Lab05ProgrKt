@@ -34,6 +34,7 @@ data class SpaceMarine(
     var id: Int = 1
 
     companion object {
+        private val serialVersionUID = 42069665L
         /**
          * Minimum value for [id]. It should be greater or equal to this.
          */

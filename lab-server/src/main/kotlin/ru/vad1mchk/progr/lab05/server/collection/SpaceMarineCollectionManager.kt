@@ -97,15 +97,6 @@ class SpaceMarineCollectionManager(private val comparisonLocale: Locale) : Colle
         uniqueIds.clear()
     }
 
-    override fun addIfMin(newElement: SpaceMarine) {
-        if (collection.stream().anyMatch { comparator.compare(it, newElement) < 0 }) return
-        collection.add(newElement)
-    }
-
-    override fun removeGreater(comparisonElement: SpaceMarine) {
-        collection.removeIf { comparator.compare(it, comparisonElement) > 0 }
-    }
-
     override fun size(): Int {
         return collection.size
     }

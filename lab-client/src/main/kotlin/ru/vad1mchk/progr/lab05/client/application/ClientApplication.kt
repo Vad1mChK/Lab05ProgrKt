@@ -29,7 +29,7 @@ class ClientApplication {
 
     }
 
-    fun readInetAddress(): InetAddress {
+/*    fun readInetAddress(): InetAddress {
         try {
             OutputManager.sayString(stringResources.getString("input inetAddress"))
             val address = InetAddress.getByName(scanner.nextLine())
@@ -38,7 +38,7 @@ class ClientApplication {
             OutputManager.sayException(e)
         }
 
-    }
+    }*/
 
     fun readPort() {
 

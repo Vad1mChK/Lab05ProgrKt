@@ -11,6 +11,7 @@ data class Chapter(
     val marinesCount: Int
 ) : Comparable<Chapter>, Validated, Represented, Serializable {
     companion object {
+        private val serialVersionUID = 42069668L
         /**
          * Minimum value of [marinesCount]. It should be greater or equal to this.
          */

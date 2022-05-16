@@ -11,4 +11,8 @@ data class Request (
     val heartCountArgument: Long? = null,
     val meleeWeaponArgument: MeleeWeapon? = null,
     var clientInformation: String? = null,
-) : Serializable
+) : Serializable {
+    companion object {
+        private val serialVersionUID = 42069671L
+    }
+}

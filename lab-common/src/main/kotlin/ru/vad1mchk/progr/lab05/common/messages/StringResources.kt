@@ -50,6 +50,7 @@ class StringResources : ListResourceBundle() {
                 "InvalidDataException varargparse typeMismatch",
                 "Cannot parse field: should be a value of type %s"
             ),
+            arrayOf("IOException", "Sorry, an input/output exception has occurred."),
             arrayOf(
                 "MalformedElementException",
                 "Cannot parse element: the entry in the collection file was malformed."
@@ -63,6 +64,7 @@ class StringResources : ListResourceBundle() {
                 "Cannot get initialization date from collection file, assuming it is initialized now."
             ),
             arrayOf("IOException cannotConnectToServer", "Cannot connect to the server: bad host or port name"),
+            arrayOf("exception missingCommandArgument", "Cannot execute command: one or more arguments are missing."),
             arrayOf("exception cannotSendConnectionClosed", "Cannot send anything: connection is closed"),
             arrayOf("exception cannotReceiveConnectionClosed", "Cannot receive anything: connection is closed"),
 
@@ -81,7 +83,6 @@ class StringResources : ListResourceBundle() {
                 "This operation will clear the collection. Once the collection is saved, it will be impossible to undo."
             ),
 
-
             // Info messages
             arrayOf(
                 "collection info", """
@@ -92,7 +93,15 @@ class StringResources : ListResourceBundle() {
                     Initialization date: %s
             """.trimIndent()
             ),
+            arrayOf("show success", "Collection elements are as follows:"),
+            arrayOf("add success", "Element added successfully."),
+            arrayOf("addIfMin failure", "Element not added: some elements less or equal to this are in the collection."),
+            arrayOf("update success", "Element updated successfully."),
+            arrayOf("remove success", "Element removed successfully."),
+            arrayOf("removeGreater success", "Elements removed successfully."),
+            arrayOf("removeGreater failure", "Elements intact: none of them are greater than this."),
             arrayOf("clear success", "Collection cleared successfully."),
+            arrayOf("save success", "Collection saved successfully."),
             arrayOf("connection success", "Connection established."),
             arrayOf("address found", "Address found."),
 
