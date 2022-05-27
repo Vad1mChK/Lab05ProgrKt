@@ -5,8 +5,15 @@ import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.io.Printer
 import ru.vad1mchk.progr.lab05.common.io.SpaceMarineDataReader
+import java.util.Scanner
 
-class RequestCreator {
+class RequestCreator(scanner: Scanner = Scanner(System.`in`)) {
+    val scanner: Scanner
+
+    init {
+        this.scanner = scanner
+    }
+
     fun requestFromEnteredCommand(enteredCommand: EnteredCommand): Request? {
         return if (
             AvailableCommands.COMMANDS_WITHOUT_ARGUMENTS.contains(enteredCommand.name)
@@ -52,7 +59,7 @@ class RequestCreator {
     }
 
     private fun spaceMarineRequest(enteredCommand: EnteredCommand): Request {
-        return Request(enteredCommand.name, SpaceMarineDataReader().readMarine())
+        return Request(enteredCommand.name, SpaceMarineDataReader(scanner).readMarine())
     }
 
     private fun idRequest(enteredCommand: EnteredCommand): Request? {
@@ -72,7 +79,7 @@ class RequestCreator {
             Printer.printError("Значение аргумента \"id\" для команды ${enteredCommand.name} должно быть целым числом.")
             return null
         }
-        return Request(enteredCommand.name, SpaceMarineDataReader().readMarine(), id)
+        return Request(enteredCommand.name, SpaceMarineDataReader(scanner).readMarine(), id)
     }
 
     private fun meleeWeaponRequest(enteredCommand: EnteredCommand): Request? {

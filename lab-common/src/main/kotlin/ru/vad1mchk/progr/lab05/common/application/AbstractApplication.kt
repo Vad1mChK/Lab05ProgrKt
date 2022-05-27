@@ -16,21 +16,20 @@ abstract class AbstractApplication {
         val MAX_PORT = UShort.MAX_VALUE.toInt()
     }
 
-    protected val scanner = Scanner(System.`in`)
+    protected abstract var scanner: Scanner
 
     abstract fun launch(args: Array<String>)
 
     protected fun readPort(): Int {
         var port: Int
         while (true) {
-            Printer.printNoNewLine("Введите номер порта: ")
+            Printer.printNewLine("Введите номер порта: ")
             try {
-                port = scanner.nextLine().toInt().also {
-                    if (it !in (MIN_PORT..MAX_PORT)) {
-                        throw NumberFormatException()
-                    }
+                port = scanner.nextInt()
+                if (port > MAX_PORT || port < MIN_PORT) {
+                    throw NumberFormatException()
                 }
-                return port
+                break
             } catch (e: NumberFormatException) {
                 Printer.printError("Номер порта должен быть числом от $MIN_PORT до $MAX_PORT. Повторите попытку ввода.")
             } catch (e: InputMismatchException) {
@@ -38,6 +37,8 @@ abstract class AbstractApplication {
             } catch (e: NoSuchElementException) {
                 exitProcess(0)
             }
+            scanner.nextLine()
         }
+        return port
     }
 }

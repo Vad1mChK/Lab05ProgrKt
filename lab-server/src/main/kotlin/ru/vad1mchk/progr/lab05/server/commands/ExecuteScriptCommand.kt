@@ -10,7 +10,7 @@ class ExecuteScriptCommand: AbstractCommand(
     "fileName"
 ) {
     override fun invoke(request: Request): Response? {
-        Printer.printNewLine("Выполнен скрипт от ${
+        Printer.printNewLine("Получен скрипт от ${
             if (request.isServerRequest) "сервера" else "клиента"
         }.")
         return null

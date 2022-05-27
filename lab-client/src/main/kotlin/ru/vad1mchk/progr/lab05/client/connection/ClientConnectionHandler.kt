@@ -15,12 +15,12 @@ import java.nio.ByteBuffer
 
 class ClientConnectionHandler {
     companion object {
-        private const val RESPONSE_TIMEOUT = 5000
+        private const val RESPONSE_TIMEOUT = 10000
     }
     lateinit var socket: Socket
     lateinit var inputStream: InputStream
     lateinit var outputStream: OutputStream
-    lateinit var lastAddress: String
+    lateinit var lastAddress: InetAddress
     var lastPort: Int = 0
     var isOpen = false
         private set
@@ -32,7 +32,7 @@ class ClientConnectionHandler {
                 socket.soTimeout = RESPONSE_TIMEOUT
                 inputStream = socket.getInputStream()
                 outputStream = socket.getOutputStream()
-                lastAddress = socket.remoteSocketAddress.toString()
+                lastAddress = socket.inetAddress
                 lastPort = socket.port
                 isOpen = true
                 Printer.printNewLine("Подключение установлено.")
@@ -45,57 +45,35 @@ class ClientConnectionHandler {
         }
     }
 
+    fun reopenConnection() {
+        openConnection(lastAddress, lastPort)
+    }
+
     fun send(request: Request) {
         val bytes = Serializer.serialize(request)
         if (bytes != null) {
-            outputStream.apply {
-                write(bytes)
-                flush()
-                close()
-            }
+            outputStream.write(bytes)
+            outputStream.flush()
         }
     }
 
-    fun receive(): Response {
-        socket.soTimeout = RESPONSE_TIMEOUT
-        val bufferSize = socket.receiveBufferSize
-        var mainBuffer: ByteBuffer = ByteBuffer.allocate(0)
-        while (true) {
-            val bytesToDeserialize = ByteArray(bufferSize)
-            val bufferedInputStream = BufferedInputStream(inputStream)
-            val bytesCount = inputStream.read(bytesToDeserialize)
-            var newBuffer= ByteBuffer.allocate(mainBuffer.capacity() + bytesCount)
-            newBuffer.put(mainBuffer)
-            newBuffer.put(ByteBuffer.wrap(bytesToDeserialize, 0, bytesCount))
-            mainBuffer = ByteBuffer.wrap(newBuffer.array())
-            var response: Response? = Serializer.deserialize(mainBuffer.array()) as Response?
-            if (response == null) {
-                val buffers = ArrayList<ByteBuffer>()
-                var bytesLeft = bufferedInputStream.available()
-                var len = bytesLeft
-                while (bytesLeft > 0) {
-                    val bytesLeftToSerialize = ByteArray(bytesLeft)
-                    bufferedInputStream.read(bytesLeftToSerialize)
-                    buffers.add(ByteBuffer.wrap(bytesLeftToSerialize))
-                    bytesLeft = bufferedInputStream.available()
-                    len += bytesLeft
-                }
-                newBuffer = ByteBuffer.allocate(len + mainBuffer.capacity())
-                newBuffer.put(mainBuffer)
-                buffers.forEach(newBuffer::put)
-                mainBuffer = ByteBuffer.wrap(newBuffer.array())
-                response = Serializer.deserialize(mainBuffer.array()) as Response?
-            }
-            if (response != null) {
-                return response
-            }
-        }
+    fun receive(bufferSize: Int): Response? {
+        var mainBuffer = ByteBuffer.allocate(0)
+        var bytesToDeserialize: ByteArray
+        val bis = BufferedInputStream(inputStream)
+        bytesToDeserialize = ByteArray(bufferSize)
+        val bytesCount = bis.read(bytesToDeserialize)
+        val newBuffer = ByteBuffer.allocate(mainBuffer.capacity() + bytesCount)
+        newBuffer.put(mainBuffer)
+        newBuffer.put(ByteBuffer.wrap(bytesToDeserialize, 0, bytesCount))
+        mainBuffer = ByteBuffer.wrap(newBuffer.array())
+        return Serializer.deserialize(mainBuffer.array()) as Response?
     }
 
     fun close() {
-        for (closeable in arrayOf(inputStream, outputStream, socket)) {
-            closeable.close()
-        }
+        inputStream.close()
+        outputStream.close()
+        socket.close()
         isOpen = false
     }
 }

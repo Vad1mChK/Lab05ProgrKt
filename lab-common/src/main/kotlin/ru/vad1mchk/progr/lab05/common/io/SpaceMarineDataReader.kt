@@ -183,7 +183,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
                 readLoyal(),
                 readMeleeWeapon(),
                 readChapter()
-            )
+            ).also { currentSpaceMarine = it }
         } catch (e: NoSuchElementException) {
             exitProcess(0)
         }

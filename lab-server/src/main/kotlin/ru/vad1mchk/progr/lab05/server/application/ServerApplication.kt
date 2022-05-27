@@ -11,11 +11,14 @@ import ru.vad1mchk.progr.lab05.server.csv.CsvDeserializer
 import ru.vad1mchk.progr.lab05.server.util.Configuration
 import ru.vad1mchk.progr.lab05.server.util.TerminalListenerThread
 import java.io.IOException
+import java.util.*
+import kotlin.NoSuchElementException
 import kotlin.system.exitProcess
 
 class ServerApplication: AbstractApplication() {
     lateinit var connectionHandler: ServerConnectionHandler
     val terminalListenerThread = TerminalListenerThread()
+    override var scanner = Scanner(System.`in`)
 
     override fun launch(args: Array<String>) {
         Printer.printNewLine("Сервер менеджера космических десантников приветствует вас.")
@@ -26,7 +29,7 @@ class ServerApplication: AbstractApplication() {
             terminalListenerThread.start()
             connectionHandler.run()
         } catch (e: IOException) {
-            Printer.printError("Во время открытия порта произошла ошибка ввода-вывода.")
+            Printer.printError("Во время открытия порта произошла ошибка ввода-вывода. Возможно, порт уже занят.")
         }
     }
 

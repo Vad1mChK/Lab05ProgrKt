@@ -1,12 +1,15 @@
 package ru.vad1mchk.progr.lab05.server.util
 
 import ru.vad1mchk.progr.lab05.common.communication.EnteredCommand
+import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.RequestCreator
 import ru.vad1mchk.progr.lab05.common.exceptions.FileException
 import ru.vad1mchk.progr.lab05.common.file.FileManager
 import ru.vad1mchk.progr.lab05.common.io.CommandListener
 import ru.vad1mchk.progr.lab05.common.io.Printer
+import ru.vad1mchk.progr.lab05.common.io.ScriptFileReader
 import java.io.FileInputStream
+import java.util.*
 import kotlin.system.exitProcess
 
 class TerminalListenerThread: Thread() {
@@ -14,6 +17,7 @@ class TerminalListenerThread: Thread() {
         System.`in`,
         true
     )
+    val requestCreator = RequestCreator(Scanner(System.`in`))
 
     override fun run() {
         while (Configuration.isWorking) {
@@ -33,14 +37,12 @@ class TerminalListenerThread: Thread() {
                         Printer.printError("Неверное количество аргументов команды.")
                     }
                 }
-                executeRequest(enteredCommand)
+                executeRequest(requestCreator.requestFromEnteredCommand(enteredCommand))
             }
         }
     }
 
-    private fun executeRequest(enteredCommand: EnteredCommand) {
-        val requestCreator = RequestCreator()
-        val request = requestCreator.requestFromEnteredCommand(enteredCommand)
+    private fun executeRequest(request: Request?) {
         if (request != null) {
             request.isServerRequest = true
             val response = Configuration.COMMAND_INVOKER.executeRequest(request)
@@ -51,19 +53,10 @@ class TerminalListenerThread: Thread() {
 
     private fun executeScript(filePath: String) {
         try {
-            val systemInCommandListener = commandListener
-            commandListener = CommandListener(
-                FileInputStream(FileManager(filePath).setCheckExecutable(true).open()),
-                isEchoOn = false
-            )
-            while (commandListener.hasNext()) {
-                commandListener.readCommand()?.let {
-                    if (it.name == "execute_script") {
-                        Printer.printError("Произошла попытка вызова скрипта из файла скрипта.")
-                    }
-                }
+            val scriptFileReader = ScriptFileReader(filePath)
+            for (request in scriptFileReader.readAll()) {
+                executeRequest(request)
             }
-            commandListener = systemInCommandListener
         } catch (e: FileException) {
             Printer.printError(e)
         }

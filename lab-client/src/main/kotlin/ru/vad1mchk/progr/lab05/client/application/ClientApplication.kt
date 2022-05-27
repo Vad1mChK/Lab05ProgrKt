@@ -5,20 +5,27 @@ import ru.vad1mchk.progr.lab05.common.application.AbstractApplication
 import ru.vad1mchk.progr.lab05.common.communication.EnteredCommand
 import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.RequestCreator
+import ru.vad1mchk.progr.lab05.common.communication.Response
 import ru.vad1mchk.progr.lab05.common.exceptions.FileException
 import ru.vad1mchk.progr.lab05.common.file.FileManager
 import ru.vad1mchk.progr.lab05.common.io.CommandListener
 import ru.vad1mchk.progr.lab05.common.io.Printer
+import ru.vad1mchk.progr.lab05.common.io.ScriptFileReader
 import java.io.FileInputStream
 import java.io.IOException
 import java.net.InetAddress
+import java.net.SocketException
 import java.net.UnknownHostException
+import java.util.*
+import kotlin.NoSuchElementException
 import kotlin.system.exitProcess
 
 class ClientApplication: AbstractApplication() {
     private val connectionHandler = ClientConnectionHandler()
     private var commandListener = CommandListener(System.`in`, false, "1337h4x0r")
     private var isWorking = true
+    override var scanner = Scanner(System.`in`)
+    private val requestCreator = RequestCreator()
 
     override fun launch(args: Array<String>) {
         Printer.printNewLine("""
@@ -48,14 +55,14 @@ class ClientApplication: AbstractApplication() {
                         Printer.printError("Неверное количество аргументов команды.")
                     }
                 }
-                formAndSendRequest(enteredCommand)?.let { receiveAndPrintResponse(it) }
+                listen(requestCreator.requestFromEnteredCommand(enteredCommand))
             }
         }
     }
 
     private fun readInetAddress(): InetAddress {
         while (true) {
-            Printer.printNoNewLine("Введите IP-адрес сервера: ")
+            Printer.printNewLine("Введите IP-адрес сервера: ")
             try {
                 return InetAddress.getByName(scanner.nextLine())
             } catch (e: UnknownHostException) {
@@ -66,52 +73,28 @@ class ClientApplication: AbstractApplication() {
         }
     }
 
-    private fun formAndSendRequest(enteredCommand: EnteredCommand): Request? {
-        val requestCreator = RequestCreator()
-        val request = requestCreator.requestFromEnteredCommand(enteredCommand)
-        if (request != null) {
-            if (!connectionHandler.isOpen) {
-                connectionHandler.openConnection(readInetAddress(), readPort())
-            }
-            connectionHandler.send(request)
-        }
-        return request
-    }
-
-    private fun receiveAndPrintResponse(request: Request) {
+    private fun listen(request: Request?): Response? {
         if (!connectionHandler.isOpen) {
-            connectionHandler.openConnection(readInetAddress(), readPort())
+            connectionHandler.reopenConnection()
         }
         if (connectionHandler.isOpen) {
             try {
-                val response = connectionHandler.receive()
-                response.stringMessage.also { if(it.isNotEmpty()) Printer.printNewLine(it) }
-                response.spaceMarines?.let { them ->
-                    them.stream().forEach { println(it) }
-                }
+                if (request != null) connectionHandler.send(request)
+                return connectionHandler.receive(connectionHandler.socket.receiveBufferSize)
             } catch (e: IOException) {
                 e.printStackTrace()
-                Printer.printError("Связь с сервером разорвана.")
                 connectionHandler.close()
             }
         }
+        return null
     }
 
     private fun executeScript(filePath: String) {
         try {
-            val systemInCommandListener = commandListener
-            commandListener = CommandListener(
-                FileInputStream(FileManager(filePath).setCheckExecutable(true).open()),
-                isEchoOn = false
-            )
-            while (commandListener.hasNext()) {
-                commandListener.readCommand()?.let {
-                    if (it.name == "execute_script") {
-                        Printer.printError("Произошла попытка вызова скрипта из файла скрипта.")
-                    }
-                }
+            val scriptFileReader = ScriptFileReader(filePath)
+            for (request in scriptFileReader.readAll()) {
+                connectionHandler.send(request)
             }
-            commandListener = systemInCommandListener
         } catch (e: FileException) {
             Printer.printError(e)
         }

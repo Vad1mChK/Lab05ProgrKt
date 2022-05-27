@@ -33,6 +33,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     manifest {
         attributes["Main-Class"] = "ru.vad1mchk.progr.lab05.server.Server"
     }
+    from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     with(tasks.jar.get() as CopySpec)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
