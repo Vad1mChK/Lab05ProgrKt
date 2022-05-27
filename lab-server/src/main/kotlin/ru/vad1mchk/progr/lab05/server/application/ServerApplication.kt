@@ -52,9 +52,10 @@ class ServerApplication: AbstractApplication() {
         }
         try {
             CsvDeserializer(Configuration.collectionFilePath).readAll()
-            Printer.printNewLine("Файл коллекции ${Configuration.collectionFilePath} загружен")
+            Printer.printNewLine("Файл коллекции ${Configuration.collectionFilePath} загружен.")
         } catch (e: JsonParseException) {
-            Printer.printError("Файл коллекции не может быть загружен: данные хранятся в неверном виде.")
+            Printer.printError("Данные в файле хранятся в неверном виде. Загружена пустая коллекция, при сохранении" +
+                    " старые элементы будут удалены.")
         }
     }
 

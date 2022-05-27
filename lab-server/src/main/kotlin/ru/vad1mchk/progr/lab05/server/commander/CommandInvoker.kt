@@ -39,19 +39,12 @@ class CommandInvoker {
         val commandName = request.commandName.lowercase()
         return if (commandMap.containsKey(commandName)) {
             if (!request.isServerRequest && !commandMap[commandName]!!.isServerOnly
-            ) {
+                || request.isServerRequest) {
                 try {
                     addToHistory(commandName)
                     commandMap[commandName]!!(request)
                 } catch (e: InvalidDataException) {
                     Response(Printer.formatError(e.message?:""))
-                }
-            } else if (request.isServerRequest) {
-                try {
-                    addToHistory(commandName)
-                    commandMap[commandName]!!(request)
-                } catch (e: IllegalArgumentException) {
-                     Response(Printer.formatError(e.message?:""))
                 }
             } else {
                 Response(Printer.formatError("Команда ${request.commandName} недоступна для клиента."))

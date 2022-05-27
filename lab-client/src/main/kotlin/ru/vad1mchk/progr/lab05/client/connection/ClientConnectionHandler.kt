@@ -45,11 +45,14 @@ class ClientConnectionHandler {
         }
     }
 
-    fun sendRequest(request: Request) {
+    fun send(request: Request) {
         val bytes = Serializer.serialize(request)
         if (bytes != null) {
-            outputStream.write(bytes)
-            outputStream.flush()
+            outputStream.apply {
+                write(bytes)
+                flush()
+                close()
+            }
         }
     }
 
@@ -60,8 +63,8 @@ class ClientConnectionHandler {
         while (true) {
             val bytesToDeserialize = ByteArray(bufferSize)
             val bufferedInputStream = BufferedInputStream(inputStream)
-            val bytesCount = bufferedInputStream.read(bytesToDeserialize)
-            var newBuffer: ByteBuffer = ByteBuffer.allocate(mainBuffer.capacity() + bytesCount)
+            val bytesCount = inputStream.read(bytesToDeserialize)
+            var newBuffer= ByteBuffer.allocate(mainBuffer.capacity() + bytesCount)
             newBuffer.put(mainBuffer)
             newBuffer.put(ByteBuffer.wrap(bytesToDeserialize, 0, bytesCount))
             mainBuffer = ByteBuffer.wrap(newBuffer.array())
@@ -71,9 +74,9 @@ class ClientConnectionHandler {
                 var bytesLeft = bufferedInputStream.available()
                 var len = bytesLeft
                 while (bytesLeft > 0) {
-                    val leftBytesToSerialize = ByteArray(bytesLeft)
-                    bufferedInputStream.read(leftBytesToSerialize)
-                    buffers.add(ByteBuffer.wrap(leftBytesToSerialize))
+                    val bytesLeftToSerialize = ByteArray(bytesLeft)
+                    bufferedInputStream.read(bytesLeftToSerialize)
+                    buffers.add(ByteBuffer.wrap(bytesLeftToSerialize))
                     bytesLeft = bufferedInputStream.available()
                     len += bytesLeft
                 }

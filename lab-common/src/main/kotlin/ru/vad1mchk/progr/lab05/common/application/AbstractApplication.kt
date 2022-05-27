@@ -11,6 +11,11 @@ import kotlin.system.exitProcess
  * Base class for client and server applications, defining some common behavior for both of them.
  */
 abstract class AbstractApplication {
+    companion object {
+        val MIN_PORT = UShort.MIN_VALUE.toInt()
+        val MAX_PORT = UShort.MAX_VALUE.toInt()
+    }
+
     protected val scanner = Scanner(System.`in`)
 
     abstract fun launch(args: Array<String>)
@@ -20,21 +25,18 @@ abstract class AbstractApplication {
         while (true) {
             Printer.printNoNewLine("Введите номер порта: ")
             try {
-                port = scanner.nextInt()
-                if (port !in (UShort.MIN_VALUE.toInt()..UShort.MAX_VALUE.toInt())) {
-                    throw NumberFormatException()
+                port = scanner.nextLine().toInt().also {
+                    if (it !in (MIN_PORT..MAX_PORT)) {
+                        throw NumberFormatException()
+                    }
                 }
                 return port
-            } catch (e: Exception) {
-                if (e is NumberFormatException || e is InputMismatchException || e is IOException) {
-                    Printer.printError(
-                        "Номер порта должен быть числом от ${UShort.MIN_VALUE} до ${UShort.MAX_VALUE
-                        }. Пожалуйста, повторите попытку ввода."
-                    )
-                }
-                else if (e is NoSuchElementException) {
-                    exitProcess(0)
-                }
+            } catch (e: NumberFormatException) {
+                Printer.printError("Номер порта должен быть числом от $MIN_PORT до $MAX_PORT. Повторите попытку ввода.")
+            } catch (e: InputMismatchException) {
+                Printer.printError("Номер порта должен быть числом. Повторите попытку ввода.")
+            } catch (e: NoSuchElementException) {
+                exitProcess(0)
             }
         }
     }

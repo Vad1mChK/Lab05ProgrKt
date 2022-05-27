@@ -73,7 +73,7 @@ class ClientApplication: AbstractApplication() {
             if (!connectionHandler.isOpen) {
                 connectionHandler.openConnection(readInetAddress(), readPort())
             }
-            connectionHandler.sendRequest(request)
+            connectionHandler.send(request)
         }
         return request
     }
@@ -84,7 +84,6 @@ class ClientApplication: AbstractApplication() {
         }
         if (connectionHandler.isOpen) {
             try {
-                connectionHandler.sendRequest(request)
                 val response = connectionHandler.receive()
                 response.stringMessage.also { if(it.isNotEmpty()) Printer.printNewLine(it) }
                 response.spaceMarines?.let { them ->
