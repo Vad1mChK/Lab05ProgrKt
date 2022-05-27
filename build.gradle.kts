@@ -25,10 +25,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-application {
-    mainClass.set("ClientKt")
-}
-
 buildscript {
     dependencies {
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")

@@ -1,48 +1,78 @@
 package ru.vad1mchk.progr.lab05.server.application
 
-import ru.vad1mchk.progr.lab05.common.communication.Request
-import java.io.*
-import java.net.ServerSocket
-import java.net.Socket
+import com.fasterxml.jackson.core.JsonParseException
+import ru.vad1mchk.progr.lab05.common.application.AbstractApplication
+import ru.vad1mchk.progr.lab05.common.exceptions.FileCannotOpenException
+import ru.vad1mchk.progr.lab05.common.exceptions.FileException
+import ru.vad1mchk.progr.lab05.common.file.FileManager
+import ru.vad1mchk.progr.lab05.common.io.Printer
+import ru.vad1mchk.progr.lab05.server.connection.ServerConnectionHandler
+import ru.vad1mchk.progr.lab05.server.csv.CsvDeserializer
+import ru.vad1mchk.progr.lab05.server.util.Configuration
+import ru.vad1mchk.progr.lab05.server.util.TerminalListenerThread
+import java.io.IOException
+import kotlin.system.exitProcess
 
-/**
- * Application class used only by the server and called from the
- * server's main entry point.
- */
-class ServerApplication {
-    private lateinit var serverSocket: ServerSocket
-    private lateinit var clientSocket: Socket
-    private lateinit var input: ObjectInputStream
-    private lateinit var output: ObjectOutputStream
-    fun launch() {
-        start(8080)
-    }
+class ServerApplication: AbstractApplication() {
+    lateinit var connectionHandler: ServerConnectionHandler
+    val terminalListenerThread = TerminalListenerThread()
 
-    fun start(port: Int) {
-        println("Привет, я -- сервак")
-        serverSocket = ServerSocket(port)
-        clientSocket = serverSocket.accept()
-        println("Кто-то подключился")
-        input = ObjectInputStream(clientSocket.getInputStream())
-        output = ObjectOutputStream(clientSocket.getOutputStream())
-        mainLoop()
-    }
-
-    fun mainLoop() {
-        var objectBeingRead: Any? = null
-        while (input.readObject().also {objectBeingRead = it} != null) {
-            val request = objectBeingRead as Request
-            println(request.stringMessage)
+    override fun launch(args: Array<String>) {
+        Printer.printNewLine("Сервер менеджера космических десантников приветствует вас.")
+        Printer.printNewLine("Загружается файл коллекции...")
+        pickFile(args)
+        try {
+            connectionHandler = ServerConnectionHandler(readPort())
+            terminalListenerThread.start()
+            connectionHandler.run()
+        } catch (e: IOException) {
+            Printer.printError("Во время открытия порта произошла ошибка ввода-вывода.")
         }
-        stop()
     }
 
-    fun stop() {
-        println("Всё, я спать...")
-        for (closeable in arrayOf<Closeable>(
-            input, output, serverSocket, clientSocket
-        )) {
-            closeable.close()
+    private fun pickFile(args: Array<String>) {
+        Configuration.collectionFilePath = when(args.size) {
+            0 -> {
+                Printer.printError("Вы не указали путь к файлу коллекции.")
+                readFileName()
+            }
+            1 -> {
+                try {
+                    FileManager(args[0]).setCheckReadable(true).setCheckWritable(true).open()
+                    args[0]
+                } catch (e: FileCannotOpenException) {
+                    Printer.printError(e)
+                    readFileName()
+                }
+            }
+            else -> {
+                Printer.printError("Слишком много аргументов программы.")
+                readFileName()
+            }
+        }
+        try {
+            CsvDeserializer(Configuration.collectionFilePath).readAll()
+            Printer.printNewLine("Файл коллекции ${Configuration.collectionFilePath} загружен")
+        } catch (e: JsonParseException) {
+            Printer.printError("Файл коллекции не может быть загружен: данные хранятся в неверном виде.")
+        }
+    }
+
+    private fun readFileName(): String {
+        while (true) {
+            Printer.printNoNewLine("Введите путь к файлу коллекции: ")
+            try {
+                val fileName = scanner.nextLine()
+                FileManager(fileName).setCheckReadable(true).setCheckWritable(true).open()
+                return fileName
+            } catch (e: Exception) {
+                if (e is FileException) {
+                    Printer.printError(e)
+                }
+                if (e is NoSuchElementException) {
+                    exitProcess(0)
+                }
+            }
         }
     }
 }

@@ -25,6 +25,21 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
-tasks.withType<org.gradle.jvm.tasks.Jar> {
+tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+val fatJar = task("fatJar", type = Jar::class) {
+    manifest {
+        attributes["Main-Class"] = "ru.vad1mchk.progr.lab05.server.Server"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks {
+    "build" {
+        dependsOn(fatJar)
+    }
 }

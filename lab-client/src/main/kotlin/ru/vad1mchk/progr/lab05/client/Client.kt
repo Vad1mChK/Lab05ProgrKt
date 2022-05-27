@@ -6,6 +6,6 @@ import ru.vad1mchk.progr.lab05.client.application.ClientApplication
 object Client {
     @JvmStatic
     fun main(args: Array<String>) {
-        ClientApplication().launch()
+        ClientApplication().launch(args)
     }
 }
