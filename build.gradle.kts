@@ -31,8 +31,16 @@ buildscript {
     }
 }
 
+subprojects {
+    plugins.apply("org.jetbrains.dokka")
+}
+
 tasks.dokkaHtml.configure {
     outputDirectory.set(buildDir.resolve("dokka"))
+}
+
+tasks.dokkaHtmlMultiModule.configure {
+    outputDirectory.set(buildDir.resolve("dokkaCustomMultiModuleOutput"))
 }
 
 dependencies {

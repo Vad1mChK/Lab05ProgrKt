@@ -58,16 +58,10 @@ class ClientConnectionHandler {
     }
 
     fun receive(bufferSize: Int): Response? {
-        var mainBuffer = ByteBuffer.allocate(0)
-        var bytesToDeserialize: ByteArray
-        val bis = BufferedInputStream(inputStream)
-        bytesToDeserialize = ByteArray(bufferSize)
-        val bytesCount = bis.read(bytesToDeserialize)
-        val newBuffer = ByteBuffer.allocate(mainBuffer.capacity() + bytesCount)
-        newBuffer.put(mainBuffer)
-        newBuffer.put(ByteBuffer.wrap(bytesToDeserialize, 0, bytesCount))
-        mainBuffer = ByteBuffer.wrap(newBuffer.array())
-        return Serializer.deserialize(mainBuffer.array()) as Response?
+        val bytesToDeserialize = ByteArray(bufferSize)
+        val bufferedInputStream = BufferedInputStream(inputStream)
+        val bytesCount = bufferedInputStream.read(bytesToDeserialize)
+        return Serializer.deserialize(bytesToDeserialize) as Response?
     }
 
     fun close() {

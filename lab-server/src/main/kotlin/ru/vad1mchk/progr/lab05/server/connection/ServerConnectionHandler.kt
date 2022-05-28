@@ -1,21 +1,18 @@
 package ru.vad1mchk.progr.lab05.server.connection
 
 import ru.vad1mchk.progr.lab05.common.communication.Request
+import ru.vad1mchk.progr.lab05.common.communication.Response
 import ru.vad1mchk.progr.lab05.common.communication.Serializer
 import ru.vad1mchk.progr.lab05.common.io.Printer
-import ru.vad1mchk.progr.lab05.server.commander.CommandInvoker
 import ru.vad1mchk.progr.lab05.server.util.Configuration
 import java.io.IOException
 import java.net.InetSocketAddress
-import java.net.ServerSocket
-import java.net.Socket
 import java.net.SocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
-import javax.xml.bind.annotation.XmlType.DEFAULT
 
 class ServerConnectionHandler(port: Int): Runnable {
     companion object {
@@ -24,8 +21,8 @@ class ServerConnectionHandler(port: Int): Runnable {
     }
 
     var serverChannel: ServerSocketChannel = ServerSocketChannel.open()
-    val selector: Selector = Selector.open()
-    val channels = HashMap<SocketChannel, ByteBuffer>()
+    private val selector: Selector = Selector.open()
+    private val channels = HashMap<SocketChannel, ByteBuffer>()
 
     init {
         serverChannel.bind(InetSocketAddress(port))
@@ -116,11 +113,11 @@ class ServerConnectionHandler(port: Int): Runnable {
 
     private fun write(selectionKey: SelectionKey): Int {
         val channel = selectionKey.channel() as SocketChannel
-        val buffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE)
+        val buffer = channels[channel]
         var responseLength = 0
         var bytesWritten = channel.write(buffer)
         responseLength += bytesWritten
-        while (buffer.hasRemaining()) {
+        while (buffer!!.hasRemaining()) {
             bytesWritten = channel.write(buffer)
             responseLength += bytesWritten
         }

@@ -55,7 +55,10 @@ class ClientApplication: AbstractApplication() {
                         Printer.printError("Неверное количество аргументов команды.")
                     }
                 }
-                listen(requestCreator.requestFromEnteredCommand(enteredCommand))
+                listen(requestCreator.requestFromEnteredCommand(enteredCommand))?.also {
+                    println(it.stringMessage)
+                    it.spaceMarines?.stream()?.forEach{ marine -> Printer.printNewLine(marine.toString()) }
+                }
             }
         }
     }

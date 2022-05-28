@@ -44,3 +44,9 @@ tasks {
         dependsOn(fatJar)
     }
 }
+
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
+    }
+}
