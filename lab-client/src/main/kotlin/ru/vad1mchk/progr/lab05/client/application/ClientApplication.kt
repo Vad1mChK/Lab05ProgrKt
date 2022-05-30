@@ -27,7 +27,6 @@ import kotlin.system.exitProcess
 class ClientApplication: AbstractApplication() {
     private val connectionHandler = ClientConnectionHandler()
     private var commandListener = CommandListener(System.`in`, false, "1337h4x0r")
-    private var isWorking = true
     override var scanner = Scanner(System.`in`)
     private val requestCreator = RequestCreator()
 
@@ -45,27 +44,30 @@ class ClientApplication: AbstractApplication() {
      * Main loop of the program, in which the command requests are sent and responses received.
      */
     private fun mainLoop() {
-        while (isWorking) {
+        while (true) {
             val enteredCommand = commandListener.readCommand()
             if (enteredCommand != null) {
                 if ("exit" == enteredCommand.name.lowercase()) {
                     if (enteredCommand.arguments.isEmpty()) {
                         Printer.printNewLine("Завершение работы.")
-                        isWorking = false
+                        break
                     } else {
                         Printer.printError("Для того чтобы выйти из приложения, введите команду exit без аргументов.")
                     }
-                } else if ("execute_script" == enteredCommand.name.lowercase()) {
-                    if (enteredCommand.arguments.size == 1) {
-                        executeScript(enteredCommand.arguments[0])
-                    } else {
-                        Printer.printError("Неверное количество аргументов команды.")
-                    }
+                } else {
+                    if ("execute_script" == enteredCommand.name.lowercase()) {
+                        if (enteredCommand.arguments.size == 1) {
+                            executeScript(enteredCommand.arguments[0])
+                        } else {
+                            Printer.printError("Неверное количество аргументов команды.")
+                        }
                 }
                 listen(requestCreator.requestFromEnteredCommand(enteredCommand))?.also {
                     println(it.stringMessage)
-                    it.spaceMarines?.stream()?.forEach{ marine -> Printer.printNewLine(marine.toString()) }
+                    it.spaceMarines?.stream()?.forEach { marine -> Printer.printNewLine(marine.toString()) }
                 }
+            }
+
             }
         }
     }
