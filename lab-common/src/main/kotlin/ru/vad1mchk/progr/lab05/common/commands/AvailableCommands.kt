@@ -1,5 +1,8 @@
 package ru.vad1mchk.progr.lab05.common.commands
 
+/**
+ * Class that contains list of available command names grouped in sets by types of the command arguments.
+ */
 object AvailableCommands {
     val COMMANDS_WITHOUT_ARGUMENTS = sortedSetOf<String>(
         "help", "info", "show", "clear", "save", "exit", "execute_script", "history", "print_field_descending_health"
@@ -29,14 +32,19 @@ object AvailableCommands {
         "execute_script"
     )
 
+    /**
+     * Checks if this command name is available.
+     * @param commandName Name of the command to check.
+     * @return `true` if this command is in one of the sets, else `false`.
+     */
     @JvmStatic
     fun isCommandNameAvailable(commandName: String): Boolean {
-        return commandName in COMMANDS_WITHOUT_ARGUMENTS
-                || commandName in COMMANDS_WITH_SPACE_MARINE_ARGUMENT
-                || commandName in COMMANDS_WITH_ID_ARGUMENT
-                || commandName in COMMANDS_WITH_ID_AND_SPACE_MARINE_ARGUMENTS
-                || commandName in COMMANDS_WITH_MELEE_WEAPON_ARGUMENT
-                || commandName in COMMANDS_WITH_HEART_COUNT_ARGUMENT
-                || commandName in COMMANDS_WITH_FILE_NAME_ARGUMENT
+        return commandName in COMMANDS_WITHOUT_ARGUMENTS +
+                COMMANDS_WITH_SPACE_MARINE_ARGUMENT +
+                COMMANDS_WITH_ID_ARGUMENT +
+                COMMANDS_WITH_ID_AND_SPACE_MARINE_ARGUMENTS +
+                COMMANDS_WITH_MELEE_WEAPON_ARGUMENT +
+                COMMANDS_WITH_HEART_COUNT_ARGUMENT +
+                COMMANDS_WITH_FILE_NAME_ARGUMENT
     }
 }

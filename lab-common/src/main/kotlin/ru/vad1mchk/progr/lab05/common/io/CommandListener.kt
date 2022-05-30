@@ -6,24 +6,31 @@ import java.nio.charset.Charset
 import java.util.Scanner
 import kotlin.system.exitProcess
 
+/**
+ * Command listener that accepts commands in interactive mode and creates instances of [EnteredCommand] to store
+ * command name and arguments temporarily.
+ * @property isServer If this command listener is on the server's side.
+ * @property userName Username of the caller.
+ * @property isEchoOn If the input invitation should be displayed.
+ * @constructor Constructs a new command listener that listens to the specified input stream.
+ * @param input Input stream to use the scanner for.
+ */
 class CommandListener(
     input: InputStream,
-    isServer: Boolean = false,
-    userName: String = "JohnDoe",
-    isEchoOn: Boolean = true
+    private val isServer: Boolean = false,
+    private val userName: String = "JohnDoe",
+    private val isEchoOn: Boolean = true
 ) {
     private val scanner: Scanner
-    private val isServer: Boolean
-    private val userName: String
-    private val isEchoOn: Boolean
 
     init {
         scanner = Scanner(input)
-        this.isServer = isServer
-        this.userName = userName
-        this.isEchoOn = isEchoOn
     }
 
+    /**
+     * Reads the command from the user input.
+     * @return The entered command wrapper.
+     */
     fun readCommand(): EnteredCommand? {
         if (isEchoOn) Printer.inviteInput(isServer, userName)
         try {
@@ -32,9 +39,5 @@ class CommandListener(
         } catch (e: NoSuchElementException) {
             exitProcess(0)
         }
-    }
-
-    fun hasNext(): Boolean {
-        return scanner.hasNext()
     }
 }

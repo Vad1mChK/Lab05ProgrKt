@@ -6,17 +6,19 @@ import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.exceptions.InvalidDataException
 import ru.vad1mchk.progr.lab05.common.util.BooleanParser
-import java.nio.charset.Charset
 import java.time.LocalDate
 import java.util.Scanner
 import kotlin.system.exitProcess
 
 /**
- * Class to read data about a new instance of [SpaceMarine] interactively.
+ * Class to read data about a new instance of [SpaceMarine] interactively or from file.
  */
 class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
-    private var currentSpaceMarine: SpaceMarine? = null
 
+    /**
+     * Reads the name of the space marine, looping until the name is not blank nor empty.
+     * @return The name of the space marine.
+     */
     private fun readName(): String {
         while (true) {
             Printer.printNewLine("Введите имя космодесантника:")
@@ -30,6 +32,10 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads the X coordinate of the space marine, looping until the coordinate is a valid integer within bounds.
+     * @return The X coordinate of the space marine.
+     */
     private fun readCoordinatesX(): Int {
         while (true) {
             Printer.printNewLine("Введите координату X (целое число больше ${Coordinates.MIN_X}):")
@@ -47,6 +53,10 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads the Y coordinate of the space marine, looping until the coordinate is a valid float.
+     * @return The Y coordinate of the space marine.
+     */
     private fun readCoordinatesY(): Float {
         while (true) {
             Printer.printNewLine("Введите координату Y (конечное вещественное число):")
@@ -64,10 +74,18 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads the coordinates of the space marine.
+     * @return The coordinates of the space marine.
+     */
     fun readCoordinates(): Coordinates {
         return Coordinates(readCoordinatesX(), readCoordinatesY())
     }
 
+    /**
+     * Reads the health of the space marine, looping until the health is a valid positive double.
+     * @return The health of the space marine.
+     */
     private fun readHealth(): Double {
         while (true) {
             Printer.printNewLine("Введите здоровье (положительное конечное вещественное число):")
@@ -85,6 +103,10 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads the heart count of the space marine, looping until the heart count is a valid long within bounds.
+     * @return The heart count of the space marine.
+     */
     private fun readHeartCount(): Long {
         while (true) {
             Printer.printNewLine("Введите количество сердец (целое число от ${
@@ -106,6 +128,10 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads if the space marine is loyal, looping until the value is a valid boolean.
+     * @return If the space marine is loyal.
+     */
     private fun readLoyal(): Boolean {
         while (true) {
             Printer.printNewLine("Введите, лоялен ли десантник (логическое значение из {true, false}):")
@@ -117,6 +143,11 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads the melee weapon of the space marine, looping until the value is a valid [MeleeWeapon] enum constant or
+     * empty (in the latter case, `null` will be returned).
+     * @return The melee weapon of the space marine, if any.
+     */
     private fun readMeleeWeapon(): MeleeWeapon? {
         while (true) {
             Printer.printNewLine("Введите тип оружия ближнего боя (из ${
@@ -132,16 +163,28 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads the name of the chapter. If it is empty, the whole chapter is null.
+     * @return The name of the chapter.
+     */
     private fun readChapterName(): String {
         Printer.printNewLine("Введите имя главы (оставьте пустым, если глава не указана):")
         return scanner.nextLine()
     }
 
+    /**
+     * Reads the parent legion of the chapter. If it is empty, the parent legion is null.
+     * @return The parent legion of the chapter.
+     */
     private fun readChapterParentLegion(): String {
         Printer.printNewLine("Введите родительский легион главы (оставьте пустым, если он не указан):")
         return scanner.nextLine()
     }
 
+    /**
+     * Reads the marines count of the chapter, looping until the value is a valid integer.
+     * @return The marines count of the chapter.
+     */
     private fun readChapterMarinesCount(): Int {
         while (true) {
             Printer.printNewLine("Введите количество космодесантников (целое число от ${
@@ -163,6 +206,11 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Reads the chapter of the space marine, returning `null` if the name is empty and treating parent legion
+     * value as `null` if an empty or blank parent legion was entered.
+     * @return The chapter.
+     */
     private fun readChapter(): Chapter? {
         return Chapter(
             readChapterName().also { it.ifBlank { return null } },
@@ -171,6 +219,10 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         )
     }
 
+    /**
+     * Reads the space marine from the user input or file.
+     * @return The space marine entered.
+     */
     fun readMarine(): SpaceMarine {
         try {
             return SpaceMarine(
@@ -183,7 +235,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
                 readLoyal(),
                 readMeleeWeapon(),
                 readChapter()
-            ).also { currentSpaceMarine = it }
+            )
         } catch (e: NoSuchElementException) {
             exitProcess(0)
         }

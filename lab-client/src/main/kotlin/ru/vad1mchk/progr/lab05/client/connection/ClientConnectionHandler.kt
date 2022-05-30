@@ -12,7 +12,9 @@ import java.net.InetAddress
 import java.net.Socket
 import java.nio.ByteBuffer
 
-
+/**
+ * Class that is responsible for maintaining client's connection to the server.
+ */
 class ClientConnectionHandler {
     companion object {
         private const val RESPONSE_TIMEOUT = 10000
@@ -25,6 +27,11 @@ class ClientConnectionHandler {
     var isOpen = false
         private set
 
+    /**
+     * Opens the connection to the server via socket with specified address and port.
+     * @param address IP address to use.
+     * @param port Port to use.
+     */
     fun openConnection(address: InetAddress, port: Int) {
         while (true) {
             try {
@@ -45,10 +52,17 @@ class ClientConnectionHandler {
         }
     }
 
+    /**
+     * Reopens the connection if it was closed. Uses the same port and address.
+     */
     fun reopenConnection() {
         openConnection(lastAddress, lastPort)
     }
 
+    /**
+     * Sends this request to the server.
+     * @param request Request to send.
+     */
     fun send(request: Request) {
         val bytes = Serializer.serialize(request)
         if (bytes != null) {
@@ -57,6 +71,11 @@ class ClientConnectionHandler {
         }
     }
 
+    /**
+     * Receives this response from the server.
+     * @param bufferSize Size of buffer to use.
+     * @return The received response.
+     */
     fun receive(bufferSize: Int): Response? {
         val bytesToDeserialize = ByteArray(bufferSize)
         val bufferedInputStream = BufferedInputStream(inputStream)
@@ -64,6 +83,9 @@ class ClientConnectionHandler {
         return Serializer.deserialize(bytesToDeserialize) as Response?
     }
 
+    /**
+     * Closes this connection. It can be reopened later by calling [reopenConnection].
+     */
     fun close() {
         inputStream.close()
         outputStream.close()

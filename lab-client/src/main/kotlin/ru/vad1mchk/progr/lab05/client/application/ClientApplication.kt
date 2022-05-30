@@ -15,11 +15,15 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.net.InetAddress
 import java.net.SocketException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.*
 import kotlin.NoSuchElementException
 import kotlin.system.exitProcess
 
+/**
+ * Implementation of [AbstractApplication] used solely by client.
+ */
 class ClientApplication: AbstractApplication() {
     private val connectionHandler = ClientConnectionHandler()
     private var commandListener = CommandListener(System.`in`, false, "1337h4x0r")
@@ -37,6 +41,9 @@ class ClientApplication: AbstractApplication() {
         mainLoop()
     }
 
+    /**
+     * Main loop of the program, in which the command requests are sent and responses received.
+     */
     private fun mainLoop() {
         while (isWorking) {
             val enteredCommand = commandListener.readCommand()
@@ -44,7 +51,7 @@ class ClientApplication: AbstractApplication() {
                 if ("exit" == enteredCommand.name.lowercase()) {
                     if (enteredCommand.arguments.isEmpty()) {
                         Printer.printNewLine("Завершение работы.")
-                        exitProcess(0)
+                        isWorking = false
                     } else {
                         Printer.printError("Для того чтобы выйти из приложения, введите команду exit без аргументов.")
                     }
@@ -63,6 +70,11 @@ class ClientApplication: AbstractApplication() {
         }
     }
 
+    /**
+     * Reads IP address of the server from the standard input, looping until a valid address that can be found is
+     * entered.
+     * @return The entered IP address.
+     */
     private fun readInetAddress(): InetAddress {
         while (true) {
             Printer.printNewLine("Введите IP-адрес сервера: ")
@@ -76,6 +88,11 @@ class ClientApplication: AbstractApplication() {
         }
     }
 
+    /**
+     * Listens to the connection, receiving incoming responses from the server.
+     * @param request Request to send.
+     * @return The server's response to the sent request.
+     */
     private fun listen(request: Request?): Response? {
         if (!connectionHandler.isOpen) {
             connectionHandler.reopenConnection()
@@ -84,20 +101,27 @@ class ClientApplication: AbstractApplication() {
             try {
                 if (request != null) connectionHandler.send(request)
                 return connectionHandler.receive(connectionHandler.socket.receiveBufferSize)
+            } catch (e: SocketTimeoutException) {
+                Printer.printError("Время ожидания ответа от сервера истекло.")
+            } catch (e: SocketException) {
+                Printer.printError("Соединение с сервером было разорвано.")
+                connectionHandler.close()
             } catch (e: IOException) {
-                e.printStackTrace()
+                Printer.printError("Во время обмена информацией с сервером произошла ошибка ввода-вывода.")
                 connectionHandler.close()
             }
         }
         return null
     }
 
+    /**
+     * Executes the specified script file, sending commands to the server one by one.
+     * @param filePath Path of script file to execute.
+     */
     private fun executeScript(filePath: String) {
         try {
             val scriptFileReader = ScriptFileReader(filePath)
-            for (request in scriptFileReader.readAll()) {
-                connectionHandler.send(request)
-            }
+            scriptFileReader.readAll().forEach { connectionHandler.send(it) }
         } catch (e: FileException) {
             Printer.printError(e)
         }

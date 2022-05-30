@@ -7,13 +7,18 @@ import ru.vad1mchk.progr.lab05.common.io.Printer
 import ru.vad1mchk.progr.lab05.common.io.SpaceMarineDataReader
 import java.util.Scanner
 
-class RequestCreator(scanner: Scanner = Scanner(System.`in`)) {
-    val scanner: Scanner
-
-    init {
-        this.scanner = scanner
-    }
-
+/**
+ * Class that creates requests from entered commands. Determines which types of arguments the command uses and
+ * uses a scanner to enter data types that are neither standard nor enum constants.
+ *
+ * @property scanner Scanner to use.
+ */
+class RequestCreator(private val scanner: Scanner = Scanner(System.`in`)) {
+    /**
+     * Creates a request from the entered command, inferring its arguments types from the name
+     * @param enteredCommand Entered command to create the request from.
+     * @return The request if it was successfully created, else `null`.
+     */
     fun requestFromEnteredCommand(enteredCommand: EnteredCommand): Request? {
         return if (
             AvailableCommands.COMMANDS_WITHOUT_ARGUMENTS.contains(enteredCommand.name)
@@ -58,10 +63,21 @@ class RequestCreator(scanner: Scanner = Scanner(System.`in`)) {
         }
     }
 
+    /**
+     * Creates a request that takes an instance of [SpaceMarine] as an argument, reading the info about the space marine
+     * separately using [SpaceMarineDataReader].
+     * @param enteredCommand Entered command to create the request from.
+     * @return A new request that has a non-null space marine argument.
+     */
     private fun spaceMarineRequest(enteredCommand: EnteredCommand): Request {
         return Request(enteredCommand.name, SpaceMarineDataReader(scanner).readMarine())
     }
 
+    /**
+     * Creates a request that takes a [Int] number as an ID argument.
+     * @param enteredCommand Entered command to create the request from.
+     * @return A new request that has a non-null ID argument.
+     */
     private fun idRequest(enteredCommand: EnteredCommand): Request? {
         val id = try {
             enteredCommand.arguments[0].toInt()
@@ -72,6 +88,12 @@ class RequestCreator(scanner: Scanner = Scanner(System.`in`)) {
         return Request(enteredCommand.name, idArgument = id)
     }
 
+    /**
+     * Creates a request that takes a [SpaceMarine] and an [Int] as arguments, reading the info about the former
+     * separately using [SpaceMarineDataReader].
+     * @param enteredCommand Entered command to create the request from.
+     * @return A new request that has non-null space marine and ID arguments.
+     */
     private fun idAndSpaceMarineRequest(enteredCommand: EnteredCommand): Request? {
         val id = try {
             enteredCommand.arguments[0].toInt()
@@ -82,6 +104,11 @@ class RequestCreator(scanner: Scanner = Scanner(System.`in`)) {
         return Request(enteredCommand.name, SpaceMarineDataReader(scanner).readMarine(), id)
     }
 
+    /**
+     * Creates a request that takes a [MeleeWeapon] as argument.
+     * @param enteredCommand Entered command to create the request from.
+     * @return A new request that has a non-null melee weapon argument.
+     */
     private fun meleeWeaponRequest(enteredCommand: EnteredCommand): Request? {
         val meleeWeapon = try {
             MeleeWeapon.valueOf(enteredCommand.arguments[0])
@@ -94,6 +121,11 @@ class RequestCreator(scanner: Scanner = Scanner(System.`in`)) {
         return Request(enteredCommand.name, meleeWeaponArgument = meleeWeapon)
     }
 
+    /**
+     * Creates a request that takes a [Long] number as hart count argument.
+     * @param enteredCommand Entered command to create the request from.
+     * @return A new request that has a non-null melee weapon argument.
+     */
     private fun heartCountRequest(enteredCommand: EnteredCommand): Request? {
         val heartCount = try {
             enteredCommand.arguments[0].toLong()

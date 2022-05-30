@@ -12,6 +12,9 @@ import java.io.FileInputStream
 import java.util.*
 import kotlin.system.exitProcess
 
+/**
+ * An additional thread that listens for the terminal input on the server's side.
+ */
 class TerminalListenerThread: Thread() {
     var commandListener = CommandListener(
         System.`in`,
@@ -42,6 +45,10 @@ class TerminalListenerThread: Thread() {
         }
     }
 
+    /**
+     * Executes the specified request using the command invoker.
+     * @param request Request to execute.
+     */
     private fun executeRequest(request: Request?) {
         if (request != null) {
             request.isServerRequest = true
@@ -51,6 +58,10 @@ class TerminalListenerThread: Thread() {
         }
     }
 
+    /**
+     * Executes the specified script file's commands one by one.
+     * @param filePath Path of script file to execute.
+     */
     private fun executeScript(filePath: String) {
         try {
             val scriptFileReader = ScriptFileReader(filePath)

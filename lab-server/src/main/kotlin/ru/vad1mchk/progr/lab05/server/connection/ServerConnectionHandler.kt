@@ -14,6 +14,11 @@ import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 
+/**
+ * Class that is responsible for maintaining server's connection with the clients.
+ * @constructor Constructs a new [ServerConnectionHandler] with the specified port number.
+ * @param port Port number of the server.
+ */
 class ServerConnectionHandler(port: Int): Runnable {
     companion object {
         const val SELECTION_DELAY = 1000L
@@ -42,6 +47,9 @@ class ServerConnectionHandler(port: Int): Runnable {
         }
     }
 
+    /**
+     * Closes the server's connection to the clients.
+     */
     fun close() {
         try {
             selector.close()
@@ -51,6 +59,9 @@ class ServerConnectionHandler(port: Int): Runnable {
         }
     }
 
+    /**
+     * Listens to the channels, accepting, reading or writing them.
+     */
     fun listen() {
         while (Configuration.isWorking) {
             var selectionKey: SelectionKey? = null
@@ -63,7 +74,7 @@ class ServerConnectionHandler(port: Int): Runnable {
                         selectedKeys.remove()
                         if (selectionKey.isValid) {
                             if (selectionKey.isAcceptable) {
-                                accept(selectionKey)
+                                accept()
                             } else if (selectionKey.isReadable) {
                                 read(selectionKey)
                             } else if (selectionKey.isWritable) {
@@ -80,7 +91,11 @@ class ServerConnectionHandler(port: Int): Runnable {
         }
     }
 
-    private fun accept(selectionKey: SelectionKey): SocketAddress {
+    /**
+     * Accepts a connection made to the server channel's socket.
+     * @return The remote address to which the accepted channel's socket is connected.
+     */
+    private fun accept(): SocketAddress {
         val channel = serverChannel.accept()
         val address = channel.remoteAddress
         channel.configureBlocking(false)
@@ -89,13 +104,18 @@ class ServerConnectionHandler(port: Int): Runnable {
         return address
     }
 
-    private fun read(selectionKey: SelectionKey): Request? {
+    /**
+     * Reads from this key's channel. If a request was passed via the channel, deserializes and immediately executes it.
+     * The response is then written to the
+     * @param selectionKey Selection key created for the channel.
+     */
+    private fun read(selectionKey: SelectionKey) {
         val channel = selectionKey.channel() as SocketChannel
         val buffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE)
-        var bytesRead = channel.read(buffer)
+        val bytesRead = channel.read(buffer)
         if (bytesRead == -1) {
             kill(channel)
-            return null
+            return
         }
         val newBuffer = ByteBuffer.allocate(channels[channel]!!.capacity() + bytesRead)
         newBuffer.put(channels[channel]!!.array())
@@ -108,9 +128,13 @@ class ServerConnectionHandler(port: Int): Runnable {
             )
             channel.register(selector, SelectionKey.OP_WRITE)
         }
-        return request
     }
 
+    /**
+     * Writes the response to this channel from the buffer associated with it.
+     * @param selectionKey Selection key created for the channel.
+     * @return Count of bytes written.
+     */
     private fun write(selectionKey: SelectionKey): Int {
         val channel = selectionKey.channel() as SocketChannel
         val buffer = channels[channel]
@@ -126,6 +150,11 @@ class ServerConnectionHandler(port: Int): Runnable {
         return responseLength
     }
 
+    /**
+     * Removes this channel from available channels and closes it, returning its address.
+     * @param socketChannel Channel to kill.
+     * @return The killed channel's address.
+     */
     private fun kill(socketChannel: SocketChannel): SocketAddress {
         val address = socketChannel.remoteAddress
         channels.remove(socketChannel)

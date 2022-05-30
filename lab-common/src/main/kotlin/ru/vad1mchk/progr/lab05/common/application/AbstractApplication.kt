@@ -18,15 +18,23 @@ abstract class AbstractApplication {
 
     protected abstract var scanner: Scanner
 
+    /**
+     * Launches the application using the specified arguments.
+     * @param args Arguments of the application, usually passed from the main entry point.
+     */
     abstract fun launch(args: Array<String>)
 
+    /**
+     * Reads the port number from the standard input. Loops until a valid port number is entered.
+     * @return The entered port number.
+     */
     protected fun readPort(): Int {
         var port: Int
         while (true) {
             Printer.printNewLine("Введите номер порта: ")
             try {
                 port = scanner.nextInt()
-                if (port > MAX_PORT || port < MIN_PORT) {
+                if (port !in MIN_PORT..MAX_PORT) {
                     throw NumberFormatException()
                 }
                 break
