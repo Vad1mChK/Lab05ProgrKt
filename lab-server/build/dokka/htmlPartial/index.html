@@ -1,0 +1,177 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>lab-server</title>
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <link href="###images/logo-icon.svg" rel="icon" type="image/svg">
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <script>var pathToRoot = "###";</script>
+    </dokka-template-command>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <script type="text/javascript" src="###scripts/sourceset_dependencies.js" async="async"></script>
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <link href="###styles/style.css" rel="Stylesheet">
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <link href="###styles/jetbrains-mono.css" rel="Stylesheet">
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <link href="###styles/main.css" rel="Stylesheet">
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <link href="###styles/prism.css" rel="Stylesheet">
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <link href="###styles/logo-styles.css" rel="Stylesheet">
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <script type="text/javascript" src="###scripts/clipboard.js" async="async"></script>
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <script type="text/javascript" src="###scripts/navigation-loader.js" async="async"></script>
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <script type="text/javascript" src="###scripts/platform-content-handler.js" async="async"></script>
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <script type="text/javascript" src="###scripts/main.js" defer="defer"></script>
+    </dokka-template-command><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}">
+      <script type="text/javascript" src="###scripts/prism.js" async="async"></script>
+    </dokka-template-command></head>
+  <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.PathToRootSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;###&quot;,&quot;default&quot;:&quot;&quot;}"><a href="###index.html"><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ProjectNameSubstitutionCommand&quot;,&quot;pattern&quot;:&quot;@@@&quot;,&quot;default&quot;:&quot;lab-server&quot;}"><span>@@@</span></dokka-template-command></a></dokka-template-command></div>
+      <div><dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;index.html&quot;}"></dokka-template-command></div>
+      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
+    <div id="container">
+      <div id="leftColumn">
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div class="main-content" id="content" pageIds="lab-server::////PointingToDeclaration//-1158473563">
+          <div class="breadcrumbs"></div>
+          <div class="cover ">
+            <h1 class="cover"><span><span>lab-server</span></span></h1>
+          </div>
+          <h2 class="">Packages</h2>
+          <div class="table"><a data-name="-542166295%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server" id="-542166295%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server/index.html">ru.vad1mchk.progr.lab05.server</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-542166295%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+<a data-name="-313358773%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server.application" id="-313358773%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server.application/index.html">ru.vad1mchk.progr.lab05.server.application</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-313358773%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+<a data-name="1166023%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server.collection" id="1166023%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server.collection/index.html">ru.vad1mchk.progr.lab05.server.collection</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1166023%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+<a data-name="-1518442893%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server.commander" id="-1518442893%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server.commander/index.html">ru.vad1mchk.progr.lab05.server.commander</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1518442893%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+<a data-name="1291992049%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server.commands" id="1291992049%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server.commands/index.html">ru.vad1mchk.progr.lab05.server.commands</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1291992049%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+<a data-name="1979763463%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server.connection" id="1979763463%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server.connection/index.html">ru.vad1mchk.progr.lab05.server.connection</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1979763463%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+<a data-name="1835340929%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server.csv" id="1835340929%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server.csv/index.html">ru.vad1mchk.progr.lab05.server.csv</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1835340929%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+<a data-name="1607809131%2FPackages%2F-1158473563" anchor-label="ru.vad1mchk.progr.lab05.server.util" id="1607809131%2FPackages%2F-1158473563" data-filterable-set=":lab-server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":lab-server:dokkaHtmlPartial/main" data-filterable-set=":lab-server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="ru.vad1mchk.progr.lab05.server.util/index.html">ru.vad1mchk.progr.lab05.server.util</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1607809131%2FPackages%2F-1158473563"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+
