@@ -1,3 +1,3 @@
 # Module `lab-common`
 
-This module is used by both the client and the server. Contains abstractions, utilities and tools for communication.
+This module contains abstractions, entities and other classes used by both the client and the server.

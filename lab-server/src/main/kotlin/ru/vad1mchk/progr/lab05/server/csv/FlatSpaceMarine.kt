@@ -8,6 +8,24 @@ import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.exceptions.InvalidDataException
 import java.time.LocalDate
 
+/**
+ * Data class representing a "flattened" version of [SpaceMarine] suitable for CSV serialization / deserialization.
+ * @property id Unique ID of this space marine, generated automatically.
+ * @property name Name of the space marine.
+ * @property coordinatesX X coordinate of the space marine.
+ * @property compareValues Y coordinate of this space marine.
+ * @property creationDate Creation date of this space marine,
+ *     automatically generated.
+ * @property health Health of this space marine.
+ * @property heartCount Heart count of this space marine.
+ * @property loyal Whether the space marine is loyal.
+ * @property meleeWeapon Melee weapon of this space marine (might be
+ *     null).
+ * @property chapterName Name of the chapter.
+ * @property chapterParentLegion Name of the parent legion (might be null).
+ * @property chapterMarinesCount Count of the space marines appearing in this
+ *     chapter.
+ */
 data class FlatSpaceMarine(
     @JsonProperty("id") val id: Int,
     @JsonProperty("name") val name: String,

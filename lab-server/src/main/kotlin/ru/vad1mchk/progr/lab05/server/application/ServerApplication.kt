@@ -15,6 +15,9 @@ import java.util.*
 import kotlin.NoSuchElementException
 import kotlin.system.exitProcess
 
+/**
+ * Implementation of [AbstractApplication] used solely by the server.
+ */
 class ServerApplication: AbstractApplication() {
     lateinit var connectionHandler: ServerConnectionHandler
     val terminalListenerThread = TerminalListenerThread()
@@ -33,6 +36,17 @@ class ServerApplication: AbstractApplication() {
         }
     }
 
+    /**
+     * Obtains the collection file.
+     *
+     * If it was specified in the program arguments, attemps to open the file.
+     *
+     * If the collection file cannot be accessed, asks for the user to re-enter the file path.
+     *
+     * If the collection file can accessed but contains corrupted data, opens the file but loads no elements so that
+     * they will be lost when saving.
+     * @param args Arguments of the application.
+     */
     private fun pickFile(args: Array<String>) {
         Configuration.collectionFilePath = when(args.size) {
             0 -> {
@@ -43,7 +57,7 @@ class ServerApplication: AbstractApplication() {
                 try {
                     FileManager(args[0]).setCheckReadable(true).setCheckWritable(true).open()
                     args[0]
-                } catch (e: FileCannotOpenException) {
+                } catch (e: FileException) {
                     Printer.printError(e)
                     readFileName()
                 }
@@ -62,6 +76,10 @@ class ServerApplication: AbstractApplication() {
         }
     }
 
+    /**
+     * Reads the file name from the user input and tries to open it, looping until the file by this path is accessible.
+     * @return The file name.
+     */
     private fun readFileName(): String {
         while (true) {
             Printer.printNoNewLine("Введите путь к файлу коллекции: ")

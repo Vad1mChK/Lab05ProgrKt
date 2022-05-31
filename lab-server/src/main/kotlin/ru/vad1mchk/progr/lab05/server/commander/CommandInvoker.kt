@@ -7,6 +7,9 @@ import ru.vad1mchk.progr.lab05.common.io.Printer
 import ru.vad1mchk.progr.lab05.server.commands.*
 import java.util.*
 
+/**
+ * Class that is responsible for executing the requests obtained from both the client and the server.
+ */
 class CommandInvoker {
     companion object {
         const val HISTORY_CAPACITY = 12
@@ -35,6 +38,11 @@ class CommandInvoker {
         )) commandMap[command.name] = command
     }
 
+    /**
+     * Executes the specified request, invoking a command on it, and returns a response.
+     * @param request Request to execute.
+     * @return Response that is the result of the command invocation.
+     */
     fun executeRequest(request: Request): Response? {
         val commandName = request.commandName.lowercase()
         return if (commandMap.containsKey(commandName)) {
@@ -54,7 +62,11 @@ class CommandInvoker {
         }
     }
 
-    fun addToHistory(commandName: String) {
+    /**
+     * Adds this command's name to the command history.
+     * @param commandName Command name to add.
+     */
+    private fun addToHistory(commandName: String) {
         if (commandHistory.size == HISTORY_CAPACITY) {
             commandHistory.removeLast()
         }

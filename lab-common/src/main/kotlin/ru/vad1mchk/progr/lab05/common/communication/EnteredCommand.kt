@@ -3,8 +3,7 @@ package ru.vad1mchk.progr.lab05.common.communication
 import ru.vad1mchk.progr.lab05.common.util.Varargparse
 
 /**
- * Class to temporarily store the command and its arguments before
- * creating a request.
+ * Class to temporarily store the command and its string arguments before creating a request.
  *
  * @property name Name of the command.
  * @property arguments Arguments of the command.

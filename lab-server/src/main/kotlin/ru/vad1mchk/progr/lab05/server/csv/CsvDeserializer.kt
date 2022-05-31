@@ -53,6 +53,9 @@ class CsvDeserializer(filePath: String) {
         objectReader = csvMapper.readerFor(FlatSpaceMarine::class.java).with(csvSchema)
     }
 
+    /**
+     * Reads all the objects from the collection file and fills the collection manager.
+     */
     fun readAll() {
         val sequenceReader = objectReader.readValues<FlatSpaceMarine>(file)
         sequenceReader

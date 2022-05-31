@@ -27,9 +27,3 @@ tasks.getByName<Test>("test") {
 tasks.withType<org.gradle.jvm.tasks.Jar> {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-    }
-}

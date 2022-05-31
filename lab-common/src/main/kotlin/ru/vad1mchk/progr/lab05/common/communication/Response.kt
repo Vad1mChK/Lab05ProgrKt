@@ -4,6 +4,11 @@ import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import java.io.Serializable
 import java.util.LinkedList
 
+/**
+ * Data class representing a response that is returned after command execution.
+ * @property stringMessage Message to print.
+ * @property spaceMarines List of space marines to return, if any.
+ */
 data class Response(
     val stringMessage: String,
     val spaceMarines: LinkedList<SpaceMarine>? = null

@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -31,17 +32,19 @@ buildscript {
     }
 }
 
+tasks.dokkaHtmlMultiModule.configure {
+    outputDirectory.set(buildDir.resolve("documentation"))
+    includes.from("README.md", "module.md")
+}
+
+tasks.withType<DokkaTask>().configureEach {
+
+}
+
 subprojects {
     plugins.apply("org.jetbrains.dokka")
 }
 
-tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("dokka"))
-}
-
-tasks.dokkaHtmlMultiModule.configure {
-    outputDirectory.set(buildDir.resolve("dokkaCustomMultiModuleOutput"))
-}
 
 dependencies {
     api(
