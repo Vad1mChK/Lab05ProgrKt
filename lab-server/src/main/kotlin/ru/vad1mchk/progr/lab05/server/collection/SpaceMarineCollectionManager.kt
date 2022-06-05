@@ -20,7 +20,7 @@ class SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
         const val MIN_ID = 1
     }
 
-    private val collection = LinkedList<SpaceMarine>()
+    private val collection = Collections.synchronizedList(LinkedList<SpaceMarine>())
     private val uniqueIds = HashSet<Int>()
     private val initializationDate = LocalDate.now()
     private val randomGenerator = SecureRandom()
@@ -101,7 +101,7 @@ class SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
     }
 
     override fun collection(): LinkedList<SpaceMarine> {
-        return collection
+        return collection as LinkedList<SpaceMarine>
     }
 
     override fun info(): String {
