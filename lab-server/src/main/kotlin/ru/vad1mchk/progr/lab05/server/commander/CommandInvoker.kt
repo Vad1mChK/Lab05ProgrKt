@@ -44,7 +44,8 @@ class CommandInvoker(
             HistoryCommand(commandHistory),
             FilterGreaterThanHeartCountCommand(collectionManager),
             FilterLessThanMeleeWeaponCommand(collectionManager),
-            PrintFieldDescendingHealthCommand(collectionManager)
+            PrintFieldDescendingHealthCommand(collectionManager),
+            GetByIdentifierCommand(collectionManager, printer)
         )) commandMap[command.name] = command
     }
 
@@ -53,7 +54,6 @@ class CommandInvoker(
      * @param request Request to execute.
      * @return Response that is the result of the command invocation.
      */
-    @Synchronized
     fun executeRequest(request: Request): Response? {
         val commandName = request.commandName.lowercase()
         return if (commandMap.containsKey(commandName)) {

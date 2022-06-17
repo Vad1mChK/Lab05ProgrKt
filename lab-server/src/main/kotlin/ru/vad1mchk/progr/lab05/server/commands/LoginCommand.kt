@@ -18,7 +18,7 @@ class LoginCommand(
     override fun invoke(request: Request): Response? {
         val user = request.user!!
         return try {
-            negotiator.checkUser(user)
+            user.id = negotiator.checkUser(user)
             Response("Вы успешно вошли в приложение.", user = user)
         } catch (e: DatabaseException) {
             Response(printer.formatError(e))

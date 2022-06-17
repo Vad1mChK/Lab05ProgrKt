@@ -9,6 +9,7 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.SocketAddress
 import java.nio.ByteBuffer
+import java.nio.channels.ClosedChannelException
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
@@ -46,15 +47,22 @@ class ServerConnectionHandler(
     }
 
     fun run() {
-        try {
-            serverChannel.apply {
-                configureBlocking(false)
-                register(selector, SelectionKey.OP_ACCEPT)
+        while (true) {
+            try {
+                serverChannel.apply {
+                    configureBlocking(false)
+                    register(selector, SelectionKey.OP_ACCEPT)
+                }
+                listen()
+            } catch(_: ClosedChannelException) {
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+                printer.printNewLine("Во время работы сервера произошла ошибка ввода-вывода.")
+                printer.printNewLine("Закрытие сервера...")
+                close()
+                break
             }
-            listen()
-        } catch (e: IOException) {
-            printer.printNewLine("Во время работы сервера произошла ошибка ввода-вывода.")
-            printer.printNewLine("Закрытие сервера...")
         }
     }
 

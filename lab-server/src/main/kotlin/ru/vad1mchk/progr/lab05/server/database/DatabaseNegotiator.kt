@@ -26,7 +26,7 @@ class DatabaseNegotiator(
             } catch (e: SQLException) {
                 e.printStackTrace()
                 throw DatabaseException(
-                    "Не удалось добавить пользователя: пользователем с таким именем уже существует.",
+                    "Не удалось добавить пользователя.",
                     e
                 )
             } finally {
@@ -36,15 +36,16 @@ class DatabaseNegotiator(
     }
 
     @Synchronized
-    fun checkUser(user: User) {
+    fun checkUser(user: User): Int {
         connector.connect().use { connection ->
             try {
                 val statement = connection.prepareStatement(DatabaseQuery.SELECT_USER.query)
                 statement.apply {
                     setString(1, user.userName)
                     setString(2, passwordHasher.hash(user.password))
-                    statement.executeQuery().next().also {
-                        if (!it) throw DatabaseException("Пользователь не существует или пароль введён неверно.")
+                    statement.executeQuery().also {
+                        if (!it.next()) throw DatabaseException("Пользователь не существует или пароль введён неверно.")
+                        return it.getInt("id")
                     }
                 }
             } catch (e: SQLException) {

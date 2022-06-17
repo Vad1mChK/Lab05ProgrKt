@@ -8,7 +8,7 @@ import ru.vad1mchk.progr.lab05.common.exceptions.CollectionException
 import ru.vad1mchk.progr.lab05.common.io.Printer
 import java.util.*
 
-class GetByIdCommand(
+class GetByIdentifierCommand(
     val collectionManager: CollectionManager<SpaceMarine>,
     val printer: Printer
 ): AbstractCommand(
