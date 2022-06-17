@@ -15,7 +15,7 @@ class RequestReceiver(
     private val channelStates: MutableMap<SocketChannel, ChannelState>
 ) {
     private companion object {
-        const val DEFAULT_BUFFER_SIZE = 1024
+        const val DEFAULT_BUFFER_SIZE = 4096
     }
 
     private val serializer = Serializer()

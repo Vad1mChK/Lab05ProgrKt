@@ -29,7 +29,6 @@ class ServerConnectionHandler(
 ) {
     companion object {
         const val SELECTION_DELAY = 1000L
-        const val DEFAULT_BUFFER_SIZE = 1024
     }
 
     private var serverChannel: ServerSocketChannel = ServerSocketChannel.open()

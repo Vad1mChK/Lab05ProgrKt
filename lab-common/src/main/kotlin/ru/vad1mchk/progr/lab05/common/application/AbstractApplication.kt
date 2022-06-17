@@ -29,7 +29,7 @@ abstract class AbstractApplication {
     protected fun readPort(): Int {
         var port: Int
         while (true) {
-            printer.printNewLine("Введите номер порта: ")
+            printer.printNoNewLine("Введите номер порта: ")
             try {
                 port = console.readLine().toInt()
                 if (port !in MIN_PORT..MAX_PORT) {

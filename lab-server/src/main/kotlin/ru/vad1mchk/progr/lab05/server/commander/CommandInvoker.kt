@@ -53,6 +53,7 @@ class CommandInvoker(
      * @param request Request to execute.
      * @return Response that is the result of the command invocation.
      */
+    @Synchronized
     fun executeRequest(request: Request): Response? {
         val commandName = request.commandName.lowercase()
         return if (commandMap.containsKey(commandName)) {

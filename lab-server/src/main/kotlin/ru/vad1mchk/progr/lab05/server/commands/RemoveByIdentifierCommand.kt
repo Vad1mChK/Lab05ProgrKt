@@ -20,9 +20,8 @@ class RemoveByIdentifierCommand(
     FOR_SERVER_AND_LOGGED_IN_CLIENT
 ) {
     override fun invoke(request: Request): Response? {
-        println(request)
         request.user?.let {
-            if (collectionManager[request.idArgument!!].creatorName != request.user!!.userName) {
+            if (collectionManager[request.idArgument!!].creatorName != it.userName) {
                 return Response(
                     printer.formatError("Невозможно удалить элемент: он принадлежит другому пользователю.")
                 )

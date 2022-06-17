@@ -91,7 +91,7 @@ class ClientApplication : AbstractApplication() {
      */
     private fun readInetAddress(): InetAddress {
         while (true) {
-            printer.printNewLine("Введите IP-адрес сервера: ")
+            printer.printNoNewLine("Введите IP-адрес сервера: ")
             try {
                 return InetAddress.getByName(console.readLine())
             } catch (e: UnknownHostException) {

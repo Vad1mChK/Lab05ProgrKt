@@ -19,7 +19,6 @@ class AddCommand(
     FOR_SERVER_AND_LOGGED_IN_CLIENT
 ) {
     override fun invoke(request: Request): Response? {
-        println(request)
         return try {
             negotiator.insertSpaceMarine(request.spaceMarineArgument!!, request.user)
             collectionManager.addPreservingID(request.spaceMarineArgument!!)
