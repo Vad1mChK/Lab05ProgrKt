@@ -1,99 +1,103 @@
 package ru.vad1mchk.progr.lab05.server.application
 
-import com.fasterxml.jackson.core.JsonParseException
+import org.postgresql.util.PSQLException
 import ru.vad1mchk.progr.lab05.common.application.AbstractApplication
-import ru.vad1mchk.progr.lab05.common.exceptions.FileCannotOpenException
-import ru.vad1mchk.progr.lab05.common.exceptions.FileException
-import ru.vad1mchk.progr.lab05.common.file.FileManager
+import ru.vad1mchk.progr.lab05.common.exceptions.InvalidDataException
 import ru.vad1mchk.progr.lab05.common.io.Printer
+import ru.vad1mchk.progr.lab05.server.collection.SpaceMarineCollectionManager
+import ru.vad1mchk.progr.lab05.server.commander.CommandInvoker
 import ru.vad1mchk.progr.lab05.server.connection.ServerConnectionHandler
-import ru.vad1mchk.progr.lab05.server.csv.CsvDeserializer
-import ru.vad1mchk.progr.lab05.server.util.Configuration
+import ru.vad1mchk.progr.lab05.server.database.DatabaseConnector
+import ru.vad1mchk.progr.lab05.server.database.DatabaseInitializer
+import ru.vad1mchk.progr.lab05.server.database.DatabaseNegotiator
+import ru.vad1mchk.progr.lab05.server.security.Sha1PasswordHasher
 import ru.vad1mchk.progr.lab05.server.util.TerminalListenerThread
+import java.io.Console
 import java.io.IOException
-import java.util.*
-import kotlin.NoSuchElementException
-import kotlin.system.exitProcess
 
 /**
  * Implementation of [AbstractApplication] used solely by the server.
  */
-class ServerApplication: AbstractApplication() {
+class ServerApplication : AbstractApplication() {
     lateinit var connectionHandler: ServerConnectionHandler
-    val terminalListenerThread = TerminalListenerThread()
-    override var scanner = Scanner(System.`in`)
+    override var console: Console = System.console()
+    override var printer = Printer()
+    private lateinit var connector: DatabaseConnector
+    private val collectionManager = SpaceMarineCollectionManager()
+    private lateinit var commandInvoker: CommandInvoker
+    private lateinit var negotiator: DatabaseNegotiator
+    private val hasher = Sha1PasswordHasher()
 
     override fun launch(args: Array<String>) {
-        Printer.printNewLine("Сервер менеджера космических десантников приветствует вас.")
-        Printer.printNewLine("Загружается файл коллекции...")
-        pickFile(args)
+        printer.printNewLine("Сервер менеджера космических десантников приветствует вас.")
+        printer.printNewLine("Чтобы войти в базу данных, введите имя хоста, имя базы данных, логин и пароль.")
+        setDatabaseVariables()
+        connector = DatabaseConnector()
+        DatabaseInitializer(connector).initialize()
+        negotiator = DatabaseNegotiator(hasher, connector)
+        negotiator.selectAllSpaceMarines().toCollection(collectionManager.collection())
+        commandInvoker = CommandInvoker(printer, collectionManager, negotiator)
+        printer.printNewLine("Подключение к базе данных установлено.")
         try {
-            connectionHandler = ServerConnectionHandler(readPort())
-            terminalListenerThread.start()
+            connectionHandler = ServerConnectionHandler(readPort(), printer, commandInvoker)
+            TerminalListenerThread(commandInvoker, printer).start()
             connectionHandler.run()
         } catch (e: IOException) {
-            Printer.printError("Во время открытия порта произошла ошибка ввода-вывода. Возможно, порт уже занят.")
+            printer.printError("Во время открытия порта произошла ошибка ввода-вывода. Возможно, порт уже занят.")
         }
     }
 
-    /**
-     * Obtains the collection file.
-     *
-     * If it was specified in the program arguments, attemps to open the file.
-     *
-     * If the collection file cannot be accessed, asks for the user to re-enter the file path.
-     *
-     * If the collection file can accessed but contains corrupted data, opens the file but loads no elements so that
-     * they will be lost when saving.
-     * @param args Arguments of the application.
-     */
-    private fun pickFile(args: Array<String>) {
-        Configuration.collectionFilePath = when(args.size) {
-            0 -> {
-                Printer.printError("Вы не указали путь к файлу коллекции.")
-                readFileName()
-            }
-            1 -> {
-                try {
-                    FileManager(args[0]).setCheckReadable(true).setCheckWritable(true).open()
-                    args[0]
-                } catch (e: FileException) {
-                    Printer.printError(e)
-                    readFileName()
-                }
-            }
-            else -> {
-                Printer.printError("Слишком много аргументов программы.")
-                readFileName()
-            }
-        }
-        try {
-            CsvDeserializer(Configuration.collectionFilePath).readAll()
-            Printer.printNewLine("Файл коллекции ${Configuration.collectionFilePath} загружен.")
-        } catch (e: JsonParseException) {
-            Printer.printError("Данные в файле хранятся в неверном виде. Загружена пустая коллекция, при сохранении" +
-                    " старые элементы будут удалены.")
-        }
+    private fun readDatabaseHostName(): String {
+        val defaultValue = "localhost"
+        printer.printNoNewLine(
+            "Введите имя хоста базы данных (оставьте пустым для значения по умолчанию $defaultValue): "
+        )
+        return console.readLine().ifBlank { defaultValue }
     }
 
-    /**
-     * Reads the file name from the user input and tries to open it, looping until the file by this path is accessible.
-     * @return The file name.
-     */
-    private fun readFileName(): String {
+    private fun readDatabaseName(): String {
         while (true) {
-            Printer.printNoNewLine("Введите путь к файлу коллекции: ")
+            printer.printNoNewLine("Введите имя базы данных: ")
             try {
-                val fileName = scanner.nextLine()
-                FileManager(fileName).setCheckReadable(true).setCheckWritable(true).open()
-                return fileName
-            } catch (e: Exception) {
-                if (e is FileException) {
-                    Printer.printError(e)
+                return console.readLine().ifEmpty {
+                    throw InvalidDataException("Имя базы данных не может быть пустым.")
                 }
-                if (e is NoSuchElementException) {
-                    exitProcess(0)
+            } catch (e: InvalidDataException) {
+                printer.printError(e)
+            }
+        }
+    }
+
+    private fun readDatabaseUserName(): String {
+        while (true) {
+            printer.printNoNewLine("Введите имя пользователя базы данных: ")
+            try {
+                return console.readLine().ifEmpty {
+                    throw InvalidDataException("Имя пользователя базы данных не может быть пустым.")
                 }
+            } catch (e: InvalidDataException) {
+                printer.printError(e)
+            }
+        }
+    }
+
+    private fun readDatabasePassword(): String {
+        printer.printNoNewLine("Введите пароль пользователя базы данных: ")
+        return console.readPassword().concatToString()
+    }
+
+    private fun setDatabaseVariables() {
+        while (true) {
+            try {
+                DatabaseConnector.setVariables(
+                    readDatabaseHostName(),
+                    readDatabaseName(),
+                    readDatabaseUserName(),
+                    readDatabasePassword()
+                )
+                return
+            } catch (e: PSQLException) {
+                printer.printError("Данные для входа в базу данных введены неверно. Пожалуйста, повторите ввод.")
             }
         }
     }

@@ -1,10 +1,7 @@
 package ru.vad1mchk.progr.lab05.common.application
 
 import ru.vad1mchk.progr.lab05.common.io.Printer
-import java.io.IOException
-import java.nio.charset.Charset
-import java.util.InputMismatchException
-import java.util.Scanner
+import java.io.Console
 import kotlin.system.exitProcess
 
 /**
@@ -16,7 +13,8 @@ abstract class AbstractApplication {
         val MAX_PORT = UShort.MAX_VALUE.toInt()
     }
 
-    protected abstract var scanner: Scanner
+    protected abstract var console: Console
+    protected abstract var printer: Printer
 
     /**
      * Launches the application using the specified arguments.
@@ -31,21 +29,18 @@ abstract class AbstractApplication {
     protected fun readPort(): Int {
         var port: Int
         while (true) {
-            Printer.printNewLine("Введите номер порта: ")
+            printer.printNewLine("Введите номер порта: ")
             try {
-                port = scanner.nextInt()
+                port = console.readLine().toInt()
                 if (port !in MIN_PORT..MAX_PORT) {
                     throw NumberFormatException()
                 }
                 break
             } catch (e: NumberFormatException) {
-                Printer.printError("Номер порта должен быть числом от $MIN_PORT до $MAX_PORT. Повторите попытку ввода.")
-            } catch (e: InputMismatchException) {
-                Printer.printError("Номер порта должен быть числом. Повторите попытку ввода.")
+                printer.printError("Номер порта должен быть числом от $MIN_PORT до $MAX_PORT. Повторите попытку ввода.")
             } catch (e: NoSuchElementException) {
                 exitProcess(0)
             }
-            scanner.nextLine()
         }
         return port
     }

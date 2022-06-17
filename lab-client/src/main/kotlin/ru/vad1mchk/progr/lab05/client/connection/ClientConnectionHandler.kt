@@ -10,19 +10,20 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress
 import java.net.Socket
-import java.nio.ByteBuffer
 
 /**
  * Class that is responsible for maintaining client's connection to the server.
  */
-class ClientConnectionHandler {
+class ClientConnectionHandler(private val printer: Printer) {
     companion object {
         private const val RESPONSE_TIMEOUT = 10000
     }
+
     lateinit var socket: Socket
     lateinit var inputStream: InputStream
     lateinit var outputStream: OutputStream
     lateinit var lastAddress: InetAddress
+    private val serializer = Serializer()
     var lastPort: Int = 0
     var isOpen = false
         private set
@@ -42,11 +43,11 @@ class ClientConnectionHandler {
                 lastAddress = socket.inetAddress
                 lastPort = socket.port
                 isOpen = true
-                Printer.printNewLine("Подключение установлено.")
+                printer.printNewLine("Подключение установлено.")
                 break
             } catch (e: IOException) {
-                Printer.printError("Подключение к серверу не было установлено.")
-                Printer.printNewLine("Для переподключения с теми же адресом и номером порта нажмите ENTER.")
+                printer.printError("Подключение к серверу не было установлено.")
+                printer.printNewLine("Для переподключения с теми же адресом и номером порта нажмите ENTER.")
                 readLine()
             }
         }
@@ -64,7 +65,7 @@ class ClientConnectionHandler {
      * @param request Request to send.
      */
     fun send(request: Request) {
-        val bytes = Serializer.serialize(request)
+        val bytes = serializer.serialize(request)
         if (bytes != null) {
             outputStream.write(bytes)
             outputStream.flush()
@@ -80,7 +81,7 @@ class ClientConnectionHandler {
         val bytesToDeserialize = ByteArray(bufferSize)
         val bufferedInputStream = BufferedInputStream(inputStream)
         val bytesCount = bufferedInputStream.read(bytesToDeserialize)
-        return Serializer.deserialize(bytesToDeserialize) as Response?
+        return serializer.deserialize(bytesToDeserialize) as Response?
     }
 
     /**

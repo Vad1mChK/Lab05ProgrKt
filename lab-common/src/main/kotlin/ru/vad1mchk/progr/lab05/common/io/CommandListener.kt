@@ -2,8 +2,7 @@ package ru.vad1mchk.progr.lab05.common.io
 
 import ru.vad1mchk.progr.lab05.common.communication.EnteredCommand
 import java.io.InputStream
-import java.nio.charset.Charset
-import java.util.Scanner
+import java.util.*
 import kotlin.system.exitProcess
 
 /**
@@ -19,7 +18,8 @@ class CommandListener(
     input: InputStream,
     private val isServer: Boolean = false,
     private val userName: String = "JohnDoe",
-    private val isEchoOn: Boolean = true
+    private val isEchoOn: Boolean = true,
+    private val printer: Printer
 ) {
     private val scanner: Scanner
 
@@ -32,7 +32,7 @@ class CommandListener(
      * @return The entered command wrapper.
      */
     fun readCommand(): EnteredCommand? {
-        if (isEchoOn) Printer.inviteInput(isServer, userName)
+        if (isEchoOn) printer.inviteInput(isServer, userName)
         try {
             val line = scanner.nextLine()
             return EnteredCommand.fromString(line)

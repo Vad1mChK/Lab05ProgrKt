@@ -8,6 +8,7 @@ import ru.vad1mchk.progr.lab05.common.file.FileManager
 import ru.vad1mchk.progr.lab05.common.io.CommandListener
 import ru.vad1mchk.progr.lab05.common.io.Printer
 import ru.vad1mchk.progr.lab05.common.io.ScriptFileReader
+import ru.vad1mchk.progr.lab05.server.commander.CommandInvoker
 import java.io.FileInputStream
 import java.util.*
 import kotlin.system.exitProcess
@@ -15,29 +16,30 @@ import kotlin.system.exitProcess
 /**
  * An additional thread that listens for the terminal input on the server's side.
  */
-class TerminalListenerThread: Thread() {
+class TerminalListenerThread(
+    val commandInvoker: CommandInvoker, val printer: Printer
+): Thread() {
     var commandListener = CommandListener(
-        System.`in`,
-        true
+        System.`in`, true, "server", true, printer
     )
-    val requestCreator = RequestCreator(Scanner(System.`in`))
+    val requestCreator = RequestCreator(null, Scanner(System.`in`), printer)
 
     override fun run() {
-        while (Configuration.isWorking) {
+        while (true) {
             val enteredCommand = commandListener.readCommand()
             if (enteredCommand != null) {
                 if ("exit" == enteredCommand.name.lowercase()) {
                     if (enteredCommand.arguments.isEmpty()) {
-                        Printer.printNewLine("Завершение работы.")
+                        printer.printNewLine("Завершение работы.")
                         exitProcess(0)
                     } else {
-                        Printer.printError("Для того чтобы выйти из приложения, введите команду exit без аргументов.")
+                        printer.printError("Для того чтобы выйти из приложения, введите команду exit без аргументов.")
                     }
                 } else if ("execute_script" == enteredCommand.name.lowercase()) {
                     if (enteredCommand.arguments.size == 1) {
                         executeScript(enteredCommand.arguments[0])
                     } else {
-                        Printer.printError("Неверное количество аргументов команды.")
+                        printer.printError("Неверное количество аргументов команды.")
                     }
                 }
                 executeRequest(requestCreator.requestFromEnteredCommand(enteredCommand))
@@ -52,8 +54,8 @@ class TerminalListenerThread: Thread() {
     private fun executeRequest(request: Request?) {
         if (request != null) {
             request.isServerRequest = true
-            val response = Configuration.COMMAND_INVOKER.executeRequest(request)
-            response?.stringMessage?.let { if(it.isNotEmpty()) Printer.printNewLine(it) }
+            val response = commandInvoker.executeRequest(request)
+            response?.stringMessage?.let { if(it.isNotEmpty()) printer.printNewLine(it) }
             response?.spaceMarines?.stream()?.forEach { println(it) }
         }
     }
@@ -64,12 +66,12 @@ class TerminalListenerThread: Thread() {
      */
     private fun executeScript(filePath: String) {
         try {
-            val scriptFileReader = ScriptFileReader(filePath)
+            val scriptFileReader = ScriptFileReader(filePath, null, printer)
             for (request in scriptFileReader.readAll()) {
                 executeRequest(request)
             }
         } catch (e: FileException) {
-            Printer.printError(e)
+            printer.printError(e)
         }
     }
 }

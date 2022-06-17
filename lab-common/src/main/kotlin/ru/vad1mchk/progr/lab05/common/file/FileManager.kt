@@ -10,7 +10,6 @@ import java.nio.file.Files
 import java.nio.file.InvalidPathException
 import java.nio.file.Path
 import java.nio.file.Paths
-import kotlin.io.path.exists
 
 /**
  * A builder class that opens or creates a file, checking its permissions if necessary.
@@ -26,7 +25,7 @@ class FileManager(private val filePath: String) {
         try {
             path = Paths.get(filePath)
         } catch (e: InvalidPathException) {
-             throw FileException("Невозможно найти указанный путь.")
+            throw FileException("Невозможно найти указанный путь.")
         }
     }
 

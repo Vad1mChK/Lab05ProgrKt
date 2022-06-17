@@ -1,18 +1,16 @@
 package ru.vad1mchk.progr.lab05.common.communication
 
 import java.io.*
-import java.nio.ByteBuffer
 
 /**
  * Object that is used to serialize objects to byte array and deserialize them back.
  */
-object Serializer {
+class Serializer {
     /**
      * Serializes the specified object into an array of bytes. This object must implement [Serializable].
      * @param objectToSerialize Object to serialize.
      * @return A byte array representing this object.
      */
-    @JvmStatic
     fun serialize(objectToSerialize: Serializable?): ByteArray? {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val objectOutput: ObjectOutput = ObjectOutputStream(byteArrayOutputStream)
@@ -27,7 +25,6 @@ object Serializer {
      * @param serializedObject Array of bytes representing the object to deserialize.
      * @return The deserialized object.
      */
-    @JvmStatic
     fun deserialize(serializedObject: ByteArray?): Serializable? {
         val byteArrayInputStream = ByteArrayInputStream(serializedObject)
         val objectInput = ObjectInputStream(byteArrayInputStream)

@@ -2,6 +2,7 @@ package ru.vad1mchk.progr.lab05.common.communication
 
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
+import ru.vad1mchk.progr.lab05.common.datatypes.User
 import java.io.Serializable
 
 /**
@@ -19,7 +20,9 @@ data class Request(
     val idArgument: Int? = null,
     val heartCountArgument: Long? = null,
     val meleeWeaponArgument: MeleeWeapon? = null,
-    var isServerRequest: Boolean = false
+    var isServerRequest: Boolean = false,
+    var isLoggedInRequest: Boolean = false,
+    var user: User? = null
 ) : Serializable {
     companion object {
         const val serialVersionUID = 2_147_483_647L

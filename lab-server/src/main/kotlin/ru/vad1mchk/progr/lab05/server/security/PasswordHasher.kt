@@ -1,7 +1,6 @@
 package ru.vad1mchk.progr.lab05.server.security
 
 interface PasswordHasher {
-    fun hash(password: String): ByteArray
+    fun hash(password: String): String
 
-    fun checkPassword(password: String, hashedPassword: ByteArray): Boolean
 }

@@ -1,8 +1,9 @@
 package ru.vad1mchk.progr.lab05.common.communication
 
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
+import ru.vad1mchk.progr.lab05.common.datatypes.User
 import java.io.Serializable
-import java.util.LinkedList
+import java.util.*
 
 /**
  * Data class representing a response that is returned after command execution.
@@ -11,7 +12,8 @@ import java.util.LinkedList
  */
 data class Response(
     val stringMessage: String,
-    val spaceMarines: LinkedList<SpaceMarine>? = null
+    val spaceMarines: LinkedList<SpaceMarine>? = null,
+    val user: User? = null
 ) : Serializable {
     companion object {
         const val serialVersionUID = 2_147_483_648L

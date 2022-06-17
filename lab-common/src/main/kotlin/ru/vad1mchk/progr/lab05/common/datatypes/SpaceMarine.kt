@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter
  * Data class that represents a space marine.
  *
  * @property id Unique ID of this space marine, generated automatically.
+ * @property creatorName Name of the creator of this space marine, [null] for space marines created by the server.
  * @property name Name of the space marine.
  * @property coordinates Coordinates of the space marine.
  * @property creationDate Creation date of this space marine,
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter
 
 data class SpaceMarine(
     var id: Int = 1,
+    var creatorName: String? = null,
     val name: String,
     val coordinates: Coordinates,
     val creationDate: LocalDate = LocalDate.now(),
@@ -58,6 +60,7 @@ data class SpaceMarine(
             this,
             other,
             SpaceMarine::name,
+            SpaceMarine::creatorName,
             SpaceMarine::coordinates,
             SpaceMarine::health,
             SpaceMarine::heartCount,
@@ -68,13 +71,13 @@ data class SpaceMarine(
     }
 
     override fun hashCode(): Int {
-        return (((((((id.hashCode() * 31 + name.hashCode()) * 31 + coordinates.hashCode()
+        return ((((((((id.hashCode() * 31 + name.hashCode()) * 31 + coordinates.hashCode()
                 ) * 31 + creationDate.hashCode()
                 ) * 31 + health.hashCode()
                 ) * 31 + heartCount.hashCode()
                 ) * 31 + loyal.hashCode()
                 ) * 31 + (meleeWeapon?.hashCode() ?: 0)
-                ) * 31 + (chapter?.hashCode() ?: 0)
+                ) * 31 + (chapter?.hashCode() ?: 0) * 31 + creatorName.hashCode())
     }
 
     override fun equals(other: Any?): Boolean {
@@ -84,7 +87,8 @@ data class SpaceMarine(
         other as SpaceMarine
 
         if (id != other.id) return false
-        if (name != other.name) return false
+        if (creatorName != other.creatorName)
+            if (name != other.name) return false
         if (coordinates != other.coordinates) return false
         if (creationDate != other.creationDate) return false
         if (health != other.health) return false
@@ -99,6 +103,7 @@ data class SpaceMarine(
     override fun toString(): String {
         return """
         |Космический десантник $name #$id:
+        |    Создатель: ${creatorName ?: "сервер"}
         |    Координаты: $coordinates
         |    Дата создания: ${creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}
         |    Здоровье: $health

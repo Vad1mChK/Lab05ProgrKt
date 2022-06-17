@@ -5,7 +5,7 @@ package ru.vad1mchk.progr.lab05.common.commands
  */
 object AvailableCommands {
     val COMMANDS_WITHOUT_ARGUMENTS = sortedSetOf<String>(
-        "help", "info", "show", "clear", "save", "exit", "execute_script", "history", "print_field_descending_health"
+        "help", "info", "show", "users", "clear", "exit", "execute_script", "history", "print_field_descending_health"
     )
 
     val COMMANDS_WITH_SPACE_MARINE_ARGUMENT = sortedSetOf(
@@ -32,6 +32,10 @@ object AvailableCommands {
         "execute_script"
     )
 
+    val COMMANDS_WITH_USER_ARGUMENT = sortedSetOf(
+        "register", "login"
+    )
+
     /**
      * Checks if this command name is available.
      * @param commandName Name of the command to check.
@@ -45,6 +49,7 @@ object AvailableCommands {
                 COMMANDS_WITH_ID_AND_SPACE_MARINE_ARGUMENTS +
                 COMMANDS_WITH_MELEE_WEAPON_ARGUMENT +
                 COMMANDS_WITH_HEART_COUNT_ARGUMENT +
-                COMMANDS_WITH_FILE_NAME_ARGUMENT
+                COMMANDS_WITH_FILE_NAME_ARGUMENT +
+                COMMANDS_WITH_USER_ARGUMENT
     }
 }
