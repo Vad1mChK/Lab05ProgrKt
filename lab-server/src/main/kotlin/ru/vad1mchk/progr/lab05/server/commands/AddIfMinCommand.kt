@@ -12,7 +12,7 @@ class AddIfMinCommand(
     val collectionManager: CollectionManager<SpaceMarine>,
     val negotiator: DatabaseNegotiator,
     val printer: Printer
-): AbstractCommand(
+) : AbstractCommand(
     "add_if_min",
     "Добавляет новый элемент в коллекцию, если его значение меньше, чем у всех элементов этой коллекции.",
     "{element}",

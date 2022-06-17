@@ -13,7 +13,7 @@ class UpdateCommand(
     private val collectionManager: CollectionManager<SpaceMarine>,
     private val negotiator: DatabaseNegotiator,
     val printer: Printer
-): AbstractCommand(
+) : AbstractCommand(
     "update",
     "Обновляет значение элемента в коллекции, id которого равен заданному.",
     "id {element}",
@@ -23,7 +23,7 @@ class UpdateCommand(
         val spaceMarine = request.spaceMarineArgument!!
         spaceMarine.id = request.idArgument!!
         request.user?.let {
-            if(it.userName != spaceMarine.name) {
+            if (it.userName != spaceMarine.name) {
                 return Response(
                     printer.formatError("Невозможно обновить элемент: он принадлежит другому пользователю.")
                 )

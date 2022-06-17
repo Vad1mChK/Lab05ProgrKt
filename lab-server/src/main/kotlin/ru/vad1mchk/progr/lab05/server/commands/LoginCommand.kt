@@ -4,13 +4,12 @@ import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.Response
 import ru.vad1mchk.progr.lab05.common.exceptions.DatabaseException
 import ru.vad1mchk.progr.lab05.common.io.Printer
-import ru.vad1mchk.progr.lab05.common.io.UserDataReader
 import ru.vad1mchk.progr.lab05.server.database.DatabaseNegotiator
 
 class LoginCommand(
     val negotiator: DatabaseNegotiator,
     val printer: Printer
-): AbstractCommand(
+) : AbstractCommand(
     "login",
     "Авторизует пользователя в приложении.",
     null,

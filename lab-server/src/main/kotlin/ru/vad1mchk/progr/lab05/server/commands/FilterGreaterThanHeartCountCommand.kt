@@ -10,7 +10,7 @@ import kotlin.streams.toList
 
 class FilterGreaterThanHeartCountCommand(
     val collectionManager: CollectionManager<SpaceMarine>
-): AbstractCommand(
+) : AbstractCommand(
     "filter_greater_than_heart_count",
     "Выводит все элементы, количество сердец у которых больше заданного.",
     "heartCount",

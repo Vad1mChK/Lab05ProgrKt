@@ -1,6 +1,5 @@
 package ru.vad1mchk.progr.lab05.server.connection
 
-import ru.vad1mchk.progr.lab05.common.communication.Response
 import ru.vad1mchk.progr.lab05.common.io.Printer
 import ru.vad1mchk.progr.lab05.server.commander.CommandInvoker
 import ru.vad1mchk.progr.lab05.server.communication.RequestExecutor
@@ -114,14 +113,20 @@ class ServerConnectionHandler(
             val requestReceiver = RequestReceiver(channel, channels, selector, channelStates)
             CompletableFuture
                 .supplyAsync(requestReceiver::receive, cachedThreadPool)
-                .thenAcceptAsync { Thread(RequestExecutor(
-                    it,
-                    commandInvoker,
-                    channel,
-                    channels,
-                    selector,
-                    channelStates
-                )).start() }
+                .thenAcceptAsync { request ->
+                    Thread(
+                        RequestExecutor(
+                            request,
+                            commandInvoker,
+                            channel,
+                            channels,
+                            selector,
+                            channelStates
+                        )
+                    ).let {
+                        it.start()
+                    }
+                }
         }
         if (channels[channel] == null) {
             throw IOException()

@@ -1,6 +1,5 @@
 package ru.vad1mchk.progr.lab05.server.communication
 
-import ru.vad1mchk.progr.lab05.common.communication.Response
 import ru.vad1mchk.progr.lab05.common.communication.Serializer
 import ru.vad1mchk.progr.lab05.server.connection.ChannelState
 import java.io.IOException

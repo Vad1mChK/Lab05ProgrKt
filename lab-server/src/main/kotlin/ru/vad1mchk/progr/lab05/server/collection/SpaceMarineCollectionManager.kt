@@ -8,7 +8,6 @@ import ru.vad1mchk.progr.lab05.common.exceptions.IdentifierNotExistsException
 import java.security.SecureRandom
 import java.time.Instant
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.stream.Stream
 
@@ -88,7 +87,8 @@ class SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
 
     override fun removeById(id: Int) {
         if (collection.stream().noneMatch { it.id == id }) {
-            throw IdentifierNotExistsException("Ошибка: не удалось найти элемент с ID #$id.")
+            // throw IdentifierNotExistsException("Ошибка: не удалось найти элемент с ID #$id.")
+            return
         }
         collection.removeIf { it.id == id }
     }

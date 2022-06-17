@@ -60,11 +60,15 @@ class CommandInvoker(
             val command = commandMap[commandName]!!
             if (command.canBeInvokedBy(request)) {
                 command(request)
-            } else Response(printer.formatError("Команда ${request.commandName} недоступна для ${
-                if (request.isServerRequest) "сервера"
-                else if (request.isLoggedInRequest) "зарегистрированного клиента"
-                else "незарегистрированного клиента"
-            }."))
+            } else Response(
+                printer.formatError(
+                    "Команда ${request.commandName} недоступна для ${
+                        if (request.isServerRequest) "сервера"
+                        else if (request.isLoggedInRequest) "зарегистрированного клиента"
+                        else "незарегистрированного клиента"
+                    }."
+                )
+            )
         } else {
             Response(printer.formatError("Команда ${request.commandName} не существует."))
         }

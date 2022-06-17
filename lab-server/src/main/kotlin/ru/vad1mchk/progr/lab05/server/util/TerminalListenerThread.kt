@@ -1,15 +1,12 @@
 package ru.vad1mchk.progr.lab05.server.util
 
-import ru.vad1mchk.progr.lab05.common.communication.EnteredCommand
 import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.RequestCreator
 import ru.vad1mchk.progr.lab05.common.exceptions.FileException
-import ru.vad1mchk.progr.lab05.common.file.FileManager
 import ru.vad1mchk.progr.lab05.common.io.CommandListener
 import ru.vad1mchk.progr.lab05.common.io.Printer
 import ru.vad1mchk.progr.lab05.common.io.ScriptFileReader
 import ru.vad1mchk.progr.lab05.server.commander.CommandInvoker
-import java.io.FileInputStream
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -18,7 +15,7 @@ import kotlin.system.exitProcess
  */
 class TerminalListenerThread(
     val commandInvoker: CommandInvoker, val printer: Printer
-): Thread() {
+) : Thread() {
     var commandListener = CommandListener(
         System.`in`, true, "server", true, printer
     )
@@ -55,7 +52,7 @@ class TerminalListenerThread(
         if (request != null) {
             request.isServerRequest = true
             val response = commandInvoker.executeRequest(request)
-            response?.stringMessage?.let { if(it.isNotEmpty()) printer.printNewLine(it) }
+            response?.stringMessage?.let { if (it.isNotEmpty()) printer.printNewLine(it) }
             response?.spaceMarines?.stream()?.forEach { println(it) }
         }
     }

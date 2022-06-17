@@ -13,7 +13,7 @@ class RemoveGreaterCommand(
     val collectionManager: CollectionManager<SpaceMarine>,
     val negotiator: DatabaseNegotiator,
     val printer: Printer
-): AbstractCommand(
+) : AbstractCommand(
     "remove_greater",
     "Удаляет из коллекции все элементы, превышающие заданный.",
     "{element}",

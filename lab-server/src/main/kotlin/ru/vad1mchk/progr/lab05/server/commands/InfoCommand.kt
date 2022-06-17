@@ -4,17 +4,16 @@ import ru.vad1mchk.progr.lab05.common.collection.CollectionManager
 import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.Response
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
-import ru.vad1mchk.progr.lab05.common.datatypes.User
 import java.time.format.DateTimeFormatter
 
 class InfoCommand(
     private val collectionManager: CollectionManager<SpaceMarine>
-): AbstractCommand(
+) : AbstractCommand(
     "info",
     "Выводит основную информацию о коллекции.",
     null,
     FOR_SERVER_AND_LOGGED_IN_CLIENT
-){
+) {
     override fun invoke(request: Request): Response {
         return Response(
             """
@@ -23,11 +22,11 @@ class InfoCommand(
                 |   Тип элементов: SpaceMarine
                 |   Размер коллекции: ${collectionManager.collection().size} элем.
                 |   Текущему пользователю принадлежат: ${
-                    collectionManager.collection().filter { it.creatorName == request.user?.userName }.size
-                } элем.
+                collectionManager.collection().filter { it.creatorName == request.user?.userName }.size
+            } элем.
                 |   Дата инициализации: ${
-                    collectionManager.initializationDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-                }.
+                collectionManager.initializationDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            }.
             """.trimMargin()
         )
     }

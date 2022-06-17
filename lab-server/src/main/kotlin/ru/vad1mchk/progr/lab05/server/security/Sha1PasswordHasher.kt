@@ -15,8 +15,8 @@ class Sha1PasswordHasher() : PasswordHasher {
     private fun bytesToHex(bytes: ByteArray): String {
         val charArray = CharArray(bytes.size shl 1)
         for (i in bytes.indices) {
-            charArray[i*2] = ((bytes[i].toInt() and 0xff) / 16).toString(16)[0]
-            charArray[i*2+1] = ((bytes[i].toInt() and 0xff) % 16).toString(16)[0]
+            charArray[i * 2] = ((bytes[i].toInt() and 0xff) / 16).toString(16)[0]
+            charArray[i * 2 + 1] = ((bytes[i].toInt() and 0xff) % 16).toString(16)[0]
         }
         return charArray.concatToString()
     }

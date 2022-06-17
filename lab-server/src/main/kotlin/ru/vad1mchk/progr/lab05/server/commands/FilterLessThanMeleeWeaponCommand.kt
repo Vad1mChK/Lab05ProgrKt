@@ -10,7 +10,7 @@ import kotlin.streams.toList
 
 class FilterLessThanMeleeWeaponCommand(
     val collectionManager: CollectionManager<SpaceMarine>
-): AbstractCommand (
+) : AbstractCommand(
     "filter_less_than_melee_weapon",
     "Выводит все элементы, оружие ближнего боя у которых меньше заданного.",
     "meleeWeapon",

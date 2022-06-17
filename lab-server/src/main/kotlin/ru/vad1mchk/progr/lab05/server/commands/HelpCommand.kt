@@ -12,7 +12,7 @@ class HelpCommand : AbstractCommand(
     override fun invoke(request: Request): Response {
         return Response(
             commandsList
-                .filter { it.canBeInvokedBy(request)}
+                .filter { it.canBeInvokedBy(request) }
                 .map { it.getHelpString() }
                 .joinToString("\n")
         )

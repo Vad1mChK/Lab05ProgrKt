@@ -5,7 +5,6 @@ import ru.vad1mchk.progr.lab05.common.communication.Serializer
 import ru.vad1mchk.progr.lab05.server.connection.ChannelState
 import java.io.IOException
 import java.nio.ByteBuffer
-import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.SocketChannel
 

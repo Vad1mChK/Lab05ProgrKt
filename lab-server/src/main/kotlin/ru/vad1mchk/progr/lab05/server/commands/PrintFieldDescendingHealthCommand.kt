@@ -8,7 +8,7 @@ import java.util.stream.Collectors
 
 class PrintFieldDescendingHealthCommand(
     val collectionManager: CollectionManager<SpaceMarine>
-): AbstractCommand (
+) : AbstractCommand(
     "print_field_descending_health",
     "Выводит значения здоровья всех элементов в порядке невозрастания.",
     null,
