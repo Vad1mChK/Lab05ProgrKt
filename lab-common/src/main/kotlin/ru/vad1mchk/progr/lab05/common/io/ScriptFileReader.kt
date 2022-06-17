@@ -1,9 +1,9 @@
 package ru.vad1mchk.progr.lab05.common.io
 
-import ru.vad1mchk.progr.lab05.common.commands.AvailableCommands
 import ru.vad1mchk.progr.lab05.common.communication.EnteredCommand
 import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.RequestCreator
+import ru.vad1mchk.progr.lab05.common.datatypes.User
 import ru.vad1mchk.progr.lab05.common.file.FileManager
 import java.io.File
 import java.util.*
@@ -13,7 +13,7 @@ import java.util.*
  * @constructor Creates a new [ScriptFileReader] that reads the requests from file located by `filePath`.
  * @param filePath Path of the file to open.
  */
-class ScriptFileReader(filePath: String) {
+class ScriptFileReader(filePath: String, user: User? = null, private val printer: Printer) {
     private val file: File
     private val requestDeque: ArrayDeque<Request>
     private val scanner: Scanner
@@ -25,7 +25,7 @@ class ScriptFileReader(filePath: String) {
             .setCheckReadable(true)
             .open()
         scanner = Scanner(file.inputStream())
-        requestCreator = RequestCreator(scanner)
+        requestCreator = RequestCreator(user, scanner, printer)
         requestDeque = ArrayDeque()
     }
 
@@ -40,18 +40,18 @@ class ScriptFileReader(filePath: String) {
                 currentEnteredCommand = EnteredCommand.fromString(scanner.nextLine())
                 if (currentEnteredCommand != null) {
                     if (currentEnteredCommand.name == "execute_script" && currentEnteredCommand.arguments.size == 1) {
-                        Printer.printError("Попытка вызвать скрипт из другого скрипта.")
+                        printer.printError("Попытка вызвать скрипт из другого скрипта.")
                     } else {
                         val request = requestCreator.requestFromEnteredCommand(currentEnteredCommand)
                         request?.let { requestDeque.add(it) }
                     }
                 }
             } catch (e: NoSuchElementException) {
-                Printer.printNewLine("Ввод скрипта из файла завершён.")
+                printer.printNewLine("Ввод скрипта из файла завершён.")
                 return requestDeque
             }
         }
-        Printer.printNewLine("Ввод скрипта из файла завершён.")
+        printer.printNewLine("Ввод скрипта из файла завершён.")
         return requestDeque
     }
 }

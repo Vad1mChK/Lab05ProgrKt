@@ -3,7 +3,7 @@ package ru.vad1mchk.progr.lab05.common.exceptions
 /**
  * Exception thrown when the file cannot be opened.
  */
-class FileCannotOpenException: FileException {
+class FileCannotOpenException : FileException {
     constructor() : super()
     constructor(message: String) : super(message)
     constructor(cause: Throwable) : super(cause)

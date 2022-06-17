@@ -1,9 +1,10 @@
 package ru.vad1mchk.progr.lab05.common.collection
 
-import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
+import ru.vad1mchk.progr.lab05.common.datatypes.User
 import ru.vad1mchk.progr.lab05.common.exceptions.IdentifierCollisionException
 import ru.vad1mchk.progr.lab05.common.exceptions.IdentifierNotExistsException
 import java.io.Serializable
+import java.time.LocalDate
 import java.util.stream.Stream
 
 /**
@@ -85,9 +86,11 @@ interface CollectionManager<E : Serializable> {
     fun removeById(id: Int)
 
     /**
-     * Removes all elements from the collection.
+     * Removes all elements from the collection. If value passed as [user] is `null`, all elements are removed,
+     * if not `null`, only the elements that belong to [user] are removed.
+     * @param user User that owns the elements that should be deleted.
      */
-    fun clear()
+    fun clear(user: User? = null)
 
     /**
      * Returns the collection used by this manager.
@@ -96,18 +99,17 @@ interface CollectionManager<E : Serializable> {
     fun collection(): Collection<E>
 
     /**
+     * Returns the initialization date of this collection.
+     * @return the initialization date of this collection.
+     */
+    fun initializationDate(): LocalDate
+
+    /**
      * Streams the collection used by this manager.
      *
      * @return The stream of elements stored in this collection.
      */
     fun stream(): Stream<E>
-
-    /**
-     * Gets information about this collection.
-     *
-     * @return The information about the collection as a string.
-     */
-    fun info(): String
 
     /**
      * Calculates the size of the collection.

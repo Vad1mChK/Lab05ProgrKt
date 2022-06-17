@@ -2,12 +2,12 @@ package ru.vad1mchk.progr.lab05.server.collection
 
 import ru.vad1mchk.progr.lab05.common.collection.CollectionManager
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
+import ru.vad1mchk.progr.lab05.common.datatypes.User
 import ru.vad1mchk.progr.lab05.common.exceptions.IdentifierCollisionException
 import ru.vad1mchk.progr.lab05.common.exceptions.IdentifierNotExistsException
 import java.security.SecureRandom
 import java.time.Instant
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.stream.Stream
 
@@ -20,7 +20,7 @@ class SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
         const val MIN_ID = 1
     }
 
-    private val collection = LinkedList<SpaceMarine>()
+    private val collection = Collections.synchronizedList(LinkedList<SpaceMarine>())
     private val uniqueIds = HashSet<Int>()
     private val initializationDate = LocalDate.now()
     private val randomGenerator = SecureRandom()
@@ -87,31 +87,30 @@ class SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
 
     override fun removeById(id: Int) {
         if (collection.stream().noneMatch { it.id == id }) {
-            throw IdentifierNotExistsException("Ошибка: не удалось найти элемент с ID #$id.")
+            // throw IdentifierNotExistsException("Ошибка: не удалось найти элемент с ID #$id.")
+            return
         }
         collection.removeIf { it.id == id }
     }
 
-    override fun clear() {
-        collection.clear()
+    override fun clear(user: User?) {
+        if (user == null) {
+            collection.clear()
+        } else {
+            collection.removeIf { it.creatorName == user.userName }
+        }
     }
 
     override fun stream(): Stream<SpaceMarine> {
         return collection.stream()
     }
 
-    override fun collection(): LinkedList<SpaceMarine> {
+    override fun collection(): MutableList<SpaceMarine> {
         return collection
     }
 
-    override fun info(): String {
-        return """
-        |Информация о коллекции:
-        |   Тип коллекции: ${collection.javaClass.simpleName}
-        |   Тип элементов: SpaceMarine
-        |   Размер коллекции: ${size()} элем.
-        |   Дата инициализации: ${initializationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}
-        """.trimMargin()
+    override fun initializationDate(): LocalDate {
+        return initializationDate
     }
 
     override fun size(): Int {

@@ -1,10 +1,10 @@
 package ru.vad1mchk.progr.lab05.server.connection
 
-import ru.vad1mchk.progr.lab05.common.communication.Request
-import ru.vad1mchk.progr.lab05.common.communication.Response
-import ru.vad1mchk.progr.lab05.common.communication.Serializer
 import ru.vad1mchk.progr.lab05.common.io.Printer
-import ru.vad1mchk.progr.lab05.server.util.Configuration
+import ru.vad1mchk.progr.lab05.server.commander.CommandInvoker
+import ru.vad1mchk.progr.lab05.server.communication.RequestExecutor
+import ru.vad1mchk.progr.lab05.server.communication.RequestReceiver
+import ru.vad1mchk.progr.lab05.server.communication.ResponseSender
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.SocketAddress
@@ -13,28 +13,40 @@ import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  * Class that is responsible for maintaining server's connection with the clients.
  * @constructor Constructs a new [ServerConnectionHandler] with the specified port number.
  * @param port Port number of the server.
  */
-class ServerConnectionHandler(port: Int): Runnable {
+class ServerConnectionHandler(
+    port: Int,
+    private val printer: Printer,
+    private val commandInvoker: CommandInvoker
+) {
     companion object {
         const val SELECTION_DELAY = 1000L
         const val DEFAULT_BUFFER_SIZE = 1024
     }
 
-    var serverChannel: ServerSocketChannel = ServerSocketChannel.open()
+    private var serverChannel: ServerSocketChannel = ServerSocketChannel.open()
+    private val cachedThreadPool: ExecutorService = Executors.newCachedThreadPool()
+    private val fixedThreadPool: ExecutorService = Executors.newFixedThreadPool(
+        Runtime.getRuntime().availableProcessors()
+    )
     private val selector: Selector = Selector.open()
-    private val channels = HashMap<SocketChannel, ByteBuffer>()
+    private val channels = HashMap<SocketChannel, ByteBuffer?>()
+    private val channelStates = HashMap<SocketChannel, ChannelState>()
 
     init {
         serverChannel.bind(InetSocketAddress(port))
-        Printer.printNewLine("Сервер использует порт ${serverChannel.socket().localPort}.")
+        printer.printNewLine("Сервер использует порт ${serverChannel.socket().localPort}.")
     }
 
-    override fun run() {
+    fun run() {
         try {
             serverChannel.apply {
                 configureBlocking(false)
@@ -42,34 +54,28 @@ class ServerConnectionHandler(port: Int): Runnable {
             }
             listen()
         } catch (e: IOException) {
-            Printer.printNewLine("Во время работы сервера произошла ошибка ввода-вывода.")
-            Printer.printNewLine("Закрытие сервера...")
+            printer.printNewLine("Во время работы сервера произошла ошибка ввода-вывода.")
+            printer.printNewLine("Закрытие сервера...")
         }
     }
 
-    /**
-     * Closes the server's connection to the clients.
-     */
     fun close() {
         try {
             selector.close()
             serverChannel.close()
         } catch (e: IOException) {
-            Printer.printNewLine("Во время закрытия сервера произошла ошибка ввода-вывода.")
+            printer.printNewLine("Во время закрытия сервера произошла ошибка ввода-вывода.")
         }
     }
 
-    /**
-     * Listens to the channels, accepting, reading or writing them.
-     */
-    fun listen() {
-        while (Configuration.isWorking) {
+    private fun listen() {
+        while (true) {
             var selectionKey: SelectionKey? = null
             try {
                 val keyCount = selector.select(SELECTION_DELAY)
                 if (keyCount != 0) {
                     val selectedKeys = selector.selectedKeys().iterator()
-                    while(selectedKeys.hasNext()) {
+                    while (selectedKeys.hasNext()) {
                         selectionKey = selectedKeys.next()
                         selectedKeys.remove()
                         if (selectionKey.isValid) {
@@ -91,70 +97,54 @@ class ServerConnectionHandler(port: Int): Runnable {
         }
     }
 
-    /**
-     * Accepts a connection made to the server channel's socket.
-     * @return The remote address to which the accepted channel's socket is connected.
-     */
-    private fun accept(): SocketAddress {
+    private fun accept() {
         val channel = serverChannel.accept()
         val address = channel.remoteAddress
         channel.configureBlocking(false)
         channel.register(selector, SelectionKey.OP_READ)
         channels[channel] = ByteBuffer.allocate(0)
-        return address
+        channelStates[channel] = ChannelState.READY_TO_READ
     }
 
-    /**
-     * Reads from this key's channel. If a request was passed via the channel, deserializes and immediately executes it.
-     * The response is then written to the
-     * @param selectionKey Selection key created for the channel.
-     */
     private fun read(selectionKey: SelectionKey) {
         val channel = selectionKey.channel() as SocketChannel
-        val buffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE)
-        val bytesRead = channel.read(buffer)
-        if (bytesRead == -1) {
-            kill(channel)
-            return
+        if (channelStates[channel] == ChannelState.READY_TO_READ) {
+            channelStates[channel] = ChannelState.READING
+            val requestReceiver = RequestReceiver(channel, channels, selector, channelStates)
+            CompletableFuture
+                .supplyAsync(requestReceiver::receive, cachedThreadPool)
+                .thenAcceptAsync { request ->
+                    Thread(
+                        RequestExecutor(
+                            request,
+                            commandInvoker,
+                            channel,
+                            channels,
+                            selector,
+                            channelStates
+                        )
+                    ).let {
+                        it.start()
+                    }
+                }
         }
-        val newBuffer = ByteBuffer.allocate(channels[channel]!!.capacity() + bytesRead)
-        newBuffer.put(channels[channel]!!.array())
-        newBuffer.put(ByteBuffer.wrap(buffer.array(), 0, bytesRead))
-        channels[channel] = newBuffer
-        val request = Serializer.deserialize(channels[channel]!!.array()) as Request?
-        if (request != null) {
-            channels[channel] = ByteBuffer.wrap(
-                Serializer.serialize(Configuration.COMMAND_INVOKER.executeRequest(request))
-            )
-            channel.register(selector, SelectionKey.OP_WRITE)
+        if (channels[channel] == null) {
+            throw IOException()
         }
     }
 
-    /**
-     * Writes the response to this channel from the buffer associated with it.
-     * @param selectionKey Selection key created for the channel.
-     * @return Count of bytes written.
-     */
-    private fun write(selectionKey: SelectionKey): Int {
+    private fun write(selectionKey: SelectionKey) {
         val channel = selectionKey.channel() as SocketChannel
-        val buffer = channels[channel]
-        var responseLength = 0
-        var bytesWritten = channel.write(buffer)
-        responseLength += bytesWritten
-        while (buffer!!.hasRemaining()) {
-            bytesWritten = channel.write(buffer)
-            responseLength += bytesWritten
+        if (channelStates[channel] == ChannelState.READY_TO_WRITE) {
+            channelStates[channel] = ChannelState.WRITING
+            val responseSender = ResponseSender(channel, channels, selector, channelStates)
+            fixedThreadPool.execute(responseSender::send)
         }
-        channels[channel] = ByteBuffer.allocate(0)
-        channel.register(selector, SelectionKey.OP_READ)
-        return responseLength
+        if (channels[channel] == null) {
+            throw IOException()
+        }
     }
 
-    /**
-     * Removes this channel from available channels and closes it, returning its address.
-     * @param socketChannel Channel to kill.
-     * @return The killed channel's address.
-     */
     private fun kill(socketChannel: SocketChannel): SocketAddress {
         val address = socketChannel.remoteAddress
         channels.remove(socketChannel)

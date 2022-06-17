@@ -1,19 +1,20 @@
 package ru.vad1mchk.progr.lab05.common.io
 
-import ru.vad1mchk.progr.lab05.common.datatypes.Chapter
-import ru.vad1mchk.progr.lab05.common.datatypes.Coordinates
-import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
-import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
+import ru.vad1mchk.progr.lab05.common.datatypes.*
 import ru.vad1mchk.progr.lab05.common.exceptions.InvalidDataException
 import ru.vad1mchk.progr.lab05.common.util.BooleanParser
 import java.time.LocalDate
-import java.util.Scanner
+import java.util.*
 import kotlin.system.exitProcess
 
 /**
  * Class to read data about a new instance of [SpaceMarine] interactively or from file.
  */
-class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
+class SpaceMarineDataReader(
+    val creator: User? = null,
+    val scanner: Scanner = Scanner(System.`in`),
+    val printer: Printer
+) {
 
     /**
      * Reads the name of the space marine, looping until the name is not blank nor empty.
@@ -21,13 +22,13 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readName(): String {
         while (true) {
-            Printer.printNewLine("Введите имя космодесантника:")
+            printer.printNewLine("Введите имя космодесантника:")
             try {
                 return scanner.nextLine().also {
                     if (it.isBlank()) throw InvalidDataException("Имя космодесантника не может быть пустым.")
                 }
             } catch (e: InvalidDataException) {
-                Printer.printError(e)
+                printer.printError(e)
             }
         }
     }
@@ -38,7 +39,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readCoordinatesX(): Int {
         while (true) {
-            Printer.printNewLine("Введите координату X (целое число больше ${Coordinates.MIN_X}):")
+            printer.printNewLine("Введите координату X (целое число больше ${Coordinates.MIN_X}):")
             try {
                 return scanner.nextLine().toInt().also {
                     if (it <= Coordinates.MIN_X) {
@@ -46,9 +47,9 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
                     }
                 }
             } catch (e: InvalidDataException) {
-                Printer.printError(e)
+                printer.printError(e)
             } catch (e: NumberFormatException) {
-                Printer.printError("Введите целое число.")
+                printer.printError("Введите целое число.")
             }
         }
     }
@@ -59,7 +60,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readCoordinatesY(): Float {
         while (true) {
-            Printer.printNewLine("Введите координату Y (конечное вещественное число):")
+            printer.printNewLine("Введите координату Y (конечное вещественное число):")
             try {
                 return scanner.nextLine().toFloat().also {
                     if (!it.isFinite()) {
@@ -67,9 +68,9 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
                     }
                 }
             } catch (e: InvalidDataException) {
-                Printer.printError(e)
+                printer.printError(e)
             } catch (e: NumberFormatException) {
-                Printer.printError("Введите вещественное число.")
+                printer.printError("Введите вещественное число.")
             }
         }
     }
@@ -88,7 +89,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readHealth(): Double {
         while (true) {
-            Printer.printNewLine("Введите здоровье (положительное конечное вещественное число):")
+            printer.printNewLine("Введите здоровье (положительное конечное вещественное число):")
             try {
                 return scanner.nextLine().toDouble().also {
                     if (!it.isFinite() || it <= SpaceMarine.MIN_HEALTH) {
@@ -96,9 +97,9 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
                     }
                 }
             } catch (e: InvalidDataException) {
-                Printer.printError(e)
+                printer.printError(e)
             } catch (e: NumberFormatException) {
-                Printer.printError("Введите вещественное число.")
+                printer.printError("Введите вещественное число.")
             }
         }
     }
@@ -109,21 +110,25 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readHeartCount(): Long {
         while (true) {
-            Printer.printNewLine("Введите количество сердец (целое число от ${
-                SpaceMarine.MIN_HEART_COUNT
-            } до ${SpaceMarine.MAX_HEART_COUNT}):")
+            printer.printNewLine(
+                "Введите количество сердец (целое число от ${
+                    SpaceMarine.MIN_HEART_COUNT
+                } до ${SpaceMarine.MAX_HEART_COUNT}):"
+            )
             try {
                 return scanner.nextLine().toLong().also {
                     if (it !in (SpaceMarine.MIN_HEART_COUNT..SpaceMarine.MAX_HEART_COUNT)) {
-                        throw InvalidDataException("Количество сердец должно быть в диапазоне от ${
-                            SpaceMarine.MIN_HEART_COUNT
-                        } до ${SpaceMarine.MAX_HEART_COUNT}.")
+                        throw InvalidDataException(
+                            "Количество сердец должно быть в диапазоне от ${
+                                SpaceMarine.MIN_HEART_COUNT
+                            } до ${SpaceMarine.MAX_HEART_COUNT}."
+                        )
                     }
                 }
             } catch (e: InvalidDataException) {
-                Printer.printError(e)
+                printer.printError(e)
             } catch (e: NumberFormatException) {
-                Printer.printError("Введите целое число.")
+                printer.printError("Введите целое число.")
             }
         }
     }
@@ -134,11 +139,11 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readLoyal(): Boolean {
         while (true) {
-            Printer.printNewLine("Введите, лоялен ли десантник (логическое значение из {true, false}):")
+            printer.printNewLine("Введите, лоялен ли десантник (логическое значение из {true, false}):")
             try {
                 return BooleanParser.parse(scanner.nextLine())
             } catch (e: InvalidDataException) {
-                Printer.printError("Введите логическое значение.")
+                printer.printError("Введите логическое значение.")
             }
         }
     }
@@ -150,15 +155,17 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readMeleeWeapon(): MeleeWeapon? {
         while (true) {
-            Printer.printNewLine("Введите тип оружия ближнего боя (из ${
-                MeleeWeapon.listAllConstants()
-            }, оставьте пустым, если оружия нет):")
+            printer.printNewLine(
+                "Введите тип оружия ближнего боя (из ${
+                    MeleeWeapon.listAllConstants()
+                }, оставьте пустым, если оружия нет):"
+            )
             try {
                 return MeleeWeapon.valueOf(scanner.nextLine().also {
                     if (it.isBlank()) return null
                 })
             } catch (e: IllegalArgumentException) {
-                Printer.printError("Введите одно из следующих значений: ${MeleeWeapon.listAllConstants()}.")
+                printer.printError("Введите одно из следующих значений: ${MeleeWeapon.listAllConstants()}.")
             }
         }
     }
@@ -168,7 +175,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      * @return The name of the chapter.
      */
     private fun readChapterName(): String {
-        Printer.printNewLine("Введите имя главы (оставьте пустым, если глава не указана):")
+        printer.printNewLine("Введите имя главы (оставьте пустым, если глава не указана):")
         return scanner.nextLine()
     }
 
@@ -177,7 +184,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      * @return The parent legion of the chapter.
      */
     private fun readChapterParentLegion(): String {
-        Printer.printNewLine("Введите родительский легион главы (оставьте пустым, если он не указан):")
+        printer.printNewLine("Введите родительский легион главы (оставьте пустым, если он не указан):")
         return scanner.nextLine()
     }
 
@@ -187,21 +194,25 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
      */
     private fun readChapterMarinesCount(): Int {
         while (true) {
-            Printer.printNewLine("Введите количество космодесантников (целое число от ${
-                Chapter.MIN_MARINES_COUNT
-            } до ${Chapter.MAX_MARINES_COUNT}):")
+            printer.printNewLine(
+                "Введите количество космодесантников (целое число от ${
+                    Chapter.MIN_MARINES_COUNT
+                } до ${Chapter.MAX_MARINES_COUNT}):"
+            )
             try {
                 return scanner.nextLine().toInt().also {
                     if (it !in (Chapter.MIN_MARINES_COUNT..Chapter.MAX_MARINES_COUNT)) {
-                        throw InvalidDataException("Количество космодесантников должно быть от ${
-                            Chapter.MIN_MARINES_COUNT
-                        } до ${Chapter.MAX_MARINES_COUNT}.")
+                        throw InvalidDataException(
+                            "Количество космодесантников должно быть от ${
+                                Chapter.MIN_MARINES_COUNT
+                            } до ${Chapter.MAX_MARINES_COUNT}."
+                        )
                     }
                 }
             } catch (e: InvalidDataException) {
-                Printer.printError(e.message ?:"")
+                printer.printError(e.message ?: "")
             } catch (e: NumberFormatException) {
-                Printer.printError("Введите целое число.")
+                printer.printError("Введите целое число.")
             }
         }
     }
@@ -227,6 +238,7 @@ class SpaceMarineDataReader(val scanner: Scanner = Scanner(System.`in`)) {
         try {
             return SpaceMarine(
                 1,
+                creator?.userName,
                 readName(),
                 readCoordinates(),
                 LocalDate.now(),
