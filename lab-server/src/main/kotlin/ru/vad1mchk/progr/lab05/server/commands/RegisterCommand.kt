@@ -18,6 +18,9 @@ class RegisterCommand(
     override fun invoke(request: Request): Response? {
         val user = request.user!!
         return try {
+            if (user.userName.isEmpty()) {
+                Response(printer.formatError("Имя прльзователя не может быть пустым."))
+            }
             negotiator.insertUser(user)
             Response("Пользователь успешно зарегистрирован.", user = user)
         } catch (e: DatabaseException) {

@@ -44,12 +44,12 @@ class DatabaseNegotiator(
                     setString(1, user.userName)
                     setString(2, passwordHasher.hash(user.password))
                     statement.executeQuery().also {
-                        if (!it.next()) throw DatabaseException("Пользователь не существует или пароль введён неверно.")
+                        if (!it.next()) throw SQLException("Пользователь не существует или пароль введён неверно.")
                         return it.getInt("id")
                     }
                 }
             } catch (e: SQLException) {
-                throw DatabaseException("Не удалось найти пользователя.", e)
+                return 0
             } finally {
                 connection.close()
             }

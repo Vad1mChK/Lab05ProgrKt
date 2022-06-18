@@ -47,6 +47,18 @@ abstract class AbstractCommand(
         return (accessLevel and permissions) != 0
     }
 
+    fun isForServer(): Boolean {
+        return (permissions and FOR_SERVER) != 0
+    }
+
+    fun isForLoggedInClient(): Boolean {
+        return (permissions and FOR_LOGGED_IN_CLIENT) != 0
+    }
+
+    fun isForLoggedOutClient(): Boolean {
+        return (permissions and FOR_LOGGED_OUT_CLIENT) != 0
+    }
+
     override fun compareTo(other: AbstractCommand): Int {
         return compareValuesBy(
             this,

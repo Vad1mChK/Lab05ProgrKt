@@ -15,13 +15,11 @@ class LoginCommand(
     null,
     FOR_LOGGED_OUT_CLIENT
 ) {
-    override fun invoke(request: Request): Response? {
+    override fun invoke(request: Request): Response {
         val user = request.user!!
-        return try {
-            user.id = negotiator.checkUser(user)
-            Response("Вы успешно вошли в приложение.", user = user)
-        } catch (e: DatabaseException) {
-            Response(printer.formatError(e))
+        user.id = negotiator.checkUser(user).also {
+            if(it == 0) return Response(printer.formatError("Пользователь с таким именем и паролем не найден."))
         }
+        return Response("Вы успешно вошли в приложение.", user = user)
     }
 }

@@ -59,7 +59,16 @@ class CommandInvoker(
         return if (commandMap.containsKey(commandName)) {
             addToHistory(commandName)
             val command = commandMap[commandName]!!
-            if (command.canBeInvokedBy(request)) {
+            if (
+                (request.isServerRequest && command.isForServer()) ||
+                (!request.isServerRequest &&
+                        (request.user?.let { negotiator.checkUser(it) != 0 } == true) &&
+                        command.isForLoggedInClient()) ||
+                (!request.isServerRequest &&
+                        (!request.isLoggedInRequest ||
+                        (request.user?.let { negotiator.checkUser(it) == 0 } == true)) &&
+                        command.isForLoggedOutClient())
+            ) {
                 command(request)
             } else Response(
                 printer.formatError(
