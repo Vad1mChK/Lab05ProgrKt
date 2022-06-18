@@ -44,7 +44,8 @@ class CommandInvoker(
             HistoryCommand(commandHistory),
             FilterGreaterThanHeartCountCommand(collectionManager),
             FilterLessThanMeleeWeaponCommand(collectionManager),
-            PrintFieldDescendingHealthCommand(collectionManager)
+            PrintFieldDescendingHealthCommand(collectionManager),
+            GetByIdentifierCommand(collectionManager, printer)
         )) commandMap[command.name] = command
     }
 

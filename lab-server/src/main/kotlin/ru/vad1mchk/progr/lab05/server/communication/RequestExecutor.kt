@@ -2,6 +2,8 @@ package ru.vad1mchk.progr.lab05.server.communication
 
 import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.Serializer
+import ru.vad1mchk.progr.lab05.common.exceptions.CollectionException
+import ru.vad1mchk.progr.lab05.common.exceptions.DatabaseException
 import ru.vad1mchk.progr.lab05.server.commander.CommandInvoker
 import ru.vad1mchk.progr.lab05.server.connection.ChannelState
 import java.nio.ByteBuffer

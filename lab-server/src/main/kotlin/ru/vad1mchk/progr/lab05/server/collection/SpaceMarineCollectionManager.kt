@@ -87,8 +87,7 @@ class SpaceMarineCollectionManager : CollectionManager<SpaceMarine> {
 
     override fun removeById(id: Int) {
         if (collection.stream().noneMatch { it.id == id }) {
-            // throw IdentifierNotExistsException("Ошибка: не удалось найти элемент с ID #$id.")
-            return
+            throw IdentifierNotExistsException("Ошибка: не удалось найти элемент с ID #$id.")
         }
         collection.removeIf { it.id == id }
     }

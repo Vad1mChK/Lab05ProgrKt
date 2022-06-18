@@ -20,15 +20,14 @@ class RemoveByIdentifierCommand(
     FOR_SERVER_AND_LOGGED_IN_CLIENT
 ) {
     override fun invoke(request: Request): Response? {
-        println(request)
-        request.user?.let {
-            if (collectionManager[request.idArgument!!].creatorName != request.user!!.userName) {
-                return Response(
-                    printer.formatError("Невозможно удалить элемент: он принадлежит другому пользователю.")
-                )
-            }
-        }
         return try {
+            request.user?.let {
+                if (collectionManager[request.idArgument!!].creatorName != it.userName) {
+                    Response(
+                        printer.formatError("Невозможно удалить элемент: он принадлежит другому пользователю.")
+                    )
+                }
+            }
             negotiator.deleteSpaceMarineById(request.idArgument!!)
             collectionManager.removeById(request.idArgument!!)
             Response("Элемент успешно удалён из коллекции.")

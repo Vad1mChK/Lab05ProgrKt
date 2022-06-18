@@ -13,7 +13,7 @@ object AvailableCommands {
     )
 
     val COMMANDS_WITH_ID_ARGUMENT = sortedSetOf(
-        "remove_by_id"
+        "remove_by_id", "get_by_id"
     )
 
     val COMMANDS_WITH_ID_AND_SPACE_MARINE_ARGUMENTS = sortedSetOf(

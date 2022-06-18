@@ -22,14 +22,14 @@ class UpdateCommand(
     override fun invoke(request: Request): Response? {
         val spaceMarine = request.spaceMarineArgument!!
         spaceMarine.id = request.idArgument!!
-        request.user?.let {
-            if (it.userName != spaceMarine.name) {
-                return Response(
-                    printer.formatError("Невозможно обновить элемент: он принадлежит другому пользователю.")
-                )
-            }
-        }
         return try {
+            request.user?.let {
+                if (it.userName != spaceMarine.name) {
+                    return Response(
+                        printer.formatError("Невозможно обновить элемент: он принадлежит другому пользователю.")
+                    )
+                }
+            }
             negotiator.updateSpaceMarine(spaceMarine)
             collectionManager.update(spaceMarine.id, spaceMarine)
             Response("Элемент успешно добавлен в коллекцию.")
