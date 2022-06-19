@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'Framd';
+    src: url('/fonts/framd.ttf');
+}
+
+#loginFormBackground, #mainApplicationBackground {
+    -fx-background-color: linear-gradient(to top, #de004e, #860029, #321450, #29132e);
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #00000000;
+}
+
+* {
+    -fx-font-family: Framd;
+}
+
+.button, .text-field, .password-field, .choice-box, .label, .tab .tab-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Framd;
+}
+
+.v-box, .grid-pane, .tab-pane, .tab {
+    -fx-background-color: #00000000;
+}
+
+#mainApplicationMapTab {
+    -fx-background-color: #29132e;
+}
+#mainApplicationTableTab{
+    -fx-background-color: #321450;
+}
+#mainApplicationSettingsTab{
+    -fx-background-color: #860029;
+}
+#mainApplicationAboutTab{
+    -fx-background-color: #de004e;
+}
+
+.text-field, .password-field, .choice-box {
+    -fx-border-radius: 0px;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 1px;
+    -fx-background-color: #00000080;
+}
+
+.choice-box {
+    -fx-mark-color: #ffffff;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #000000;
+}
+
+.choice-box .menu-item:hover, .choice-box .menu-item:focused {
+    -fx-background-color: #ffffff80;
+}
+
+.button {
+    -fx-border-radius: 0px;
+}
+
+#loginFormLoginButton {
+    -fx-background-color: #29132e;
+}
+
+#loginFormRegisterButton {
+    -fx-background-color: #321450;
+}
+
+#loginFormLoginButton:hover {
+    -fx-background-color: derive(#29132e, 10%);
+}
+
+#loginFormRegisterButton:hover {
+    -fx-background-color: derive(#321450, 10%);
+}
+
+#loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel {
+    -fx-font-size: 32px;
+}

@@ -1,142 +1,65 @@
 package ru.vad1mchk.progr.lab05.client.application
 
-import ru.vad1mchk.progr.lab05.client.connection.ClientConnectionHandler
-import ru.vad1mchk.progr.lab05.client.util.Configuration
-import ru.vad1mchk.progr.lab05.common.application.AbstractApplication
-import ru.vad1mchk.progr.lab05.common.communication.Request
-import ru.vad1mchk.progr.lab05.common.communication.RequestCreator
-import ru.vad1mchk.progr.lab05.common.communication.Response
-import ru.vad1mchk.progr.lab05.common.exceptions.FileException
-import ru.vad1mchk.progr.lab05.common.io.CommandListener
-import ru.vad1mchk.progr.lab05.common.io.Printer
-import ru.vad1mchk.progr.lab05.common.io.ScriptFileReader
-import java.io.Console
-import java.io.IOException
-import java.net.InetAddress
-import java.net.SocketException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
-import java.util.*
+import javafx.application.Application
+import javafx.event.EventHandler
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.scene.image.Image
+import javafx.scene.text.Font
+import javafx.stage.Stage
+import javafx.stage.StageStyle
+import ru.vad1mchk.progr.lab05.client.controllers.LoginFormController
+import ru.vad1mchk.progr.lab05.client.controllers.MainApplicationController
+import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
+import tornadofx.Controller
 
-/**
- * Implementation of [AbstractApplication] used solely by client.
- */
-class ClientApplication : AbstractApplication() {
-    private val connectionHandler: ClientConnectionHandler
-    private var commandListener: CommandListener
-    override var console: Console = System.console()
-    override var printer: Printer = Printer()
-    private val requestCreator = RequestCreator(Configuration.user, Scanner(System.`in`), printer)
-
-    init {
-        commandListener = CommandListener(System.`in`, false, "1337h4x0r", printer = printer)
-        connectionHandler = ClientConnectionHandler(printer)
+class ClientApplication : Application() {
+    companion object {
+        val ICON = Image(ClientApplication::class.java.getResourceAsStream("/icon.png"))
+        const val LOGIN_FORM_PREFERRED_WIDTH = 480.0
+        const val LOGIN_FORM_PREFERRED_HEIGHT = 640.0
     }
 
-
-    override fun launch(args: Array<String>) {
-        printer.printNewLine(
-            """
-            |Клиент менеджера космических десантников приветствует вас.
-            |Данное приложение работает только при наличии соединения с сервером.
-            |Для продолжения введите адрес и порт сервера в локальной сети. 
-            """.trimMargin()
-        )
-        connectionHandler.openConnection(readInetAddress(), readPort())
-        mainLoop()
-    }
-
-    /**
-     * Main loop of the program, in which the command requests are sent and responses received.
-     */
-    private fun mainLoop() {
-        while (true) {
-            val enteredCommand = commandListener.readCommand()
-            if (enteredCommand != null) {
-                if ("exit" == enteredCommand.name.lowercase()) {
-                    if (enteredCommand.arguments.isEmpty()) {
-                        printer.printNewLine("Завершение работы.")
-                        break
-                    } else {
-                        printer.printError("Для того чтобы выйти из приложения, введите команду exit без аргументов.")
-                    }
-                } else {
-                    if ("execute_script" == enteredCommand.name.lowercase() && Configuration.user != null) {
-                        if (enteredCommand.arguments.size == 1) {
-                            executeScript(enteredCommand.arguments[0])
-                        } else {
-                            printer.printError("Неверное количество аргументов команды.")
-                        }
-                    }
-                    listen(requestCreator.requestFromEnteredCommand(enteredCommand)?.also {
-                        Configuration.user?.let { user -> it.user = user }
-                        it.isLoggedInRequest = (Configuration.user != null)
-                    })?.also {
-                        println(it.stringMessage)
-                        it.spaceMarines?.stream()?.forEach { marine -> printer.printNewLine(marine.toString()) }
-                        if (it.user != null) {
-                            Configuration.user = it.user
-                        }
-                    }
-                }
-
-            }
+    override fun start(primaryStage: Stage?) {
+        val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
+        val loginFormRoot: Parent = loader.load()
+        val loginFormController = loader.getController<LoginFormController>()
+        loginFormController.initialize()
+        loginFormController.loginFormLoginButton.onMouseClicked = EventHandler {
+            newStage<MainApplicationController>("/MainApplicationController.fxml").decorateStage().show()
+            primaryStage?.hide()
+        }
+        primaryStage?.apply {
+            scene = Scene(loginFormRoot)
+            decorateStage()
+            isResizable = false
+            initStyle(StageStyle.UNIFIED)
+            show()
         }
     }
 
-    /**
-     * Reads IP address of the server from the standard input, looping until a valid address that can be found is
-     * entered.
-     * @return The entered IP address.
-     */
-    private fun readInetAddress(): InetAddress {
-        while (true) {
-            printer.printNoNewLine("Введите IP-адрес сервера: ")
-            try {
-                return InetAddress.getByName(console.readLine())
-            } catch (e: UnknownHostException) {
-                printer.printError("Адрес не найден в сети.")
-            }
-        }
+    private inline fun<reified T: Controller> newStage(fxmlLocation: String): Stage {
+        val loader = FXMLLoader(javaClass.getResource(fxmlLocation))
+        val root: Parent = loader.load()
+        val controller = loader.getController<T>()
+        val stage = Stage()
+        stage.scene = Scene(root)
+        return stage
     }
 
-    /**
-     * Listens to the connection, receiving incoming responses from the server.
-     * @param request Request to send.
-     * @return The server's response to the sent request.
-     */
-    private fun listen(request: Request?): Response? {
-        if (!connectionHandler.isOpen) {
-            connectionHandler.reopenConnection()
-        }
-        if (connectionHandler.isOpen) {
-            try {
-                if (request == null) return null
-                connectionHandler.send(request)
-                return connectionHandler.receive(connectionHandler.socket.receiveBufferSize)
-            } catch (e: SocketTimeoutException) {
-                printer.printError("Время ожидания ответа от сервера истекло.")
-            } catch (e: SocketException) {
-                printer.printError("Соединение с сервером было разорвано.")
-                connectionHandler.close()
-            } catch (e: IOException) {
-                printer.printError("Во время обмена информацией с сервером произошла ошибка ввода-вывода.")
-                connectionHandler.close()
-            }
-        }
-        return null
-    }
-
-    /**
-     * Executes the specified script file, sending commands to the server one by one.
-     * @param filePath Path of script file to execute.
-     */
-    private fun executeScript(filePath: String) {
+    private fun Stage.decorateStage(
+        cssLocation: String = "/synthwave.css",
+        icon: Image = ICON,
+        titleStringPropertyKey: String = "applicationName"
+    ): Stage {
         try {
-            val scriptFileReader = ScriptFileReader(filePath, Configuration.user, printer)
-            scriptFileReader.readAll().forEach { connectionHandler.send(it) }
-        } catch (e: FileException) {
-            printer.printError(e)
+            this.titleProperty().bind(StringPropertyManager.createBinding(titleStringPropertyKey))
+            this.scene.stylesheets.add(ClientApplication::class.java.getResource(cssLocation)?.toExternalForm())
+            this.icons.add(icon)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+        return this
     }
 }

@@ -9,11 +9,7 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.SocketAddress
 import java.nio.ByteBuffer
-import java.nio.channels.ClosedChannelException
-import java.nio.channels.SelectionKey
-import java.nio.channels.Selector
-import java.nio.channels.ServerSocketChannel
-import java.nio.channels.SocketChannel
+import java.nio.channels.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -54,7 +50,7 @@ class ServerConnectionHandler(
                     register(selector, SelectionKey.OP_ACCEPT)
                 }
                 listen()
-            } catch(_: ClosedChannelException) {
+            } catch (_: ClosedChannelException) {
 
             } catch (e: IOException) {
                 e.printStackTrace()

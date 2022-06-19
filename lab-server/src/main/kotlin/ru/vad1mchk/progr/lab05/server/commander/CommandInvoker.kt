@@ -66,7 +66,7 @@ class CommandInvoker(
                         command.isForLoggedInClient()) ||
                 (!request.isServerRequest &&
                         (!request.isLoggedInRequest ||
-                        (request.user?.let { negotiator.checkUser(it) == 0 } == true)) &&
+                                (request.user?.let { negotiator.checkUser(it) == 0 } == true)) &&
                         command.isForLoggedOutClient())
             ) {
                 command(request)

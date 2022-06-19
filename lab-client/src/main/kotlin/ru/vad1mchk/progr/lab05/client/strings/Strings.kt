@@ -1,11 +1,11 @@
 package ru.vad1mchk.progr.lab05.client.strings
 
-import java.util.ListResourceBundle
+import java.util.*
 
-abstract class Strings: ListResourceBundle() {
-    abstract val content: Array<Array<Any>>
+abstract class Strings : ListResourceBundle() {
+    abstract val content: Array<Array<String>>
 
-    override fun getContents(): Array<Array<Any>> {
+    override fun getContents(): Array<Array<String>> {
         return content
     }
 

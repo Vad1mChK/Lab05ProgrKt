@@ -11,7 +11,7 @@ import java.util.*
 class GetByIdentifierCommand(
     val collectionManager: CollectionManager<SpaceMarine>,
     val printer: Printer
-): AbstractCommand(
+) : AbstractCommand(
     "get_by_id",
     "Возвращает космического десантника с таким ID, если есть.",
     "id",
