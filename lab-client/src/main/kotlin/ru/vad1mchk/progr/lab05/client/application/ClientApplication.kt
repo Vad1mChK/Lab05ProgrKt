@@ -19,6 +19,10 @@ class ClientApplication : Application() {
         val ICON = Image(ClientApplication::class.java.getResourceAsStream("/icon.png"))
         const val LOGIN_FORM_PREFERRED_WIDTH = 480.0
         const val LOGIN_FORM_PREFERRED_HEIGHT = 640.0
+        const val MAIN_APPLICATION_MIN_WIDTH = 960.0
+        const val MAIN_APPLICATION_MIN_HEIGHT = 540.0
+        const val MAIN_APPLICATION_MAX_WIDTH = 1920.0
+        const val MAIN_APPLICATION_MAX_HEIGHT = 1080.0
     }
 
     override fun start(primaryStage: Stage?) {
@@ -27,7 +31,15 @@ class ClientApplication : Application() {
         val loginFormController = loader.getController<LoginFormController>()
         loginFormController.initialize()
         loginFormController.loginFormLoginButton.onMouseClicked = EventHandler {
-            newStage<MainApplicationController>("/MainApplicationController.fxml").decorateStage().show()
+            newStage<MainApplicationController>("/MainApplicationController.fxml")
+                .decorateStage()
+                .apply {
+                    minWidth = MAIN_APPLICATION_MIN_WIDTH
+                    minHeight = MAIN_APPLICATION_MIN_HEIGHT
+                    maxWidth = MAIN_APPLICATION_MAX_WIDTH
+                    maxHeight = MAIN_APPLICATION_MAX_HEIGHT
+                }
+                .show()
             primaryStage?.hide()
         }
         primaryStage?.apply {

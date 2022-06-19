@@ -11,16 +11,12 @@ import java.util.concurrent.Callable
 
 object StringPropertyManager {
     const val bundleName = "strings"
-    val supportedLocales: Map<Locale, Strings> = Collections.unmodifiableMap(hashMapOf<Locale, Strings>(
+    val supportedLocales: Map<Locale, Strings> = Collections.unmodifiableMap(hashMapOf(
         Locale("ru", "RU") to Strings_ru_RU,
         Locale("is", "IS") to Strings_is_IS,
         Locale("uk", "UA") to Strings_uk_UA,
         Locale("es", "NI") to Strings_es_NI
-    ).toSortedMap(object : Comparator<Locale> {
-        override fun compare(left: Locale, right: Locale): Int {
-            return compareValuesBy(left, right, Locale::getLanguage, Locale::getCountry)
-        }
-    }))
+    ).toSortedMap { left, right -> compareValuesBy(left, right, Locale::getLanguage, Locale::getCountry) })
 
     init {
         if (defaultLocale() !in supportedLocales.keys) {
@@ -28,11 +24,7 @@ object StringPropertyManager {
         }
     }
 
-    val localeProperty = SimpleObjectProperty<Locale>(defaultLocale()).also {
-        it.addListener(ChangeListener { observable, oldValue, newValue ->
-            Locale.setDefault(newValue)
-        })
-    }
+    private val localeProperty = SimpleObjectProperty(defaultLocale())
 
     fun defaultLocale(): Locale {
         return Locale.getDefault()
