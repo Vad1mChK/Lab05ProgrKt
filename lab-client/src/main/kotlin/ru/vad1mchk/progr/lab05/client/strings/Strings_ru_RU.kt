@@ -21,8 +21,8 @@ object Strings_ru_RU : Strings() {
         arrayOf("mainApplicationInfoCommand", "Общая информация"),
         arrayOf("propertyNameName", "Имя"),
         arrayOf("propertyNameCoordinates", "Координаты"),
-        arrayOf("propertyNameCoordinateX", "Координата X"),
-        arrayOf("propertyNameCoordinateY", "Координата Y"),
+        arrayOf("propertyNameCoordinateX", "Коорд. X"),
+        arrayOf("propertyNameCoordinateY", "Коорд. Y"),
         arrayOf("propertyNameCreationDate", "Дата создания"),
         arrayOf("propertyNameHealth", "Здоровье"),
         arrayOf("propertyNameHeartCount", "Число сердец"),
@@ -50,8 +50,8 @@ object Strings_ru_RU : Strings() {
             
             Дата инициализации: {5, date, full}
         """.trimIndent()),
-        arrayOf("mainApplicationSettingsLanguage", "Язык приложения"),
-        arrayOf("mainApplicationSettingsDemonstration", "Демонстрация"),
+        arrayOf("mainApplicationSettingsLanguage", "Язык приложения:"),
+        arrayOf("mainApplicationSettingsDemonstration", "Демонстрация:"),
         arrayOf("mainApplicationSettingsFormats", """
             Формат даты: {0, date, full}
             Формат чисел: {1, number}
@@ -74,5 +74,6 @@ object Strings_ru_RU : Strings() {
         arrayOf("mainApplicationRemoveGreaterCommand", "Удалить больших"),
         arrayOf("mainApplicationHistoryCommand", "История действий"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Здоровье в убывающем порядке"),
+        arrayOf("mainApplicationExecuteScriptCommand", "Выполнить скрипт"),
     )
 }

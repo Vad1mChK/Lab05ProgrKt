@@ -1,20 +1,38 @@
 package ru.vad1mchk.progr.lab05.client.controllers
 
+import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
+import javafx.event.EventHandler
 import javafx.event.EventTarget
 import javafx.fxml.FXML
 import javafx.scene.Parent
 import javafx.scene.layout.*
 import javafx.scene.control.*
 import javafx.scene.control.cell.ChoiceBoxTableCell
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.text.Text
+import javafx.util.Callback
+import javafx.util.converter.IntegerStringConverter
+import javafx.util.converter.NumberStringConverter
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
-import ru.vad1mchk.progr.lab05.client.util.FlatSpaceMarine
-import ru.vad1mchk.progr.lab05.client.util.MeleeWeaponConverter
+import ru.vad1mchk.progr.lab05.client.util.*
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import tornadofx.*
 import java.time.LocalDate
+import java.sql.Date
+import java.util.*
 
 class MainApplicationController: Controller() {
+    @FXML
+    lateinit var mainApplicationSettingsDemonstrationLabel: Label
+    @FXML
+    lateinit var mainApplicationSettingsDemonstrationText: Text
+    @FXML
+    lateinit var mainApplicationSettingsLanguageLabel: Label
+    @FXML
+    lateinit var mainApplicationSettingsLanguageChoice: ChoiceBox<Locale>
+    @FXML
+    lateinit var mainApplicationTableTable: TableView<FlatSpaceMarine>
     @FXML
     lateinit var mainApplicationTableBox: VBox
     @FXML
@@ -38,6 +56,8 @@ class MainApplicationController: Controller() {
     @FXML
     lateinit var mainApplicationTablePrintFieldDescendingHealthButton: Button
     @FXML
+    lateinit var mainApplicationTableExecuteScriptButton: Button
+    @FXML
     lateinit var mainApplicationMapCreateButton: Button
     @FXML
     lateinit var mainApplicationMapUpdateButton: Button
@@ -58,6 +78,8 @@ class MainApplicationController: Controller() {
     @FXML
     lateinit var mainApplicationMapPrintFieldDescendingHealthButton: Button
     @FXML
+    lateinit var mainApplicationMapExecuteScriptButton: Button
+    @FXML
     lateinit var mainApplicationAboutLabel: Label
     @FXML
     lateinit var mainApplicationSettingsLabel: Label
@@ -77,7 +99,6 @@ class MainApplicationController: Controller() {
     lateinit var mainApplicationTabPane: TabPane
     @FXML
     lateinit var mainApplicationBackground: AnchorPane
-
     fun initialize() {
         mainApplicationMapTab.textProperty().bind(StringPropertyManager.createBinding("mainApplicationMapLabel"))
         mainApplicationMapLabel.textProperty().bind(StringPropertyManager.createBinding("mainApplicationMapLabel"))
@@ -159,53 +180,101 @@ class MainApplicationController: Controller() {
         mainApplicationTablePrintFieldDescendingHealthButton.textProperty().bind(
             StringPropertyManager.createBinding("mainApplicationPrintFieldDescendingHealthCommand")
         )
-        mainApplicationTableBox.createTable().also {
-            it.items.addAll(
-                FlatSpaceMarine(1, "Иван Усков","Феникс Райт", 837, 888.0f, LocalDate.now(), 3.14, 3, true, MeleeWeapon.POWER_SWORD, "Первое дело", "PW:AA", 4),
-                FlatSpaceMarine(2, "Максим Коробков","Майлз Эджворт", 88, 888.0f, LocalDate.now(), 7.0, 3, false, MeleeWeapon.CHAIN_SWORD,"Дело о посетителе", null, 4)
-            )
+        mainApplicationMapExecuteScriptButton.textProperty().bind(
+            StringPropertyManager.createBinding("mainApplicationExecuteScriptCommand")
+        )
+        mainApplicationTableExecuteScriptButton.textProperty().bind(
+            StringPropertyManager.createBinding("mainApplicationExecuteScriptCommand")
+        )
+        addColumnsToTable(mainApplicationTableTable)
+        mainApplicationTableTable.items.add(
+            FlatSpaceMarine(3, "Иван Усков", "Майлз", 16777216, 3141.5926f, LocalDate.now(), 7.0, 3, false, MeleeWeapon.CHAIN_SWORD, null, null, null)
+        )
+        mainApplicationSettingsLanguageLabel.textProperty().bind(
+            StringPropertyManager.createBinding("mainApplicationSettingsLanguage")
+        )
+        mainApplicationSettingsLanguageChoice.apply {
+            converter = LocaleConverter()
+            items = FXCollections.observableArrayList(StringPropertyManager.supportedLocales.keys)
+            value = StringPropertyManager.locale
+            onAction = EventHandler {
+                StringPropertyManager.locale = value ?: Locale.getDefault()
+            }
+        }
+        mainApplicationSettingsDemonstrationLabel.textProperty().bind(
+            StringPropertyManager.createBinding("mainApplicationSettingsDemonstration")
+        )
+
+        mainApplicationSettingsDemonstrationText.apply {
+            // Write code that formats the message and updates the format on locale change
         }
     }
 
-    fun EventTarget.createTable(): TableView<FlatSpaceMarine> = this.tableview(FXCollections.observableArrayList()) {
-        readonlyColumn("ID", FlatSpaceMarine::id)
-        readonlyColumn("Name", FlatSpaceMarine::name).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameName"))
+    fun addColumnsToTable(table: TableView<FlatSpaceMarine>): TableView<FlatSpaceMarine> {
+        val idColumn = TableColumn<FlatSpaceMarine, Int>().apply {
+            text = "ID"
         }
-        readonlyColumn("X", FlatSpaceMarine::coordinatesX).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateX"))
+        val creatorNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameCreator"))
+            setCellValueFactory(PropertyValueFactory("creatorName"))
         }
-        readonlyColumn("Y", FlatSpaceMarine::coordinatesY).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateY"))
+        val nameColumn = TableColumn<FlatSpaceMarine, String>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameName"))
+            setCellValueFactory(PropertyValueFactory("name"))
         }
-        readonlyColumn("Creation date", FlatSpaceMarine::creationDate).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameCreationDate"))
-        }
-        readonlyColumn("Health", FlatSpaceMarine::health).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameHealth"))
-        }
-        readonlyColumn("Heart count", FlatSpaceMarine::heartCount).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameHeartCount"))
-        }
-        readonlyColumn("Loyal", FlatSpaceMarine::loyal).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameLoyal"))
-        }
-        readonlyColumn("Melee weapon", FlatSpaceMarine::meleeWeapon).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameMeleeWeapon"))
-            it.setCellFactory {
-                ChoiceBoxTableCell(MeleeWeaponConverter())
+        val coordinateXColumn = TableColumn<FlatSpaceMarine, String>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateX"))
+            setCellValueFactory { cell ->
+                SimpleStringProperty(StringPropertyManager.integerFormat.format(cell.value.coordinatesX))
             }
         }
-        readonlyColumn("Chapter name", FlatSpaceMarine::chapterName).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterName"))
+        val coordinateYColumn = TableColumn<FlatSpaceMarine, String>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateY"))
+            setCellValueFactory { cell ->
+                SimpleStringProperty(StringPropertyManager.numberFormat.format(cell.value.coordinatesY))
+            }
         }
-        readonlyColumn("Parent legion", FlatSpaceMarine::chapterParentLegion).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterParentLegion"))
+        val creationDateColumn = TableColumn<FlatSpaceMarine, String>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameCreationDate"))
+            setCellValueFactory { cell ->
+                SimpleStringProperty(StringPropertyManager.dateFormat.format(Date.valueOf(cell.value.creationDate)))
+            }
         }
-        readonlyColumn("Marines count", FlatSpaceMarine::chapterMarinesCount).also {
-            it.textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterMarinesCount"))
+        val healthColumn = TableColumn<FlatSpaceMarine, String>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameHealth"))
+            setCellValueFactory { cell ->
+                SimpleStringProperty(StringPropertyManager.numberFormat.format(cell.value.health))
+            }
         }
-        columnResizePolicy = SmartResize.POLICY
-        isEditable = false
+        val heartCountColumn = TableColumn<FlatSpaceMarine, String>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameHeartCount"))
+            setCellValueFactory { cell ->
+                SimpleStringProperty(StringPropertyManager.integerFormat.format(cell.value.heartCount))
+            }
+        }
+        val loyalColumn = TableColumn<FlatSpaceMarine, String>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameLoyal"))
+        }
+        val meleeWeaponColumn = TableColumn<FlatSpaceMarine, String?>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameMeleeWeapon"))
+        }
+        val chapterNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterName"))
+            setCellValueFactory(PropertyValueFactory("chapterName"))
+        }
+        val chapterParentLegionColumn = TableColumn<FlatSpaceMarine, String?>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterParentLegion"))
+            setCellValueFactory(PropertyValueFactory("chapterParentLegion"))
+        }
+        val chapterMarinesCountColumn = TableColumn<FlatSpaceMarine, String?>().apply {
+            textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterMarinesCount"))
+        }
+        table.columns.addAll(
+            idColumn, creatorNameColumn, nameColumn, coordinateXColumn, coordinateYColumn, creationDateColumn,
+            healthColumn, heartCountColumn, loyalColumn, meleeWeaponColumn, chapterNameColumn,
+            chapterParentLegionColumn, chapterMarinesCountColumn
+        )
+        table.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
+        return table
     }
 }

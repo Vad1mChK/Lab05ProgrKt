@@ -21,8 +21,8 @@ object Strings_uk_UA : Strings() {
         arrayOf("mainApplicationInfoCommand", "Загальна інформація"),
         arrayOf("propertyNameName", "Ім'я"),
         arrayOf("propertyNameCoordinates", "Координата"),
-        arrayOf("propertyNameCoordinateX", "Координата X"),
-        arrayOf("propertyNameCoordinateY", "Координата Y"),
+        arrayOf("propertyNameCoordinateX", "Коорд. X"),
+        arrayOf("propertyNameCoordinateY", "Коорд. Y"),
         arrayOf("propertyNameCreationDate", "Дата створення"),
         arrayOf("propertyNameHealth", "Здоров'я"),
         arrayOf("propertyNameHeartCount", "Число сердець"),
@@ -50,8 +50,8 @@ object Strings_uk_UA : Strings() {
             
             Дата ініціалізації: {5, date, full}
         """.trimIndent()),
-        arrayOf("mainApplicationSettingsLanguage", "Мова програми"),
-        arrayOf("mainApplicationSettingsDemonstration", "Демонстрація"),
+        arrayOf("mainApplicationSettingsLanguage", "Мова програми:"),
+        arrayOf("mainApplicationSettingsDemonstration", "Демонстрація:"),
         arrayOf("mainApplicationSettingsFormats", """
             Формат дати: {0, date, full}
             Формат чисел: {1, number}
@@ -74,5 +74,6 @@ object Strings_uk_UA : Strings() {
         arrayOf("mainApplicationRemoveGreaterCommand", "Видалити великих"),
         arrayOf("mainApplicationHistoryCommand", "Історія дій"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Здоров'я в порядку убування"),
+        arrayOf("mainApplicationExecuteScriptCommand", "Виконати скрипт"),
     )
 }

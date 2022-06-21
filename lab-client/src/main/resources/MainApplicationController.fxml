@@ -28,16 +28,17 @@
                                  <children>
                                     <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER">
                                        <children>
-                                          <Button fx:id="mainApplicationMapCreateButton" mnemonicParsing="false" text="Create" />
-                                          <Button fx:id="mainApplicationMapUpdateButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Update" />
-                                          <Button fx:id="mainApplicationMapDeleteButton" layoutX="61.0" layoutY="10.0" mnemonicParsing="false" text="Remove" />
-                                          <Button fx:id="mainApplicationMapClearButton" layoutX="116.0" layoutY="10.0" mnemonicParsing="false" text="Clear" />
-                                          <Button fx:id="mainApplicationMapFilterButton" layoutX="175.0" layoutY="10.0" mnemonicParsing="false" text="Filter" />
-                                          <Button fx:id="mainApplicationMapInfoButton" layoutX="218.0" layoutY="10.0" mnemonicParsing="false" text="Info" />
-                                          <Button fx:id="mainApplicationMapAddIfMinButton" layoutX="261.0" layoutY="10.0" mnemonicParsing="false" text="Add if Min." />
-                                          <Button fx:id="mainApplicationMapDeleteGreaterButton" layoutX="298.0" layoutY="10.0" mnemonicParsing="false" text="Remove Greater" />
-                                          <Button fx:id="mainApplicationMapHistoryButton" layoutX="373.0" layoutY="10.0" mnemonicParsing="false" text="Action History" />
-                                          <Button fx:id="mainApplicationMapPrintFieldDescendingHealthButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Print Field Descending Health" />
+                                           <Button fx:id="mainApplicationMapCreateButton" mnemonicParsing="false" text="Create" />
+                                           <Button fx:id="mainApplicationMapUpdateButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Update" />
+                                           <Button fx:id="mainApplicationMapDeleteButton" layoutX="61.0" layoutY="10.0" mnemonicParsing="false" text="Remove" />
+                                           <Button fx:id="mainApplicationMapClearButton" layoutX="116.0" layoutY="10.0" mnemonicParsing="false" text="Clear" />
+                                           <Button fx:id="mainApplicationMapFilterButton" layoutX="175.0" layoutY="10.0" mnemonicParsing="false" text="Filter" />
+                                           <Button fx:id="mainApplicationMapInfoButton" layoutX="218.0" layoutY="10.0" mnemonicParsing="false" text="Info" />
+                                           <Button fx:id="mainApplicationMapAddIfMinButton" layoutX="261.0" layoutY="10.0" mnemonicParsing="false" text="Add if Min." />
+                                           <Button fx:id="mainApplicationMapDeleteGreaterButton" layoutX="298.0" layoutY="10.0" mnemonicParsing="false" text="Remove Greater" />
+                                           <Button fx:id="mainApplicationMapHistoryButton" layoutX="373.0" layoutY="10.0" mnemonicParsing="false" text="Action History" />
+                                           <Button fx:id="mainApplicationMapPrintFieldDescendingHealthButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Print Field Descending Health" />
+                                           <Button fx:id="mainApplicationMapExecuteScriptButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Execute Script" />
                                        </children>
                                     </FlowPane>
                                     <ScrollPane prefViewportHeight="1000.0">
@@ -70,7 +71,7 @@
                                          <Font size="32.0" />
                                      </font>
                                  </Label>
-                                 <VBox fx:id="mainApplicationTableBox">
+                                 <VBox fx:id="mainApplicationTableBox" VBox.vgrow="ALWAYS">
                                      <VBox.margin>
                                          <Insets />
                                      </VBox.margin>
@@ -87,8 +88,10 @@
                                                  <Button fx:id="mainApplicationTableDeleteGreaterButton" layoutX="298.0" layoutY="10.0" mnemonicParsing="false" text="Remove Greater" />
                                                  <Button fx:id="mainApplicationTableHistoryButton" layoutX="373.0" layoutY="10.0" mnemonicParsing="false" text="Action History" />
                                                  <Button fx:id="mainApplicationTablePrintFieldDescendingHealthButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Print Field Descending Health" />
+                                                 <Button fx:id="mainApplicationTableExecuteScriptButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Execute Script" />
                                              </children>
                                          </FlowPane>
+                                    <TableView fx:id="mainApplicationTableTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                      </children>
                                  </VBox>
                              </children>
@@ -110,6 +113,32 @@
                                     <Font size="32.0" />
                                  </font>
                               </Label>
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="32.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <FlowPane hgap="50.0">
+                                       <children>
+                                          <Label fx:id="mainApplicationSettingsLanguageLabel" text="Label" />
+                                          <ChoiceBox fx:id="mainApplicationSettingsLanguageChoice" prefWidth="150.0" />
+                                       </children>
+                                    </FlowPane>
+                                    <Label fx:id="mainApplicationSettingsDemonstrationLabel" text="Label" />
+                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                             <children>
+                                                <Text fx:id="mainApplicationSettingsDemonstrationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="32.0" left="32.0" right="32.0" top="32.0" />
+                                       </padding>
+                                    </ScrollPane>
+                                 </children>
+                              </VBox>
                            </children>
                            <padding>
                               <Insets bottom="32.0" left="50.0" right="50.0" top="32.0" />

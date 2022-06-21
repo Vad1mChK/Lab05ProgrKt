@@ -5,7 +5,8 @@ import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 
 class MeleeWeaponConverter: StringConverter<MeleeWeapon>() {
-    override fun toString(meleeWeapon: MeleeWeapon): String {
+    override fun toString(meleeWeapon: MeleeWeapon?): String? {
+        if (meleeWeapon == null) return null
         return StringPropertyManager[
                 "propertyValueMeleeWeapon" + meleeWeapon
                     .name
@@ -16,7 +17,7 @@ class MeleeWeaponConverter: StringConverter<MeleeWeapon>() {
         ]
     }
 
-    override fun fromString(string: String): MeleeWeapon {
-        return MeleeWeapon.POWER_SWORD
+    override fun fromString(string: String?): MeleeWeapon? {
+        return null
     }
 }

@@ -44,9 +44,9 @@ class LoginFormController: Controller() {
         loginFormLanguageChoice.apply {
             converter = LocaleConverter()
             items = FXCollections.observableArrayList(StringPropertyManager.supportedLocales.keys)
-            value = StringPropertyManager.getLocale()
+            value = StringPropertyManager.locale
             onAction = EventHandler {
-                StringPropertyManager.setLocale(value ?: Locale.getDefault())
+                StringPropertyManager.locale = value ?: Locale.getDefault()
             }
         }
     }

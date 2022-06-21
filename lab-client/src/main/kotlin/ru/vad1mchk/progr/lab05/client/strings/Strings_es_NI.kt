@@ -21,8 +21,8 @@ object Strings_es_NI : Strings() {
         arrayOf("mainApplicationInfoCommand", "Información general"),
         arrayOf("propertyNameName", "Nombre"),
         arrayOf("propertyNameCoordinates", "Coordenadas"),
-        arrayOf("propertyNameCoordinateX", "Coordenada Y"),
-        arrayOf("propertyNameCoordinateY", "Coordenada Y"),
+        arrayOf("propertyNameCoordinateX", "Coord. X"),
+        arrayOf("propertyNameCoordinateY", "Coord. Y"),
         arrayOf("propertyNameCreationDate", "Fecha de creación"),
         arrayOf("propertyNameHealth", "Salud"),
         arrayOf("propertyNameHeartCount", "Número de corazones"),
@@ -50,8 +50,8 @@ object Strings_es_NI : Strings() {
             
             Fecha de inicialización: {5, date, full}
         """.trimIndent()),
-        arrayOf("mainApplicationSettingsLanguage", "Idioma de la aplicación"),
-        arrayOf("mainApplicationSettingsDemonstration", "Demostración"),
+        arrayOf("mainApplicationSettingsLanguage", "Idioma de la aplicación:"),
+        arrayOf("mainApplicationSettingsDemonstration", "Demostración:"),
         arrayOf("mainApplicationSettingsFormats", """
             Formato de fecha: {0, date, full}
             Formato de números: {1, number}
@@ -74,5 +74,6 @@ object Strings_es_NI : Strings() {
         arrayOf("mainApplicationRemoveGreaterCommand", "Eliminar grandes"),
         arrayOf("mainApplicationHistoryCommand", "Historia de acción"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Salud en orden decreciente"),
+        arrayOf("mainApplicationExecuteScriptCommand", "Ejecutar secuencia de comandos"),
     )
 }

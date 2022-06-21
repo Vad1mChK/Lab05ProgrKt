@@ -5,9 +5,12 @@ import javafx.beans.binding.StringBinding
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ChangeListener
 import java.text.Collator
+import java.text.DateFormat
 import java.text.MessageFormat
+import java.text.NumberFormat
 import java.util.*
 import java.util.concurrent.Callable
+import kotlin.collections.HashMap
 
 object StringPropertyManager {
     const val bundleName = "strings"
@@ -18,29 +21,41 @@ object StringPropertyManager {
         Locale("es", "NI") to Strings_es_NI
     ).toSortedMap { left, right -> compareValuesBy(left, right, Locale::getLanguage, Locale::getCountry) })
 
+    private val dateFormats = HashMap<Locale, DateFormat>()
+    val dateFormat: DateFormat
+        get() = dateFormats[locale]!!
+
+    private val numberFormats = HashMap<Locale, NumberFormat>()
+    val numberFormat: NumberFormat
+        get() = numberFormats[locale]!!
+
+    private val integerFormats = HashMap<Locale, NumberFormat>()
+    val integerFormat: NumberFormat
+        get() = integerFormats[locale]!!
+
+    val localeProperty = SimpleObjectProperty(defaultLocale())
+    var locale: Locale
+        get() = localeProperty.get()
+        set(newLocale) = localeProperty.set(newLocale)
+
     init {
         if (defaultLocale() !in supportedLocales.keys) {
             Locale.setDefault(supportedLocales.keys.first())
         }
+        for (locale in supportedLocales.keys) {
+            dateFormats[locale] = DateFormat.getDateInstance(DateFormat.FULL, locale)
+            numberFormats[locale] = NumberFormat.getNumberInstance(locale)
+            integerFormats[locale] = NumberFormat.getIntegerInstance(locale)
+        }
     }
-
-    private val localeProperty = SimpleObjectProperty(defaultLocale())
 
     fun defaultLocale(): Locale {
         return Locale.getDefault()
     }
 
-    fun getLocale(): Locale {
-        return localeProperty.get()
-    }
-
-    fun setLocale(locale: Locale) {
-        localeProperty.set(locale)
-    }
-
     operator fun get(key: String, vararg args: Any): String {
         return MessageFormat.format(
-            supportedLocales[getLocale()]!!.getString(key),
+            supportedLocales[locale]!!.getString(key),
             *args
         )
     }

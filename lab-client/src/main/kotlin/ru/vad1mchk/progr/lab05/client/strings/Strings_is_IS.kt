@@ -21,8 +21,8 @@ object Strings_is_IS : Strings() {
         arrayOf("mainApplicationInfoCommand", "Almennar upplýsingar"),
         arrayOf("propertyNameName", "Nafn"),
         arrayOf("propertyNameCoordinates", "Saðsetning"),
-        arrayOf("propertyNameCoordinateX", "Saðsetning X"),
-        arrayOf("propertyNameCoordinateY", "Saðsetning Y"),
+        arrayOf("propertyNameCoordinateX", "Saðs. X"),
+        arrayOf("propertyNameCoordinateY", "Saðs. Y"),
         arrayOf("propertyNameCreationDate", "Dagsetning stofnunar"),
         arrayOf("propertyNameHealth", "Heilsa"),
         arrayOf("propertyNameHeartCount", "Hjartafjöldi"),
@@ -50,8 +50,8 @@ object Strings_is_IS : Strings() {
             
             Frumstillingardagur: {5, date, full}
         """.trimIndent()),
-        arrayOf("mainApplicationSettingsLanguage", "Umsókn tungumál"),
-        arrayOf("mainApplicationSettingsDemonstration", "Sýning"),
+        arrayOf("mainApplicationSettingsLanguage", "Umsókn tungumál:"),
+        arrayOf("mainApplicationSettingsDemonstration", "Sýning:"),
         arrayOf("mainApplicationSettingsFormats", """
             Dagsetning snið: {0, date, full}
             Númer snið: {1, number}
@@ -74,5 +74,6 @@ object Strings_is_IS : Strings() {
         arrayOf("mainApplicationRemoveGreaterCommand", "Eyða stórum"),
         arrayOf("mainApplicationHistoryCommand", "Saga aðgerða"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Heilsa í lækkandi röð"),
+        arrayOf("mainApplicationExecuteScriptCommand", "Framkvæma handrit"),
     )
 }

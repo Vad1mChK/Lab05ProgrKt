@@ -40,7 +40,7 @@ class ClientApplication : Application() {
                     maxHeight = MAIN_APPLICATION_MAX_HEIGHT
                 }
                 .show()
-            primaryStage?.hide()
+            // primaryStage?.hide()
         }
         primaryStage?.apply {
             scene = Scene(loginFormRoot)
