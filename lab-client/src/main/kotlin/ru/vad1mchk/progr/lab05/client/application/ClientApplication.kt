@@ -26,6 +26,7 @@ class ClientApplication : Application() {
     }
 
     override fun start(primaryStage: Stage?) {
+        println("adaaaa")
         val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
         val loginFormRoot: Parent = loader.load()
         val loginFormController = loader.getController<LoginFormController>()
