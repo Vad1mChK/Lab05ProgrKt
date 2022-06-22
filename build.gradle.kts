@@ -1,4 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -24,21 +23,6 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
-}
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-    }
-}
-
-tasks.dokkaHtmlMultiModule.configure {
-    outputDirectory.set(buildDir.resolve("documentation"))
-    includes.from("README.md", "module.md")
-}
-
-tasks.withType<DokkaTask>().configureEach {
-
 }
 
 subprojects {

@@ -3,3 +3,5 @@
 /build/
 /out/
 /lab-client/build/
+/lab-common/build/
+/lab-server/build/
