@@ -2,6 +2,7 @@ package ru.vad1mchk.progr.lab05.client.controllers
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.event.EventHandler
 import javafx.event.EventTarget
 import javafx.fxml.FXML
@@ -211,7 +212,7 @@ class MainApplicationController: Controller() {
         mainApplicationSettingsDemonstrationText.apply {
             textProperty().bind(StringPropertyManager.createBinding {
                 val messageFormat = MessageFormat(StringPropertyManager.get("mainApplicationSettingsFormats"))
-                val someNumber=Random().nextInt().toUShort().toInt()
+                val number=Random().nextInt().toUShort().toInt()
                 messageFormat.locale = StringPropertyManager.locale
                 messageFormat.format( arrayOf(
                     StringPropertyManager.dateFormat.format(
@@ -219,10 +220,10 @@ class MainApplicationController: Controller() {
                     ),
                     StringPropertyManager.numberFormat.format(3.14159265),
                     StringPropertyManager.dateFormat.format(Date.valueOf(LocalDate.now())),
-                    "Иван Усков",
-                    StringPropertyManager.integerFormat.format(someNumber),
+                    Configuration.user?.userName,
+                    StringPropertyManager.integerFormat.format(number),
                     CustomChoiceFormat.formatByRules {
-                        when(someNumber%100) {
+                        when(number%100) {
                             1, in (21..91 step 10) -> {
                                 StringPropertyManager["mainApplicationSettingsFormatSpaceMarineSingular"]
                             }
@@ -234,6 +235,10 @@ class MainApplicationController: Controller() {
                 ))
             })
         }
+
+        StringPropertyManager.localeProperty.addListener(ChangeListener { observable, oldValue, newValue ->
+            updateTable(mainApplicationTableTable)
+        })
     }
 
     fun addColumnsToTable(table: TableView<FlatSpaceMarine>): TableView<FlatSpaceMarine> {
@@ -279,11 +284,15 @@ class MainApplicationController: Controller() {
                 SimpleStringProperty(StringPropertyManager.integerFormat.format(cell.value.heartCount))
             }
         }
-        val loyalColumn = TableColumn<FlatSpaceMarine, String>().apply {
+        val loyalColumn = TableColumn<FlatSpaceMarine, Boolean>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameLoyal"))
+            setCellValueFactory(PropertyValueFactory("loyal"))
+            setCellFactory { ChoiceBoxTableCell(BooleanConverter()) }
         }
-        val meleeWeaponColumn = TableColumn<FlatSpaceMarine, String?>().apply {
+        val meleeWeaponColumn = TableColumn<FlatSpaceMarine, MeleeWeapon?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameMeleeWeapon"))
+            setCellValueFactory(PropertyValueFactory("meleeWeapon"))
+            setCellFactory { ChoiceBoxTableCell(MeleeWeaponConverter()) }
         }
         val chapterNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterName"))
@@ -295,6 +304,11 @@ class MainApplicationController: Controller() {
         }
         val chapterMarinesCountColumn = TableColumn<FlatSpaceMarine, String?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterMarinesCount"))
+            setCellValueFactory { cell ->
+                SimpleStringProperty(
+                    cell.value.chapterMarinesCount?.let { StringPropertyManager.integerFormat.format(it) }
+                )
+            }
         }
         table.columns.addAll(
             idColumn, creatorNameColumn, nameColumn, coordinateXColumn, coordinateYColumn, creationDateColumn,
@@ -303,5 +317,11 @@ class MainApplicationController: Controller() {
         )
         table.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
         return table
+    }
+
+    fun updateTable(table: TableView<FlatSpaceMarine>) {
+        val temporaryStorage = LinkedList(table.items)
+        table.items.clear()
+        table.items.setAll(temporaryStorage)
     }
 }
