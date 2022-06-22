@@ -20,7 +20,10 @@ import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import tornadofx.*
 import java.time.LocalDate
 import java.sql.Date
+import java.text.ChoiceFormat
+import java.text.MessageFormat
 import java.util.*
+import java.util.concurrent.Callable
 
 class MainApplicationController: Controller() {
     @FXML
@@ -206,7 +209,30 @@ class MainApplicationController: Controller() {
         )
 
         mainApplicationSettingsDemonstrationText.apply {
-            // Write code that formats the message and updates the format on locale change
+            textProperty().bind(StringPropertyManager.createBinding {
+                val messageFormat = MessageFormat(StringPropertyManager.get("mainApplicationSettingsFormats"))
+                val someNumber=Random().nextInt().toUShort().toInt()
+                messageFormat.locale = StringPropertyManager.locale
+                messageFormat.format( arrayOf(
+                    StringPropertyManager.dateFormat.format(
+                        Date.valueOf(LocalDate.of(1922, 12, 30))
+                    ),
+                    StringPropertyManager.numberFormat.format(3.14159265),
+                    StringPropertyManager.dateFormat.format(Date.valueOf(LocalDate.now())),
+                    "Иван Усков",
+                    StringPropertyManager.integerFormat.format(someNumber),
+                    CustomChoiceFormat.formatByRules {
+                        when(someNumber%100) {
+                            1, in (21..91 step 10) -> {
+                                StringPropertyManager["mainApplicationSettingsFormatSpaceMarineSingular"]
+                            }
+                            else -> {
+                                StringPropertyManager["mainApplicationSettingsFormatSpaceMarinePlural"]
+                            }
+                        }
+                    }
+                ))
+            })
         }
     }
 

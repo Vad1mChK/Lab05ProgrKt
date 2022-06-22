@@ -55,8 +55,10 @@ object Strings_is_IS : Strings() {
         arrayOf("mainApplicationSettingsFormats", """
             Dagsetning snið: {0, date, full}
             Númer snið: {1, number}
-            Skilaboð snið: í dag, {2, date, full}, notandi {3} búið {4, number, integer} {5, choice}.
+            Skilaboð snið: í dag, {2, date, full}, notandi {3} búið {4, number, integer} {5}.
         """.trimIndent()),
+        arrayOf("mainApplicationSettingsFormatSpaceMarineSingular", "geimskip"),
+        arrayOf("mainApplicationSettingsFormatSpaceMarinePlural", "geimfarar"),
         arrayOf("mainApplicationAboutText", """
             Geimferðastjóri, útgáfa {0}
             Umsóknin var búin til sem hluti af {1, number, integer}-th rannsóknarstofu vinna á aga «{2}».

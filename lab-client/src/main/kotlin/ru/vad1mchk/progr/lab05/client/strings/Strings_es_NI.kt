@@ -57,6 +57,8 @@ object Strings_es_NI : Strings() {
             Formato de números: {1, number}
             Formato del mensaje: hoy, {2, date, full}, el usuario {3} creó {4, number, integer} {5, choice}.
         """.trimIndent()),
+        arrayOf("mainApplicationSettingsFormatSpaceMarineSingular", "paracaidista espacial"),
+        arrayOf("mainApplicationSettingsFormatSpaceMarinePlural", "paracaidistas espaciales"),
         arrayOf("mainApplicationAboutText", """
             Administrador de paracaidistas espaciales, versión {0}
             La aplicación se creó en el marco de {1, number, integer}- ésimo trabajo de laboratorio en la disciplina «{2}».

@@ -55,8 +55,10 @@ object Strings_uk_UA : Strings() {
         arrayOf("mainApplicationSettingsFormats", """
             Формат дати: {0, date, full}
             Формат чисел: {1, number}
-            Формат повідомлення: Сьогодні, {2, date, full}, користувач {3} створив {4, number, integer} {5, choice}.
+            Формат повідомлення: Сьогодні, {2, date, full}, користувач {3} створив {4, number, integer} {5}.
         """.trimIndent()),
+        arrayOf("mainApplicationSettingsFormatSpaceMarineSingular", "космічного десантника"),
+        arrayOf("mainApplicationSettingsFormatSpaceMarinePlural", "космічних десантників"),
         arrayOf("mainApplicationAboutText", """
             Менеджер Космічних десантників, версія {0}
             Додаток створено в рамках {1, number, integer}-ї лабораторної роботи з дисципліни «{2}».

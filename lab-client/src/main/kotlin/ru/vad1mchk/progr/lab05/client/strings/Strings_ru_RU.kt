@@ -55,8 +55,10 @@ object Strings_ru_RU : Strings() {
         arrayOf("mainApplicationSettingsFormats", """
             Формат даты: {0, date, full}
             Формат чисел: {1, number}
-            Формат сообщения: Сегодня, {2, date, full}, пользователь {3} создал {4, number, integer} {5, choice}.
+            Формат сообщения: Сегодня, {2, date, full}, пользователь {3} создал {4, number, integer} {5}.
         """.trimIndent()),
+        arrayOf("mainApplicationSettingsFormatSpaceMarineSingular", "космодесантника"),
+        arrayOf("mainApplicationSettingsFormatSpaceMarinePlural", "космодесантников"),
         arrayOf("mainApplicationAboutText", """
             Менеджер космических десантников, версия {0}
             Приложение создано в рамках {1, number, integer}-й лабораторной работы по дисциплине «{2}».
