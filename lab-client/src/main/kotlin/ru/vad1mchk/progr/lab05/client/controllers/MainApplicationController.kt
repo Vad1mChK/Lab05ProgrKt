@@ -239,6 +239,7 @@ class MainApplicationController: Controller() {
     fun addColumnsToTable(table: TableView<FlatSpaceMarine>): TableView<FlatSpaceMarine> {
         val idColumn = TableColumn<FlatSpaceMarine, Int>().apply {
             text = "ID"
+            setCellValueFactory(PropertyValueFactory("id"))
         }
         val creatorNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCreator"))
