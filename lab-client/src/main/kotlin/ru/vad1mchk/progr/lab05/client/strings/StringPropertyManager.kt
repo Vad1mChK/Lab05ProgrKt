@@ -16,12 +16,13 @@ import kotlin.collections.HashMap
 
 object StringPropertyManager {
     const val bundleName = "strings"
-    val supportedLocales: Map<Locale, Strings> = Collections.unmodifiableMap(hashMapOf(
+    val supportedLocales: Map<Locale, Strings> = Collections.unmodifiableMap(
+        linkedMapOf(
         Locale("ru", "RU") to Strings_ru_RU,
         Locale("is", "IS") to Strings_is_IS,
         Locale("uk", "UA") to Strings_uk_UA,
         Locale("es", "NI") to Strings_es_NI
-    ).toSortedMap { left, right -> compareValuesBy(left, right, Locale::getLanguage, Locale::getCountry) })
+    ))
 
     private val dateFormats = HashMap<Locale, DateFormat>()
     val dateFormat: DateFormat
@@ -35,15 +36,17 @@ object StringPropertyManager {
     val integerFormat: NumberFormat
         get() = integerFormats[locale]!!
 
-    val localeProperty = SimpleObjectProperty(defaultLocale())
+    val localeProperty = SimpleObjectProperty(supportedLocales.keys.first())
     var locale: Locale
         get() = localeProperty.get()
         set(newLocale) = localeProperty.set(newLocale)
 
     init {
+        println(Locale.getDefault())
         if (defaultLocale() !in supportedLocales.keys) {
             Locale.setDefault(supportedLocales.keys.first())
         }
+        println(Locale.getDefault())
         for (locale in supportedLocales.keys) {
             dateFormats[locale] = DateFormat.getDateInstance(DateFormat.FULL, locale)
             numberFormats[locale] = NumberFormat.getNumberInstance(locale)
