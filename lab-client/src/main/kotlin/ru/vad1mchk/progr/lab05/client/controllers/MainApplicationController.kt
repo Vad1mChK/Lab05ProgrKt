@@ -1,34 +1,35 @@
 package ru.vad1mchk.progr.lab05.client.controllers
 
 import javafx.beans.property.SimpleStringProperty
+import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
-import javafx.collections.ObservableList
 import javafx.event.EventHandler
-import javafx.event.EventTarget
 import javafx.fxml.FXML
-import javafx.scene.Parent
-import javafx.scene.layout.*
 import javafx.scene.control.*
 import javafx.scene.control.cell.ChoiceBoxTableCell
 import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.input.MouseEvent
+import javafx.scene.layout.*
 import javafx.scene.text.Text
 import javafx.util.Callback
-import javafx.util.converter.IntegerStringConverter
-import javafx.util.converter.NumberStringConverter
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
+import ru.vad1mchk.progr.lab05.client.strings.Strings
 import ru.vad1mchk.progr.lab05.client.util.*
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import tornadofx.*
-import java.time.LocalDate
 import java.sql.Date
-import java.text.ChoiceFormat
 import java.text.MessageFormat
+import java.time.LocalDate
 import java.util.*
-import java.util.concurrent.Callable
 
 class MainApplicationController: Controller() {
+    private val newStageOpener = NewStageOpener();
+    @FXML
+    lateinit var mainApplicationAboutText: Text
     @FXML
     lateinit var mainApplicationSettingsDemonstrationLabel: Label
+    @FXML
+    lateinit var mainApplicationSettingsDemonstrationScrollPane: ScrollPane
     @FXML
     lateinit var mainApplicationSettingsDemonstrationText: Text
     @FXML
@@ -61,6 +62,8 @@ class MainApplicationController: Controller() {
     lateinit var mainApplicationTablePrintFieldDescendingHealthButton: Button
     @FXML
     lateinit var mainApplicationTableExecuteScriptButton: Button
+    @FXML
+    lateinit var mainApplicationMapScrollPane: ScrollPane
     @FXML
     lateinit var mainApplicationMapCreateButton: Button
     @FXML
@@ -104,6 +107,9 @@ class MainApplicationController: Controller() {
     @FXML
     lateinit var mainApplicationBackground: AnchorPane
     fun initialize() {
+        mainApplicationTabPane.selectionModelProperty().addListener(ChangeListener { observable, oldValue, newValue ->
+            println("$oldValue was changed to $newValue")
+        })
         mainApplicationMapTab.textProperty().bind(StringPropertyManager.createBinding("mainApplicationMapLabel"))
         mainApplicationMapLabel.textProperty().bind(StringPropertyManager.createBinding("mainApplicationMapLabel"))
         mainApplicationTableTab.textProperty().bind(
@@ -211,8 +217,8 @@ class MainApplicationController: Controller() {
 
         mainApplicationSettingsDemonstrationText.apply {
             textProperty().bind(StringPropertyManager.createBinding {
-                val messageFormat = MessageFormat(StringPropertyManager.get("mainApplicationSettingsFormats"))
-                val number=Random().nextInt().toUShort().toInt()
+                val messageFormat = MessageFormat(StringPropertyManager["mainApplicationSettingsFormats"])
+                val number=Configuration.spaceMarinesCreated
                 messageFormat.locale = StringPropertyManager.locale
                 messageFormat.format( arrayOf(
                     StringPropertyManager.dateFormat.format(
@@ -221,10 +227,10 @@ class MainApplicationController: Controller() {
                     StringPropertyManager.numberFormat.format(3.14159265),
                     StringPropertyManager.dateFormat.format(Date.valueOf(LocalDate.now())),
                     Configuration.user?.userName,
-                    StringPropertyManager.integerFormat.format(number),
+                    StringPropertyManager.integerFormat.format(number.toInt()),
                     CustomChoiceFormat.formatByRules {
-                        when(number%100) {
-                            1, in (21..91 step 10) -> {
+                        when(number% 100u) {
+                            1u, in (21u..91u step 10) -> {
                                 StringPropertyManager["mainApplicationSettingsFormatSpaceMarineSingular"]
                             }
                             else -> {
@@ -232,6 +238,24 @@ class MainApplicationController: Controller() {
                             }
                         }
                     }
+                ))
+            })
+        }
+
+        mainApplicationAboutText.apply {
+            textProperty().bind(StringPropertyManager.createBinding {
+                val messageFormat = MessageFormat(StringPropertyManager["mainApplicationAboutText"])
+                messageFormat.locale = StringPropertyManager.locale
+                messageFormat.format(arrayOf(
+                    Strings.VERSION,
+                    Strings.LABORATORY_WORK_NUMBER,
+                    StringPropertyManager["disciplineName"],
+                    Strings.PROGRAMMING_LANGUAGE,
+                    Strings.PROGRAMMING_LANGUAGE_VERSION,
+                    Strings.JAVAFX_VERSION,
+                    Strings.JDK_VERSION,
+                    StringPropertyManager["authorOne"],
+                    StringPropertyManager["authorTwo"]
                 ))
             })
         }
@@ -249,6 +273,33 @@ class MainApplicationController: Controller() {
         val creatorNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCreator"))
             setCellValueFactory(PropertyValueFactory("creatorName"))
+            cellFactory.apply {
+                addEventHandler(MouseEvent.MOUSE_CLICKED) {
+                    newStageOpener.newStage<UserInformationController>("/UserInformationController")
+                }
+            }
+            cellFactory = Callback<TableColumn<FlatSpaceMarine, String?>, TableCell<FlatSpaceMarine, String?>> {
+                val cell: TableCell<FlatSpaceMarine, String?> = object : TableCell<FlatSpaceMarine, String?>() {
+                    override fun updateItem(item: String?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        text = if (empty) null else string
+                        graphic = null
+                    }
+
+                    private val string: String
+                        get() = if (item == null) "" else item.toString()
+                }
+                cell.addEventFilter(
+                    MouseEvent.MOUSE_CLICKED,
+                    EventHandler<MouseEvent> { event ->
+                        if (event.clickCount > 1) {
+                            newStageOpener.newStage<UserInformationController>(
+                                "/UserInformationController.fxml"
+                            )
+                        }
+                    })
+                cell
+            }.also { cellFactory = it };
         }
         val nameColumn = TableColumn<FlatSpaceMarine, String>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameName"))
@@ -315,7 +366,7 @@ class MainApplicationController: Controller() {
             healthColumn, heartCountColumn, loyalColumn, meleeWeaponColumn, chapterNameColumn,
             chapterParentLegionColumn, chapterMarinesCountColumn
         )
-        table.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
+        table.columnResizePolicy = SmartResize.POLICY
         return table
     }
 

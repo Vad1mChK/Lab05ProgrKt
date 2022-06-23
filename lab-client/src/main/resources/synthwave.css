@@ -108,7 +108,7 @@
     -fx-background-color: derive(#321450, 20%);
 }
 
-#loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel {
+#loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel, #userInformationLabel {
     -fx-font-size: 32px;
 }
 

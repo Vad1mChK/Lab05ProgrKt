@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings
 import javafx.beans.binding.StringBinding
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ChangeListener
+import java.math.RoundingMode
 import java.text.Collator
 import java.text.DateFormat
 import java.text.MessageFormat
@@ -49,7 +50,11 @@ object StringPropertyManager {
         println(Locale.getDefault())
         for (locale in supportedLocales.keys) {
             dateFormats[locale] = DateFormat.getDateInstance(DateFormat.FULL, locale)
-            numberFormats[locale] = NumberFormat.getNumberInstance(locale)
+            numberFormats[locale] = NumberFormat.getNumberInstance(locale).apply {
+                this.maximumFractionDigits = 6
+                this.roundingMode = RoundingMode.HALF_UP
+                this.currency = Currency.getInstance(locale)
+            }
             integerFormats[locale] = NumberFormat.getIntegerInstance(locale)
         }
     }

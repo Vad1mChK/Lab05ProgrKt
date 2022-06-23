@@ -70,6 +70,7 @@ object Strings_is_IS : Strings() {
             * {7}
             * {8}
         """.trimIndent()),
+        arrayOf("disciplineName", "Forritun"),
         arrayOf("authorOne", "Vadim Konstantinovich Chaikin"),
         arrayOf("authorTwo", "Daniil Andreevich Gorinov"),
         arrayOf("mainApplicationAddIfMinCommand", "Bæta við ef minna"),
@@ -77,5 +78,6 @@ object Strings_is_IS : Strings() {
         arrayOf("mainApplicationHistoryCommand", "Saga aðgerða"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Heilsa í lækkandi röð"),
         arrayOf("mainApplicationExecuteScriptCommand", "Framkvæma handrit"),
+        arrayOf("userInformationLabel", "Notandaupplýsingar"),
     )
 }
