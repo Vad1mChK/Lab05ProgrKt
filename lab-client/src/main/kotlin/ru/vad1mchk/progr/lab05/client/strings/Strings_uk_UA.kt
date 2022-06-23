@@ -79,5 +79,12 @@ object Strings_uk_UA : Strings() {
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Здоров'я в порядку убування"),
         arrayOf("mainApplicationExecuteScriptCommand", "Виконати скрипт"),
         arrayOf("userInformationLabel", "Інформація про Користувача"),
+        arrayOf("userInformationText", """
+            Колір користувача: {0}.
+            Користувачеві {1} належить {2, number, integer} {3, choice}.
+        """.trimIndent()),
+        arrayOf("userInformationSpaceMarinesOne", "космодесантник"),
+        arrayOf("userInformationSpaceMarinesFew", "космодесантника"),
+        arrayOf("userInformationSpaceMarinesMany", "космодесантників"),
     )
 }
