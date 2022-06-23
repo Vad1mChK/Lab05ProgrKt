@@ -41,11 +41,11 @@
                                            <Button fx:id="mainApplicationMapExecuteScriptButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Execute Script" />
                                        </children>
                                     </FlowPane>
-                                    <ScrollPane prefViewportHeight="1000.0">
+                                    <ScrollPane fx:id="mainApplicationMapScrollPane" hbarPolicy="NEVER" pannable="true" prefViewportHeight="1000.0" vbarPolicy="NEVER">
                                       <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                        <AnchorPane maxHeight="200.0" maxWidth="200.0" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Canvas height="200.0" width="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Canvas height="200.0" width="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                       </content>
@@ -122,7 +122,7 @@
                                        </children>
                                     </FlowPane>
                                     <Label fx:id="mainApplicationSettingsDemonstrationLabel" text="Label" />
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                    <ScrollPane fx:id="mainApplicationSettingsDemonstrationScrollPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                              <children>
@@ -158,6 +158,17 @@
                                     <Font size="32.0" />
                                  </font>
                               </Label>
+                              <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fx:id="mainApplicationAboutText" layoutX="3.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children></AnchorPane>
+                                </content>
+                                 <padding>
+                                    <Insets bottom="32.0" left="32.0" right="32.0" top="32.0" />
+                                 </padding>
+                              </ScrollPane>
                            </children>
                            <padding>
                               <Insets bottom="32.0" left="50.0" right="50.0" top="32.0" />

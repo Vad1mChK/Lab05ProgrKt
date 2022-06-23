@@ -30,7 +30,7 @@ object Strings_es_NI : Strings() {
         arrayOf("propertyNameMeleeWeapon", "Armas cuerpo a cuerpo"),
         arrayOf("propertyNameChapterName", "Nombre del capítulo"),
         arrayOf("propertyNameChapterParentLegion", "Legión parental"),
-        arrayOf("propertyNameChapterMarinesCount", "Número de Marines espaciales"),
+        arrayOf("propertyNameChapterMarinesCount", "Número de Marines"),
         arrayOf("propertyNameCreator", "Creador"),
         arrayOf("propertyValueTrue", "Sí"),
         arrayOf("propertyValueFalse", "No"),
@@ -70,6 +70,7 @@ object Strings_es_NI : Strings() {
             * {7}
             * {8}
         """.trimIndent()),
+        arrayOf("disciplineName", "Programación"),
         arrayOf("authorOne", "Vadim Konstantinovich Chaikin"),
         arrayOf("authorTwo", "Daniil Andreevich Gorinov"),
         arrayOf("mainApplicationAddIfMinCommand", "Añadir si menos"),
@@ -77,5 +78,6 @@ object Strings_es_NI : Strings() {
         arrayOf("mainApplicationHistoryCommand", "Historia de acción"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Salud en orden decreciente"),
         arrayOf("mainApplicationExecuteScriptCommand", "Ejecutar secuencia de comandos"),
+        arrayOf("userInformationLabel", "Información del usuario"),
     )
 }

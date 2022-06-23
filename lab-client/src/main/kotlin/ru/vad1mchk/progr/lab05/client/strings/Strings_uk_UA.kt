@@ -30,7 +30,7 @@ object Strings_uk_UA : Strings() {
         arrayOf("propertyNameMeleeWeapon", "Зброя ближнього бою"),
         arrayOf("propertyNameChapterName", "Ім'я глави"),
         arrayOf("propertyNameChapterParentLegion", "Батьківський легіон"),
-        arrayOf("propertyNameChapterMarinesCount", "Число космодесантників"),
+        arrayOf("propertyNameChapterMarinesCount", "Число десантників"),
         arrayOf("propertyNameCreator", "Творець"),
         arrayOf("propertyValueTrue", "Так"),
         arrayOf("propertyValueFalse", "Ні"),
@@ -70,6 +70,7 @@ object Strings_uk_UA : Strings() {
             * {7}
             * {8}
         """.trimIndent()),
+        arrayOf("disciplineName", "Програмування"),
         arrayOf("authorOne", "Вадим Костянтинович Чайкін"),
         arrayOf("authorTwo", "Данило Андрійович Горінов"),
         arrayOf("mainApplicationAddIfMinCommand", "Додати, якщо менше"),
@@ -77,5 +78,6 @@ object Strings_uk_UA : Strings() {
         arrayOf("mainApplicationHistoryCommand", "Історія дій"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Здоров'я в порядку убування"),
         arrayOf("mainApplicationExecuteScriptCommand", "Виконати скрипт"),
+        arrayOf("userInformationLabel", "Інформація про Користувача"),
     )
 }
