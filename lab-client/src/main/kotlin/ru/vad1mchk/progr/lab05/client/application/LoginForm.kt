@@ -13,6 +13,7 @@ import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import ru.vad1mchk.progr.lab05.client.util.Configuration
 import ru.vad1mchk.progr.lab05.client.util.Listener
 import ru.vad1mchk.progr.lab05.client.util.NewStageOpener
+import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStage
 import ru.vad1mchk.progr.lab05.common.datatypes.User
 import tornadofx.Controller
 
@@ -67,21 +68,4 @@ public class LoginForm (private val listener: Listener, private val primaryStage
             show()
         }
     }
-
-    private fun Stage.decorateStage(
-        cssLocation: String = "/synthwave.css",
-        icon: Image = ClientApplication.ICON,
-        titleStringPropertyKey: String = "applicationName"
-    ): Stage {
-        try {
-            this.titleProperty().bind(StringPropertyManager.createBinding(titleStringPropertyKey))
-            this.scene.stylesheets.add(ClientApplication::class.java.getResource(cssLocation)?.toExternalForm())
-            this.icons.add(icon)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return this
-    }
-
-
 }

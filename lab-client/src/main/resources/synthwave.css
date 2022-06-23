@@ -3,7 +3,7 @@
     src: url('/fonts/framd.ttf');
 }
 
-#loginFormBackground, #mainApplicationBackground {
+.background {
     -fx-background-color: linear-gradient(to top, #de004e, #860029, #321450, #29132e);
 }
 

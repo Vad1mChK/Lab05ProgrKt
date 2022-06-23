@@ -15,6 +15,7 @@ import javafx.util.Callback
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import ru.vad1mchk.progr.lab05.client.strings.Strings
 import ru.vad1mchk.progr.lab05.client.util.*
+import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStage
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import tornadofx.*
 import java.sql.Date
@@ -107,6 +108,7 @@ class MainApplicationController: Controller() {
     @FXML
     lateinit var mainApplicationBackground: AnchorPane
     fun initialize() {
+        mainApplicationBackground.styleClass.add("background")
         mainApplicationTabPane.selectionModelProperty().addListener(ChangeListener { observable, oldValue, newValue ->
             println("$oldValue was changed to $newValue")
         })
@@ -290,14 +292,14 @@ class MainApplicationController: Controller() {
                         get() = if (item == null) "" else item.toString()
                 }
                 cell.addEventFilter(
-                    MouseEvent.MOUSE_CLICKED,
-                    EventHandler<MouseEvent> { event ->
-                        if (event.clickCount > 1) {
-                            newStageOpener.newStage<UserInformationController>(
-                                "/UserInformationController.fxml"
-                            )
-                        }
-                    })
+                    MouseEvent.MOUSE_CLICKED
+                ) { event ->
+                    if (event.clickCount > 1) {
+                        newStageOpener.newStage<UserInformationController>(
+                            "/UserInformationController.fxml"
+                        ).decorateStage().show()
+                    }
+                }
                 cell
             }.also { cellFactory = it };
         }
