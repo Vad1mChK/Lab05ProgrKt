@@ -25,6 +25,7 @@ import java.io.IOException
 import java.net.InetAddress
 import java.net.SocketException
 import java.net.SocketTimeoutException
+import kotlinx.coroutines.*
 
 class ClientApplication : Application() {
     var printer: Printer = Printer()
@@ -45,74 +46,13 @@ class ClientApplication : Application() {
     override fun start(primaryStage: Stage?) {
         commandListener = CommandListener(System.`in`, false, "1337h4x0r", printer = printer)
         connectionHandler = ClientConnectionHandler(printer)
+        //TODO здесь я установил константные значения, нужно будет также сделать это более гибким.
+        // Либо забить и убрать вообще выбор данных для подключения, ибо я считаю, что это не нужно.
+        // Т.е. фиксированные адрес подключения, порт и т.д. Эти данные не нужно знать пользователю приложения.
         connectionHandler.openConnection(InetAddress.getByName("127.0.0.1"), 1973)
         listener = Listener(connectionHandler, printer)
-        val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
-        val loginFormRoot: Parent = loader.load()
-        val loginFormController = loader.getController<LoginFormController>()
-        loginFormController.initialize()
-        loginFormController.loginFormLoginButton.onMouseClicked = EventHandler {
-            val user = User(1,
-                loginFormController.loginFormUsernameField.text,
-                loginFormController.loginFormPasswordField.text)
-            listener.listener("login", user)
-            newStage<MainApplicationController>("/MainApplicationController.fxml")
-                .decorateStage()
-                .apply {
-                    minWidth = MAIN_APPLICATION_MIN_WIDTH
-                    minHeight = MAIN_APPLICATION_MIN_HEIGHT
-                    maxWidth = MAIN_APPLICATION_MAX_WIDTH
-                    maxHeight = MAIN_APPLICATION_MAX_HEIGHT
-                }
-                .show()
-            // primaryStage?.hide()
-        }
-        loginFormController.loginFormRegisterButton.onMouseClicked = EventHandler {
-            val user = User(1,
-                loginFormController.loginFormUsernameField.text,
-                loginFormController.loginFormPasswordField.text)
-            listener.listener("register", user)
-            newStage<MainApplicationController>("/MainApplicationController.fxml")
-                .decorateStage()
-                .apply {
-                    minWidth = MAIN_APPLICATION_MIN_WIDTH
-                    minHeight = MAIN_APPLICATION_MIN_HEIGHT
-                    maxWidth = MAIN_APPLICATION_MAX_WIDTH
-                    maxHeight = MAIN_APPLICATION_MAX_HEIGHT
-                }
-                .show()
-            // primaryStage?.hide()
-        }
-        primaryStage?.apply {
-            scene = Scene(loginFormRoot)
-            decorateStage()
-            isResizable = false
-            initStyle(StageStyle.UNIFIED)
-            show()
-        }
+        //И ещё я вынес логин-форму в отдельный класс. Не дело ему находиться в основном ClientApplication
+        LoginForm(listener, primaryStage).draw()
     }
 
-    private inline fun<reified T: Controller> newStage(fxmlLocation: String): Stage {
-        val loader = FXMLLoader(javaClass.getResource(fxmlLocation))
-        val root: Parent = loader.load()
-        val controller = loader.getController<T>()
-        val stage = Stage()
-        stage.scene = Scene(root)
-        return stage
-    }
-
-    private fun Stage.decorateStage(
-        cssLocation: String = "/synthwave.css",
-        icon: Image = ICON,
-        titleStringPropertyKey: String = "applicationName"
-    ): Stage {
-        try {
-            this.titleProperty().bind(StringPropertyManager.createBinding(titleStringPropertyKey))
-            this.scene.stylesheets.add(ClientApplication::class.java.getResource(cssLocation)?.toExternalForm())
-            this.icons.add(icon)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return this
-    }
 }

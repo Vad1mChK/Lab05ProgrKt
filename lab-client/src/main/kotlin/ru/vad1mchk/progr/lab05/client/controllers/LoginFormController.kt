@@ -44,10 +44,6 @@ class LoginFormController: Controller() {
         loginFormLoginButton.textProperty().bind(StringPropertyManager.createBinding("loginFormLoginButton"))
         loginFormRegisterButton.textProperty().bind(StringPropertyManager.createBinding("loginFormRegisterButton"))
         loginFormLanguageLabel.textProperty().bind(StringPropertyManager.createBinding("loginFormLanguageLabel"))
-        loginFormPasswordField.setOnKeyPressed { keyEvent ->
-            if (keyEvent.code == KeyCode.ENTER)
-                Request("login",
-                    user = User(1, loginFormUsernameField.text, loginFormPasswordField.text)) }
         loginFormLanguageChoice.apply {
             converter = LocaleConverter()
             items = FXCollections.observableArrayList(StringPropertyManager.supportedLocales.keys)
