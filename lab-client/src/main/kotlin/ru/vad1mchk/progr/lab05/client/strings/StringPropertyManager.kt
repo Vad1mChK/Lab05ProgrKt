@@ -35,7 +35,7 @@ object StringPropertyManager {
     val integerFormat: NumberFormat
         get() = integerFormats[locale]!!
 
-    val localeProperty = SimpleObjectProperty(defaultLocale())
+    val localeProperty = SimpleObjectProperty(supportedLocales.keys.first())
     var locale: Locale
         get() = localeProperty.get()
         set(newLocale) = localeProperty.set(newLocale)

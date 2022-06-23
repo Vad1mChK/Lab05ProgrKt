@@ -21,14 +21,14 @@ class RequestCreator(
     private val printer: Printer
 ) {
     val spaceMarineDataReader = SpaceMarineDataReader(user, scanner, printer)
-    val userDataReader = UserDataReader(System.console(), printer)
+    val userDataReader = UserDataReader(/*System.console(), */printer)
 
     /**
      * Creates a request from the entered command, inferring its arguments types from the name
      * @param enteredCommand Entered command to create the request from.
      * @return The request if it was successfully created, else `null`.
      */
-    fun requestFromEnteredCommand(enteredCommand: EnteredCommand): Request? {
+    fun requestFromEnteredCommand(enteredCommand: EnteredCommand, user: User?): Request? {
         return if (enteredCommand.name.isBlank()) null
         else if (
             AvailableCommands.COMMANDS_WITHOUT_ARGUMENTS.contains(enteredCommand.name)
@@ -66,7 +66,7 @@ class RequestCreator(
             AvailableCommands.COMMANDS_WITH_USER_ARGUMENT.contains(enteredCommand.name)
             && enteredCommand.arguments.isEmpty()
         ) {
-            userRequest(enteredCommand)
+            userRequest(enteredCommand, user)
         } else if (
             !AvailableCommands.isCommandNameAvailable(enteredCommand.name)
         ) {
@@ -157,7 +157,7 @@ class RequestCreator(
         return Request(enteredCommand.name, heartCountArgument = heartCount)
     }
 
-    private fun userRequest(enteredCommand: EnteredCommand): Request {
-        return Request(enteredCommand.name, user = userDataReader.readUser())
+    private fun userRequest(enteredCommand: EnteredCommand, user: User?): Request {
+        return Request(enteredCommand.name, user = user)
     }
 }

@@ -39,7 +39,7 @@ class TerminalListenerThread(
                         printer.printError("Неверное количество аргументов команды.")
                     }
                 }
-                executeRequest(requestCreator.requestFromEnteredCommand(enteredCommand))
+                executeRequest(requestCreator.requestFromEnteredCommand(enteredCommand, user = null))
             }
         }
     }
