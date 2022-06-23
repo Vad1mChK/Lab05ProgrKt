@@ -25,6 +25,7 @@ import java.io.IOException
 import java.net.InetAddress
 import java.net.SocketException
 import java.net.SocketTimeoutException
+import kotlinx.coroutines.*
 
 class ClientApplication : Application() {
     var printer: Printer = Printer()
@@ -50,6 +51,7 @@ class ClientApplication : Application() {
         // Т.е. фиксированные адрес подключения, порт и т.д. Эти данные не нужно знать пользователю приложения.
         connectionHandler.openConnection(InetAddress.getByName("127.0.0.1"), 1973)
         listener = Listener(connectionHandler, printer)
+
         val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
         val loginFormRoot: Parent = loader.load()
         val loginFormController = loader.getController<LoginFormController>()

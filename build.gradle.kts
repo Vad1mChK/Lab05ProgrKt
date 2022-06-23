@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     implementation("$group", name, "$version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.0")
 }
 
 tasks.test {

@@ -1,5 +1,6 @@
 package ru.vad1mchk.progr.lab05.client.util
 
+import kotlinx.coroutines.runBlocking
 import ru.vad1mchk.progr.lab05.client.connection.ClientConnectionHandler
 import ru.vad1mchk.progr.lab05.client.controllers.LoginFormController
 import ru.vad1mchk.progr.lab05.common.communication.EnteredCommand
@@ -12,6 +13,8 @@ import java.io.IOException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.util.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 /*
     Тут вынес слушатель в отдельный класс, чтобы позже можно было использовать его в отдельном потоке
@@ -22,20 +25,23 @@ class Listener (private val connectionHandler: ClientConnectionHandler, private 
 
     fun listener(commandName: String, user: User?) {
         listen(EnteredCommand.fromString(commandName)?.let { it ->
-            requestCreator.requestFromEnteredCommand(it,
+            requestCreator.requestFromEnteredCommand(
+                it,
                 user = user
             )?.also {
                 Configuration.user?.let { user -> it.user = user }
                 it.isLoggedInRequest = (Configuration.user != null)
             }
         })?.also {
+            //TODO В качестве получаемого ответа с сервера мне кажется имеет смысл ВСЕГДА получать коллекцию,
+            // чтобы обновлять значения в таблице, а для строковых ответов можно сделать отдельное окно по типу
+            // логгера или терминала. Но в любом случае нужно заменить вывод в консоль
             println(it.stringMessage)
             it.spaceMarines?.stream()?.forEach { marine -> printer.printNewLine(marine.toString()) }
             if (it.user != null) {
                 Configuration.user = it.user
             }
         }
-
     }
 
     private fun listen(request: Request?): Response? {
