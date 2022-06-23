@@ -68,7 +68,7 @@ class ClientApplicationOld : AbstractApplication() {
                             printer.printError("Неверное количество аргументов команды.")
                         }
                     }
-                    listen(requestCreator.requestFromEnteredCommand(enteredCommand)?.also {
+                    listen(requestCreator.requestFromEnteredCommand(enteredCommand, Configuration.user)?.also {
                         Configuration.user?.let { user -> it.user = user }
                         it.isLoggedInRequest = (Configuration.user != null)
                     })?.also {

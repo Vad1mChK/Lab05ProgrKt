@@ -42,7 +42,7 @@ class ScriptFileReader(filePath: String, user: User? = null, private val printer
                     if (currentEnteredCommand.name == "execute_script" && currentEnteredCommand.arguments.size == 1) {
                         printer.printError("Попытка вызвать скрипт из другого скрипта.")
                     } else {
-                        val request = requestCreator.requestFromEnteredCommand(currentEnteredCommand)
+                        val request = requestCreator.requestFromEnteredCommand(currentEnteredCommand, user = null)
                         request?.let { requestDeque.add(it) }
                     }
                 }

@@ -7,7 +7,7 @@
     -fx-background-color: linear-gradient(to top, #de004e, #860029, #321450, #29132e);
 }
 
-.tab-pane .tab-header-area .tab-header-background, .scroll-pane, .scroll-pane .corner, .scroll-pane .viewport {
+.v-box, .grid-pane, .tab-pane, .tab, .tab-pane .tab-header-area .tab-header-background, .scroll-pane, .scroll-pane .corner, .scroll-pane .viewport, .table-column, .table-row-cell, .table-cell {
     -fx-background-color: #00000000;
 }
 
@@ -15,14 +15,10 @@
     -fx-font-family: Framd;
 }
 
-.button, .text-field, .password-field, .choice-box, .label, .tab .tab-label {
+.button, .text-field, .password-field, .choice-box, .label, .tab .tab-label, .table-cell {
     -fx-font-size: 16px;
     -fx-text-fill: #ffffff;
     -fx-font-family: Framd;
-}
-
-.v-box, .grid-pane, .tab-pane, .tab {
-    -fx-background-color: #00000000;
 }
 
 #mainApplicationMapTab {
@@ -38,23 +34,53 @@
     -fx-background-color: #de004e;
 }
 
-.text-field, .password-field, .choice-box, .scroll-pane, .table-view {
+.table-view * {
+    -fx-table-cell-border-color: #ffffff;
+}
+
+.text-field, .password-field, .choice-box, .scroll-pane, .table-view, table-row-cell, .pane {
     -fx-border-radius: 0px;
     -fx-border-color: #ffffff;
     -fx-border-width: 1px;
     -fx-background-color: #00000080;
 }
 
+.table-view .column-header {
+    -fx-padding: 8px;
+    -fx-border-width: 0px 1px 1px 0px;
+    -fx-border-color: #ffffff;
+    -fx-border-collapse: collapse;
+}
+
+.table-view .column-header:right {
+    -fx-padding: 8px;
+    -fx-border-width: 0px 0px 1px 0px;
+    -fx-border-color: #ffffff;
+    -fx-border-collapse: collapse;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #29132e;
+}
+
 .choice-box {
-    -fx-mark-color: #ffffff;
+    -fx-mark-color: #ffffff80;
 }
 
 .choice-box .context-menu {
     -fx-background-color: #000000;
 }
 
-.choice-box .menu-item:hover, .choice-box .menu-item:focused {
-    -fx-background-color: #ffffff80;
+.choice-box .menu-item:hover, .choice-box .menu-item:focused, .table-row-cell:focused {
+    -fx-background-color: #860029;
+}
+
+.table-row-cell {
+    -fx-border-width: 0px 0px 1px 0px;
+}
+
+.table-cell:focused {
+    -fx-border-color: #ffffff;
 }
 
 .button {
@@ -84,4 +110,10 @@
 
 #loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel {
     -fx-font-size: 32px;
+}
+
+Text {
+    -fx-font-smoothing-type: lcd;
+    -fx-fill: white;
+    -fx-font-size: 16px;
 }
