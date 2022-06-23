@@ -16,7 +16,7 @@ import ru.vad1mchk.progr.lab05.client.util.NewStageOpener
 import ru.vad1mchk.progr.lab05.common.datatypes.User
 import tornadofx.Controller
 
-public class LoginForm (private val listener: Listener, private val primaryStage: Stage?) {
+class LoginForm (private val listener: Listener, private val primaryStage: Stage?) {
     fun draw() {
         val newStageOpener: NewStageOpener = NewStageOpener()
         val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
@@ -39,7 +39,7 @@ public class LoginForm (private val listener: Listener, private val primaryStage
                         maxHeight = ClientApplication.MAIN_APPLICATION_MAX_HEIGHT
                     }
                     .show()
-            // primaryStage?.hide()
+            primaryStage?.hide()
         }
         loginFormController.loginFormRegisterButton.onMouseClicked = EventHandler {
             val user = User(1,
@@ -57,7 +57,7 @@ public class LoginForm (private val listener: Listener, private val primaryStage
                         maxHeight = ClientApplication.MAIN_APPLICATION_MAX_HEIGHT
                     }
                     .show()
-            // primaryStage?.hide()
+            primaryStage?.hide()
         }
         primaryStage?.apply {
             scene = Scene(loginFormRoot)

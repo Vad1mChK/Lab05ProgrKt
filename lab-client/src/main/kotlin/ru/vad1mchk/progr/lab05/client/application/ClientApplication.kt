@@ -43,14 +43,17 @@ class ClientApplication : Application() {
         const val MAIN_APPLICATION_MAX_HEIGHT = 1080.0
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun start(primaryStage: Stage?) {
         commandListener = CommandListener(System.`in`, false, "1337h4x0r", printer = printer)
         connectionHandler = ClientConnectionHandler(printer)
-        //TODO здесь я установил константные значения, нужно будет также сделать это более гибким.
+        //TODO здесь я установил константные значения к коннекту, нужно будет также сделать это более гибким.
         // Либо забить и убрать вообще выбор данных для подключения, ибо я считаю, что это не нужно.
         // Т.е. фиксированные адрес подключения, порт и т.д. Эти данные не нужно знать пользователю приложения.
         connectionHandler.openConnection(InetAddress.getByName("127.0.0.1"), 1973)
         listener = Listener(connectionHandler, printer)
+        GlobalScope.launch { listener.listenChanges() }
+
         //И ещё я вынес логин-форму в отдельный класс. Не дело ему находиться в основном ClientApplication
         LoginForm(listener, primaryStage).draw()
     }

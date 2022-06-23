@@ -1,5 +1,6 @@
 package ru.vad1mchk.progr.lab05.common.communication
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.datatypes.User
@@ -22,7 +23,8 @@ data class Request(
     val meleeWeaponArgument: MeleeWeapon? = null,
     var isServerRequest: Boolean = false,
     var isLoggedInRequest: Boolean = false,
-    var user: User? = null
+    var user: User? = null,
+    var notification: Boolean? = null
 ) : Serializable {
     companion object {
         const val serialVersionUID = 2_147_483_647L

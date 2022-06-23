@@ -13,7 +13,8 @@ import java.util.*
 data class Response(
     val stringMessage: String,
     val spaceMarines: LinkedList<SpaceMarine>? = null,
-    val user: User? = null
+    val user: User? = null,
+    var notification: Boolean? = null
 ) : Serializable {
     companion object {
         const val serialVersionUID = 2_147_483_648L
