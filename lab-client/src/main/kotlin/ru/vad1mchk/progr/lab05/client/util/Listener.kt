@@ -13,6 +13,9 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.util.*
 
+/*
+    Тут вынес слушатель в отдельный класс, чтобы позже можно было использовать его в отдельном потоке
+ */
 class Listener (private val connectionHandler: ClientConnectionHandler, private val printer: Printer) {
     private val requestCreator = RequestCreator(Configuration.user, Scanner(System.`in`), printer)
 

@@ -28,6 +28,10 @@ class RequestCreator(
      * @param enteredCommand Entered command to create the request from.
      * @return The request if it was successfully created, else `null`.
      */
+    /*
+        Теперь requestFromEnteredCommand принимает ещё и Юзера, но принимает опционально,
+        т.е. можно при вызове сказать, что user =  null
+     */
     fun requestFromEnteredCommand(enteredCommand: EnteredCommand, user: User?): Request? {
         return if (enteredCommand.name.isBlank()) null
         else if (
@@ -157,6 +161,9 @@ class RequestCreator(
         return Request(enteredCommand.name, heartCountArgument = heartCount)
     }
 
+    /*
+        Здесь поскольку в метод мы передаём уже сформированного Юзера, то я и признал класс UserDataReader бесполезным
+     */
     private fun userRequest(enteredCommand: EnteredCommand, user: User?): Request {
         return Request(enteredCommand.name, user = user)
     }

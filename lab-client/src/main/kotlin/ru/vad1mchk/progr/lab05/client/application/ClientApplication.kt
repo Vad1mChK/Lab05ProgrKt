@@ -45,6 +45,9 @@ class ClientApplication : Application() {
     override fun start(primaryStage: Stage?) {
         commandListener = CommandListener(System.`in`, false, "1337h4x0r", printer = printer)
         connectionHandler = ClientConnectionHandler(printer)
+        //TODO здесь я установил константные значения, нужно будет также сделать это более гибким.
+        // Либо забить и убрать вообще выбор данных для подключения, ибо я считаю, что это не нужно.
+        // Т.е. фиксированные адрес подключения, порт и т.д. Эти данные не нужно знать пользователю приложения.
         connectionHandler.openConnection(InetAddress.getByName("127.0.0.1"), 1973)
         listener = Listener(connectionHandler, printer)
         val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
@@ -56,15 +59,17 @@ class ClientApplication : Application() {
                 loginFormController.loginFormUsernameField.text,
                 loginFormController.loginFormPasswordField.text)
             listener.listener("login", user)
-            newStage<MainApplicationController>("/MainApplicationController.fxml")
-                .decorateStage()
-                .apply {
-                    minWidth = MAIN_APPLICATION_MIN_WIDTH
-                    minHeight = MAIN_APPLICATION_MIN_HEIGHT
-                    maxWidth = MAIN_APPLICATION_MAX_WIDTH
-                    maxHeight = MAIN_APPLICATION_MAX_HEIGHT
-                }
-                .show()
+            //TODO добавить вызов окна с результатом авторизации
+            if (Configuration.user != null)
+                newStage<MainApplicationController>("/MainApplicationController.fxml")
+                    .decorateStage()
+                    .apply {
+                        minWidth = MAIN_APPLICATION_MIN_WIDTH
+                        minHeight = MAIN_APPLICATION_MIN_HEIGHT
+                        maxWidth = MAIN_APPLICATION_MAX_WIDTH
+                        maxHeight = MAIN_APPLICATION_MAX_HEIGHT
+                    }
+                    .show()
             // primaryStage?.hide()
         }
         loginFormController.loginFormRegisterButton.onMouseClicked = EventHandler {
@@ -72,15 +77,17 @@ class ClientApplication : Application() {
                 loginFormController.loginFormUsernameField.text,
                 loginFormController.loginFormPasswordField.text)
             listener.listener("register", user)
-            newStage<MainApplicationController>("/MainApplicationController.fxml")
-                .decorateStage()
-                .apply {
-                    minWidth = MAIN_APPLICATION_MIN_WIDTH
-                    minHeight = MAIN_APPLICATION_MIN_HEIGHT
-                    maxWidth = MAIN_APPLICATION_MAX_WIDTH
-                    maxHeight = MAIN_APPLICATION_MAX_HEIGHT
-                }
-                .show()
+            //TODO добавить вызов окна с результатом регистрации
+            if (Configuration.user != null)
+                newStage<MainApplicationController>("/MainApplicationController.fxml")
+                    .decorateStage()
+                    .apply {
+                        minWidth = MAIN_APPLICATION_MIN_WIDTH
+                        minHeight = MAIN_APPLICATION_MIN_HEIGHT
+                        maxWidth = MAIN_APPLICATION_MAX_WIDTH
+                        maxHeight = MAIN_APPLICATION_MAX_HEIGHT
+                    }
+                    .show()
             // primaryStage?.hide()
         }
         primaryStage?.apply {
