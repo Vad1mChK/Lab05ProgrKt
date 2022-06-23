@@ -3,7 +3,10 @@ package ru.vad1mchk.progr.lab05.client.util;
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.image.Image
 import javafx.stage.Stage
+import ru.vad1mchk.progr.lab05.client.application.ClientApplication
+import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import tornadofx.Controller
 
 class NewStageOpener {
@@ -14,5 +17,23 @@ class NewStageOpener {
         val stage = Stage()
         stage.scene = Scene(root)
         return stage
+    }
+
+    companion object {
+        @JvmStatic
+         fun Stage.decorateStage(
+            cssLocation: String = "/synthwave.css",
+            icon: Image = ClientApplication.ICON,
+            titleStringPropertyKey: String = "applicationName"
+         ): Stage {
+            try {
+                this.titleProperty().bind(StringPropertyManager.createBinding(titleStringPropertyKey))
+                this.scene.stylesheets.add(ClientApplication::class.java.getResource(cssLocation)?.toExternalForm())
+                this.icons.add(icon)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return this
+        }
     }
 }
