@@ -2,6 +2,7 @@ package ru.vad1mchk.progr.lab05.client.controllers
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label
+import javafx.scene.layout.VBox
 import javafx.scene.text.Text
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import ru.vad1mchk.progr.lab05.client.util.FlatSpaceMarine
@@ -17,14 +18,17 @@ class CollectionInformationController: Controller() {
     lateinit var collectionInformationLabel: Label
     @FXML
     lateinit var collectionInformationText: Text
+    @FXML
+    lateinit var collectionInformationBackground: VBox
 
     fun initialize(collection: MutableCollection<FlatSpaceMarine>, userName: String) {
+        collectionInformationBackground.styleClass.add("background")
         collectionInformationLabel.textProperty().bind(
             StringPropertyManager.createBinding("collectionInformationLabel")
         )
         collectionInformationText.textProperty().bind(
             StringPropertyManager.createBinding {
-                val messageFormat = MessageFormat("collectionInformationText")
+                val messageFormat = MessageFormat(StringPropertyManager["collectionInformationText"])
                 messageFormat.locale = StringPropertyManager.locale
                 messageFormat.format(arrayOf(
                     LinkedList::class.java.simpleName,

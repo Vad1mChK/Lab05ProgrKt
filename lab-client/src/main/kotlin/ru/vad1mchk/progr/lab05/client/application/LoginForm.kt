@@ -67,7 +67,6 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
             scene = Scene(loginFormRoot)
             decorateStage()
             isResizable = false
-            //initStyle(StageStyle.UNIFIED)
             show()
         }
     }

@@ -32,6 +32,10 @@ class MainApplication (private val listener: Listener): Drawable {
             listener.sendRequest("add", Configuration.user)
             println("111")
         }
+        controller.mainApplicationMapInfoButton.onMouseClicked = EventHandler {
+            controller.collectionInformation.draw()
+        }
+        controller.mainApplicationTableInfoButton.onMouseClicked = controller.mainApplicationMapInfoButton.onMouseClicked
         listener.sendRequest("show", Configuration.user)
     }
 }
