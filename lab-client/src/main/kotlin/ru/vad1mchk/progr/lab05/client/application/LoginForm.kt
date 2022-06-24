@@ -25,6 +25,9 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
         val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
         val loginFormRoot: Parent = loader.load()
         val loginFormController = loader.getController<LoginFormController>()
+        val mainApplication = MainApplication(listener).also {
+            Configuration.mainApplication = it
+        }
         loginFormController.initialize()
         loginFormController.loginFormLoginButton.onMouseClicked = EventHandler {
             val user = User(1,
@@ -35,22 +38,12 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
             Thread.sleep(3000L)
             //TODO добавить вызов окна с результатом авторизации
             if (Configuration.user != null) {
-                newStageOpener.newStage<MainApplicationController>("/MainApplicationController.fxml")
-                    .decorateStage()
-                    .apply {
-                        minWidth = ClientApplication.MAIN_APPLICATION_MIN_WIDTH
-                        minHeight = ClientApplication.MAIN_APPLICATION_MIN_HEIGHT
-                        maxWidth = ClientApplication.MAIN_APPLICATION_MAX_WIDTH
-                        maxHeight = ClientApplication.MAIN_APPLICATION_MAX_HEIGHT
-                    }
-                    .show()
-                MainApplication(listener, primaryStage).draw()
+                mainApplication.draw()
+                primaryStage?.hide()
             } else {
                 //TODO авторизация не выполнена и что тогда
-                println("Authorization failed")
-            }
-            primaryStage?.hide()
 
+            }
         }
         loginFormController.loginFormRegisterButton.onMouseClicked = EventHandler {
             val user = User(
@@ -72,7 +65,7 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
                         maxHeight = ClientApplication.MAIN_APPLICATION_MAX_HEIGHT
                     }
                     .show()
-                MainApplication(listener, primaryStage).draw()
+                mainApplication.draw()
             } else {
                 //TODO регистрация не выполнена и что тогда
                 println("Registration failed")

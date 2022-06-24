@@ -54,7 +54,5 @@ class ClientApplication : Application() {
         connectionHandler.openConnection(InetAddress.getByName("127.0.0.1"), 1973)
         GlobalScope.launch { (Listener(connectionHandler, printer).listenChanges()) }
         LoginForm(Listener(connectionHandler, printer), primaryStage).draw()
-
     }
-
 }

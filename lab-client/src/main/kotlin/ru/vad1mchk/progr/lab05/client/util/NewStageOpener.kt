@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.image.Image
+import javafx.stage.PopupWindow
 import javafx.stage.Stage
 import ru.vad1mchk.progr.lab05.client.application.ClientApplication
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
@@ -17,6 +18,10 @@ class NewStageOpener {
         val stage = Stage()
         stage.scene = Scene(root)
         return stage
+    }
+
+    inline fun<reified T: Controller> newPopupWindow(fxmlLocation: String): PopupWindow {
+        TODO()
     }
 
     companion object {

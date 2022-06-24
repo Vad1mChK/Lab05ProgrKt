@@ -24,7 +24,7 @@ import java.time.LocalDate
 import java.util.*
 
 class MainApplicationController: Controller() {
-    private val newStageOpener = NewStageOpener();
+    private val newStageOpener = NewStageOpener()
     @FXML
     lateinit var mainApplicationAboutText: Text
     @FXML
@@ -199,9 +199,6 @@ class MainApplicationController: Controller() {
             StringPropertyManager.createBinding("mainApplicationExecuteScriptCommand")
         )
         addColumnsToTable(mainApplicationTableTable)
-        mainApplicationTableTable.items.add(
-            FlatSpaceMarine(3, "Иван Усков", "Майлз", 16777216, 3141.5926f, LocalDate.now(), 7.0, 3, false, MeleeWeapon.CHAIN_SWORD, null, null, null)
-        )
         mainApplicationSettingsLanguageLabel.textProperty().bind(
             StringPropertyManager.createBinding("mainApplicationSettingsLanguage")
         )
@@ -265,9 +262,13 @@ class MainApplicationController: Controller() {
         StringPropertyManager.localeProperty.addListener(ChangeListener { observable, oldValue, newValue ->
             refreshTable(mainApplicationTableTable)
         })
+
+        updateTable(LinkedList(listOf(
+            FlatSpaceMarine(22, "Прокопий Жданок", "Самбади", 2, 3f, LocalDate.now().plusDays(LocalDate.now().toEpochDay()), 0.1, 1, false, MeleeWeapon.CHAIN_SWORD, null, null, null)
+        )))
     }
 
-    fun addColumnsToTable(table: TableView<FlatSpaceMarine>): TableView<FlatSpaceMarine> {
+    private fun addColumnsToTable(table: TableView<FlatSpaceMarine>): TableView<FlatSpaceMarine> {
         val idColumn = TableColumn<FlatSpaceMarine, Int>().apply {
             text = "ID"
             setCellValueFactory(PropertyValueFactory("id"))
@@ -281,15 +282,14 @@ class MainApplicationController: Controller() {
                 }
             }
             cellFactory = Callback<TableColumn<FlatSpaceMarine, String?>, TableCell<FlatSpaceMarine, String?>> {
-                val cell: TableCell<FlatSpaceMarine, String?> = object : TableCell<FlatSpaceMarine, String?>() {
+                val cell: TableCell<FlatSpaceMarine, String?> = object: TableCell<FlatSpaceMarine, String?>() {
                     override fun updateItem(item: String?, empty: Boolean) {
                         super.updateItem(item, empty)
-                        text = if (empty) null else string
-                        graphic = null
+                        this.text = if(empty) null else string
                     }
 
-                    private val string: String
-                        get() = if (item == null) "" else item.toString()
+                    val string: String
+                        get() = item ?: ""
                 }
                 cell.addEventFilter(
                     MouseEvent.MOUSE_CLICKED
@@ -307,34 +307,79 @@ class MainApplicationController: Controller() {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameName"))
             setCellValueFactory(PropertyValueFactory("name"))
         }
-        val coordinateXColumn = TableColumn<FlatSpaceMarine, String>().apply {
+        val coordinateXColumn = TableColumn<FlatSpaceMarine, Int?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateX"))
-            setCellValueFactory { cell ->
-                SimpleStringProperty(StringPropertyManager.integerFormat.format(cell.value.coordinatesX))
+            cellValueFactory = PropertyValueFactory("coordinateX")
+            setCellFactory {
+                object : TableCell<FlatSpaceMarine, Int?>() {
+                    override fun updateItem(item: Int?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        this.text = if(empty) null else string
+                    }
+
+                    val string: String
+                        get() = item?.let { StringPropertyManager.integerFormat.format(it) } ?: ""
+                }
             }
         }
-        val coordinateYColumn = TableColumn<FlatSpaceMarine, String>().apply {
+        val coordinateYColumn = TableColumn<FlatSpaceMarine, Float?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateY"))
-            setCellValueFactory { cell ->
-                SimpleStringProperty(StringPropertyManager.numberFormat.format(cell.value.coordinatesY))
+            cellValueFactory = PropertyValueFactory("coordinateY")
+            setCellFactory {
+                object : TableCell<FlatSpaceMarine, Float?>() {
+                    override fun updateItem(item: Float?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        this.text = if(empty) null else string
+                    }
+
+                    val string: String
+                        get() = item?.let { StringPropertyManager.numberFormat.format(it) } ?: ""
+                }
             }
         }
-        val creationDateColumn = TableColumn<FlatSpaceMarine, String>().apply {
+        val creationDateColumn = TableColumn<FlatSpaceMarine, LocalDate?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCreationDate"))
-            setCellValueFactory { cell ->
-                SimpleStringProperty(StringPropertyManager.dateFormat.format(Date.valueOf(cell.value.creationDate)))
+            cellValueFactory = PropertyValueFactory("creationDate")
+            setCellFactory {
+                object : TableCell<FlatSpaceMarine, LocalDate?>() {
+                    override fun updateItem(item: LocalDate?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        this.text = if(empty) null else string
+                    }
+
+                    val string: String
+                        get() = item?.let { StringPropertyManager.dateFormat.format(Date.valueOf(it)) } ?: ""
+                }
             }
         }
-        val healthColumn = TableColumn<FlatSpaceMarine, String>().apply {
+        val healthColumn = TableColumn<FlatSpaceMarine, Double?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameHealth"))
-            setCellValueFactory { cell ->
-                SimpleStringProperty(StringPropertyManager.numberFormat.format(cell.value.health))
+            cellValueFactory = PropertyValueFactory("health")
+            setCellFactory {
+                object : TableCell<FlatSpaceMarine, Double?>() {
+                    override fun updateItem(item: Double?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        this.text = if(empty) null else string
+                    }
+
+                    val string: String
+                        get() = item?.let { StringPropertyManager.numberFormat.format(it) } ?: ""
+                }
             }
         }
-        val heartCountColumn = TableColumn<FlatSpaceMarine, String>().apply {
+        val heartCountColumn = TableColumn<FlatSpaceMarine, Long>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameHeartCount"))
-            setCellValueFactory { cell ->
-                SimpleStringProperty(StringPropertyManager.integerFormat.format(cell.value.heartCount))
+            cellValueFactory = PropertyValueFactory("heartCount")
+            setCellFactory {
+                object : TableCell<FlatSpaceMarine, Long?>() {
+                    override fun updateItem(item: Long?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        this.text = if(empty) null else string
+                    }
+
+                    val string: String
+                        get() = item?.let { StringPropertyManager.integerFormat.format(it) } ?: ""
+                }
             }
         }
         val loyalColumn = TableColumn<FlatSpaceMarine, Boolean>().apply {
@@ -355,15 +400,22 @@ class MainApplicationController: Controller() {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterParentLegion"))
             setCellValueFactory(PropertyValueFactory("chapterParentLegion"))
         }
-        val chapterMarinesCountColumn = TableColumn<FlatSpaceMarine, String?>().apply {
+        val chapterMarinesCountColumn = TableColumn<FlatSpaceMarine, Int?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameChapterMarinesCount"))
-            setCellValueFactory { cell ->
-                SimpleStringProperty(
-                    cell.value.chapterMarinesCount?.let { StringPropertyManager.integerFormat.format(it) }
-                )
+            cellValueFactory = PropertyValueFactory("chapterMarinesCount")
+            setCellFactory {
+                object : TableCell<FlatSpaceMarine, Int?>() {
+                    override fun updateItem(item: Int?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        this.text = if(empty) null else string
+                    }
+
+                    val string: String
+                        get() = item?.let { StringPropertyManager.integerFormat.format(it) } ?: ""
+                }
             }
         }
-        table.columns.addAll(
+        table.columns.setAll(
             idColumn, creatorNameColumn, nameColumn, coordinateXColumn, coordinateYColumn, creationDateColumn,
             healthColumn, heartCountColumn, loyalColumn, meleeWeaponColumn, chapterNameColumn,
             chapterParentLegionColumn, chapterMarinesCountColumn
