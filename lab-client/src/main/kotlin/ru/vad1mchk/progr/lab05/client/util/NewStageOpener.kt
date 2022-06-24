@@ -34,7 +34,7 @@ class NewStageOpener {
             try {
                 this.titleProperty().bind(StringPropertyManager.createBinding(titleStringPropertyKey))
                 this.scene.stylesheets.add(ClientApplication::class.java.getResource(cssLocation)?.toExternalForm())
-                this.icons.add(icon)
+                this.icons.setAll(icon)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

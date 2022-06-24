@@ -65,7 +65,6 @@ class Listener (private val connectionHandler: ClientConnectionHandler, private 
                         if (response?.notification == true) {
                             val newSpaceMarines: LinkedList<FlatSpaceMarine> = LinkedList()
                             response.spaceMarines?.forEach {
-                                println(it.name)
                                 newSpaceMarines.add(FlatSpaceMarine.fromSpaceMarine(it))
                             }
                             Configuration.mainApplication.also {

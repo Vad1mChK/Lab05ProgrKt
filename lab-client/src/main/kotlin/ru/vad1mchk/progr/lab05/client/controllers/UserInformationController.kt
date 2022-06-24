@@ -27,29 +27,29 @@ class UserInformationController: Controller() {
     @FXML
     lateinit var userInformationLabel: Label
 
-    val userName: String
-    private val userColor: Color
+    var userName: String? = null
+    lateinit var userColor: Color
 
-    init {
-        userName = "John Doe"
+    fun initialize(userName: String?, userMarinesCount: Int) {
+        this.userName = userName
         userColor = Colors.colorRgbFromHashCode(userName)
-    }
-
-    val number = Random().nextInt().toUShort().toInt()
-
-    fun initialize() {
         userInformationBackground.styleClass.add("background")
-        userInformationLabel.text = userName
+        userInformationLabel.textProperty().apply {
+            if (userName != null) set(userName)
+            else bind(StringPropertyManager.createBinding("userInformationServer"))
+        }
         userInformationColorSquare.style = "-fx-background-color: ${Colors.toString(userColor)};"
         userInformationText.textProperty().bind(StringPropertyManager.createBinding {
-            val messageFormat = MessageFormat(StringPropertyManager["userInformationText"])
+            val messageFormat = MessageFormat(StringPropertyManager[
+                    "userInformationText"+(if (userName == null) "Server" else "")
+            ])
             messageFormat.locale = StringPropertyManager.locale
             messageFormat.format(arrayOf(
                 Colors.toString(userColor),
                 userName,
-                number,
+                userMarinesCount,
                 CustomChoiceFormat.formatByRules {
-                    (number % 100).let {
+                    (userMarinesCount % 100).let {
                         if (it % 100 in (11..14) || it % 10 > 4 || it % 10 == 0) {
                             StringPropertyManager["userInformationSpaceMarinesMany"]
                         } else if (it % 10 in (2..4)) {

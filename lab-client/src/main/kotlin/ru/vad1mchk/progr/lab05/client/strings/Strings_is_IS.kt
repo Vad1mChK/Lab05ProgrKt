@@ -51,6 +51,8 @@ object Strings_is_IS : Strings() {
             Frumstillingardagur: {5, date, full}
         """.trimIndent()),
         arrayOf("mainApplicationSettingsLanguage", "Umsókn tungumál:"),
+        arrayOf("mainApplicationSettingsUser", "Núverandi notandi:"),
+        arrayOf("mainApplicationSettingsUserInfo", "Sýna upplýsingar"),
         arrayOf("mainApplicationSettingsDemonstration", "Sýning:"),
         arrayOf("mainApplicationSettingsFormats", """
             Dagsetning snið: {0, date, full}
@@ -85,5 +87,17 @@ object Strings_is_IS : Strings() {
         arrayOf("userInformationSpaceMarinesOne", "geimskip"),
         arrayOf("userInformationSpaceMarinesFew", "landgönguliðar"),
         arrayOf("userInformationSpaceMarinesMany", "landgönguliðar"),
+        arrayOf("userInformationServer", "þjónn"),
+        arrayOf("userInformationTextServer", """
+            Notandi litur: {0}.
+            Félagið á {2, number, integer} {3, choice}.
+        """.trimIndent()),
+        arrayOf("collectionInformationLabel", "Upplýsingar"),
+        arrayOf("collectionInformationText", """
+            Safntegund: tengd listi ({0}).
+            Þáttur tegund: Rúm Marines ({1}).
+            {2, number, integer} / {3, number, integer} safn atriði tilheyra þér, {4}.
+            Frumstillingardagur: {5, date, full}.
+        """.trimIndent()),
     )
 }

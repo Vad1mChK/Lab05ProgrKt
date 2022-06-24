@@ -16,12 +16,13 @@ import ru.vad1mchk.progr.lab05.client.util.Configuration
 import ru.vad1mchk.progr.lab05.client.util.Listener
 import ru.vad1mchk.progr.lab05.client.util.NewStageOpener
 import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStage
+import ru.vad1mchk.progr.lab05.common.application.Drawable
 import ru.vad1mchk.progr.lab05.common.datatypes.User
 import tornadofx.Controller
+import tornadofx.DrawerStyles
 
-class LoginForm (private val listener: Listener, private val primaryStage: Stage?) {
-    fun draw() {
-        val newStageOpener: NewStageOpener = NewStageOpener()
+class LoginForm (private val listener: Listener, private val primaryStage: Stage?): Drawable {
+    override fun draw() {
         val loader = FXMLLoader(javaClass.getResource("/LoginFormController.fxml"))
         val loginFormRoot: Parent = loader.load()
         val loginFormController = loader.getController<LoginFormController>()
@@ -35,7 +36,7 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
                 loginFormController.loginFormPasswordField.text)
             listener.sendRequest("login", user)
             //TODO тут хорошо бы PopUp с загрузочкой :)
-            Thread.sleep(3000L)
+            Thread.sleep(1000L)
             //TODO добавить вызов окна с результатом авторизации
             if (Configuration.user != null) {
                 mainApplication.draw()
@@ -56,21 +57,11 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
             Thread.sleep(3000L)
             //TODO добавить вызов окна с результатом регистрации
             if (Configuration.user != null) {
-                newStageOpener.newStage<MainApplicationController>("/MainApplicationController.fxml")
-                    .decorateStage()
-                    .apply {
-                        minWidth = ClientApplication.MAIN_APPLICATION_MIN_WIDTH
-                        minHeight = ClientApplication.MAIN_APPLICATION_MIN_HEIGHT
-                        maxWidth = ClientApplication.MAIN_APPLICATION_MAX_WIDTH
-                        maxHeight = ClientApplication.MAIN_APPLICATION_MAX_HEIGHT
-                    }
-                    .show()
                 mainApplication.draw()
+                primaryStage?.hide()
             } else {
                 //TODO регистрация не выполнена и что тогда
-                println("Registration failed")
             }
-            primaryStage?.hide()
         }
         primaryStage?.apply {
             scene = Scene(loginFormRoot)

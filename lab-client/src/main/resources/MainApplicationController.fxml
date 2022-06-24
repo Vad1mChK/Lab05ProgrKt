@@ -121,6 +121,12 @@
                                           <ChoiceBox fx:id="mainApplicationSettingsLanguageChoice" prefWidth="150.0" />
                                        </children>
                                     </FlowPane>
+                                    <FlowPane hgap="50.0" layoutX="10.0" layoutY="10.0">
+                                       <children>
+                                          <Label fx:id="mainApplicationSettingsUserInfoLabel" text="Label" />
+                                          <Button fx:id="mainApplicationSettingsUserInfoButton" mnemonicParsing="false" text="Button" />
+                                       </children>
+                                    </FlowPane>
                                     <Label fx:id="mainApplicationSettingsDemonstrationLabel" text="Label" />
                                     <ScrollPane fx:id="mainApplicationSettingsDemonstrationScrollPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                       <content>

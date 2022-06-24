@@ -51,6 +51,8 @@ object Strings_es_NI : Strings() {
             Fecha de inicialización: {5, date, full}
         """.trimIndent()),
         arrayOf("mainApplicationSettingsLanguage", "Idioma de la aplicación:"),
+        arrayOf("mainApplicationSettingsUser", "Usuario actual:"),
+        arrayOf("mainApplicationSettingsUserInfo", "Mostrar información"),
         arrayOf("mainApplicationSettingsDemonstration", "Demostración:"),
         arrayOf("mainApplicationSettingsFormats", """
             Formato de fecha: {0, date, full}
@@ -85,5 +87,17 @@ object Strings_es_NI : Strings() {
         arrayOf("userInformationSpaceMarinesOne", "astronauta"),
         arrayOf("userInformationSpaceMarinesFew", "astronautas"),
         arrayOf("userInformationSpaceMarinesMany", "astronautas"),
+        arrayOf("userInformationServer", "servidor"),
+        arrayOf("userInformationTextServer", """
+            Color del usuario: {0}.
+            El servidor posee {2, number, integer} {3, choice}.
+           """.trimIndent()),
+        arrayOf("collectionInformationLabel", "Información"),
+        arrayOf("collectionInformationText", """
+            Tipo de colección: lista enlazada ({0}).
+            Tipo de elemento: paracaidistas espaciales ({1}).
+            {2, number, integer} / {3, number, integer} elementos de la colección pertenecen a usted, {4}.
+            Fecha de inicialización: {5, date, full}.
+        """.trimIndent()),
     )
 }

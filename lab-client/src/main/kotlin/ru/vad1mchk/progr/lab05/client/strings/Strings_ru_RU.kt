@@ -51,6 +51,8 @@ object Strings_ru_RU : Strings() {
             Дата инициализации: {5, date, full}
         """.trimIndent()),
         arrayOf("mainApplicationSettingsLanguage", "Язык приложения:"),
+        arrayOf("mainApplicationSettingsUser", "Текущий пользователь:"),
+        arrayOf("mainApplicationSettingsUserInfo", "Показать информацию"),
         arrayOf("mainApplicationSettingsDemonstration", "Демонстрация:"),
         arrayOf("mainApplicationSettingsFormats", """
             Формат даты: {0, date, full}
@@ -85,5 +87,17 @@ object Strings_ru_RU : Strings() {
         arrayOf("userInformationSpaceMarinesOne", "космодесантник"),
         arrayOf("userInformationSpaceMarinesFew", "космодесантника"),
         arrayOf("userInformationSpaceMarinesMany", "космодесантников"),
+        arrayOf("userInformationServer", "сервер"),
+        arrayOf("userInformationTextServer", """
+            Цвет пользователя: {0}.
+            Серверу принадлежит {2, number, integer} {3, choice}.
+        """.trimIndent()),
+        arrayOf("collectionInformationLabel", "Информация"),
+        arrayOf("collectionInformationText", """
+            Тип коллекции: связный список ({0}).
+            Тип элементов: космические десантники ({1}).
+            {2, number, integer}/{3, number, integer} элементов коллекции принадлежат Вам, {4}.
+            Дата инициализации: {5, date, full}.
+        """.trimIndent()),
     )
 }

@@ -12,6 +12,8 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.*
 import javafx.scene.text.Text
 import javafx.util.Callback
+import ru.vad1mchk.progr.lab05.client.application.CollectionInformation
+import ru.vad1mchk.progr.lab05.client.application.UserInformation
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import ru.vad1mchk.progr.lab05.client.strings.Strings
 import ru.vad1mchk.progr.lab05.client.util.*
@@ -24,7 +26,6 @@ import java.time.LocalDate
 import java.util.*
 
 class MainApplicationController: Controller() {
-    private val newStageOpener = NewStageOpener()
     @FXML
     lateinit var mainApplicationAboutText: Text
     @FXML
@@ -33,6 +34,10 @@ class MainApplicationController: Controller() {
     lateinit var mainApplicationSettingsDemonstrationScrollPane: ScrollPane
     @FXML
     lateinit var mainApplicationSettingsDemonstrationText: Text
+    @FXML
+    lateinit var mainApplicationSettingsUserInfoButton: Button
+    @FXML
+    lateinit var mainApplicationSettingsUserInfoLabel: Label
     @FXML
     lateinit var mainApplicationSettingsLanguageLabel: Label
     @FXML
@@ -107,6 +112,7 @@ class MainApplicationController: Controller() {
     lateinit var mainApplicationTabPane: TabPane
     @FXML
     lateinit var mainApplicationBackground: AnchorPane
+    val collectionInformation = CollectionInformation(mainApplicationTableTable.itemsProperty())
     fun initialize() {
         mainApplicationBackground.styleClass.add("background")
         mainApplicationTabPane.selectionModelProperty().addListener(ChangeListener { observable, oldValue, newValue ->
@@ -162,9 +168,10 @@ class MainApplicationController: Controller() {
         mainApplicationTableFilterButton.textProperty().bind(
             StringPropertyManager.createBinding("mainApplicationFilterCommand")
         )
-        mainApplicationMapInfoButton.textProperty().bind(
-            StringPropertyManager.createBinding("mainApplicationInfoCommand")
-        )
+        mainApplicationMapInfoButton.apply {
+
+            textProperty().bind(StringPropertyManager.createBinding("mainApplicationInfoCommand"))
+        }
         mainApplicationTableInfoButton.textProperty().bind(
             StringPropertyManager.createBinding("mainApplicationInfoCommand")
         )
@@ -208,6 +215,18 @@ class MainApplicationController: Controller() {
             value = StringPropertyManager.locale
             onAction = EventHandler {
                 StringPropertyManager.locale = value ?: Locale.getDefault()
+            }
+        }
+        mainApplicationSettingsUserInfoLabel.textProperty().bind(
+            StringPropertyManager.createBinding("mainApplicationSettingsUser")
+        )
+        mainApplicationSettingsUserInfoButton.apply {
+            textProperty().bind(StringPropertyManager.createBinding("mainApplicationSettingsUserInfo"))
+            onMouseClicked = EventHandler {
+                UserInformation(
+                    Configuration.user!!.userName,
+                    mainApplicationTableTable.items.count { it.creatorName == Configuration.user!!.userName }
+                ).draw()
             }
         }
         mainApplicationSettingsDemonstrationLabel.textProperty().bind(
@@ -262,10 +281,6 @@ class MainApplicationController: Controller() {
         StringPropertyManager.localeProperty.addListener(ChangeListener { observable, oldValue, newValue ->
             refreshTable(mainApplicationTableTable)
         })
-
-        updateTable(LinkedList(listOf(
-            FlatSpaceMarine(22, "Прокопий Жданок", "Самбади", 2, 3f, LocalDate.now().plusDays(LocalDate.now().toEpochDay()), 0.1, 1, false, MeleeWeapon.CHAIN_SWORD, null, null, null)
-        )))
     }
 
     private fun addColumnsToTable(table: TableView<FlatSpaceMarine>): TableView<FlatSpaceMarine> {
@@ -276,30 +291,24 @@ class MainApplicationController: Controller() {
         val creatorNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCreator"))
             setCellValueFactory(PropertyValueFactory("creatorName"))
-            cellFactory.apply {
-                addEventHandler(MouseEvent.MOUSE_CLICKED) {
-                    newStageOpener.newStage<UserInformationController>("/UserInformationController")
-                }
-            }
             cellFactory = Callback<TableColumn<FlatSpaceMarine, String?>, TableCell<FlatSpaceMarine, String?>> {
                 val cell: TableCell<FlatSpaceMarine, String?> = object: TableCell<FlatSpaceMarine, String?>() {
                     override fun updateItem(item: String?, empty: Boolean) {
                         super.updateItem(item, empty)
                         this.text = if(empty) null else string
+                        if (item == null) {
+                            styleClass.add("translucent-text")
+                        } else {
+                            styleClass.remove("translucent-text")
+                        }
                     }
 
                     val string: String
-                        get() = item ?: ""
+                        get() = item ?: StringPropertyManager["userInformationServer"]
                 }
-                cell.addEventFilter(
-                    MouseEvent.MOUSE_CLICKED
-                ) { event ->
-                    if (event.clickCount > 1) {
-                        newStageOpener.newStage<UserInformationController>(
-                            "/UserInformationController.fxml"
-                        ).decorateStage().show()
-                    }
-                }
+                cell.addEventFilter(MouseEvent.MOUSE_CLICKED) { event -> UserInformation(
+                    cell.item, table.items.count { it.creatorName == cell.item }
+                ).draw() }
                 cell
             }.also { cellFactory = it };
         }
@@ -309,7 +318,7 @@ class MainApplicationController: Controller() {
         }
         val coordinateXColumn = TableColumn<FlatSpaceMarine, Int?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateX"))
-            cellValueFactory = PropertyValueFactory("coordinateX")
+            cellValueFactory = PropertyValueFactory("coordinatesX")
             setCellFactory {
                 object : TableCell<FlatSpaceMarine, Int?>() {
                     override fun updateItem(item: Int?, empty: Boolean) {
@@ -324,7 +333,7 @@ class MainApplicationController: Controller() {
         }
         val coordinateYColumn = TableColumn<FlatSpaceMarine, Float?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCoordinateY"))
-            cellValueFactory = PropertyValueFactory("coordinateY")
+            cellValueFactory = PropertyValueFactory("coordinatesY")
             setCellFactory {
                 object : TableCell<FlatSpaceMarine, Float?>() {
                     override fun updateItem(item: Float?, empty: Boolean) {
@@ -384,12 +393,12 @@ class MainApplicationController: Controller() {
         }
         val loyalColumn = TableColumn<FlatSpaceMarine, Boolean>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameLoyal"))
-            setCellValueFactory(PropertyValueFactory("loyal"))
+            cellValueFactory = PropertyValueFactory("loyal")
             setCellFactory { ChoiceBoxTableCell(BooleanConverter()) }
         }
         val meleeWeaponColumn = TableColumn<FlatSpaceMarine, MeleeWeapon?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameMeleeWeapon"))
-            setCellValueFactory(PropertyValueFactory("meleeWeapon"))
+            cellValueFactory = PropertyValueFactory("meleeWeapon")
             setCellFactory { ChoiceBoxTableCell(MeleeWeaponConverter()) }
         }
         val chapterNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
@@ -409,7 +418,6 @@ class MainApplicationController: Controller() {
                         super.updateItem(item, empty)
                         this.text = if(empty) null else string
                     }
-
                     val string: String
                         get() = item?.let { StringPropertyManager.integerFormat.format(it) } ?: ""
                 }

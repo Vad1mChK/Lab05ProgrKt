@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="360.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.vad1mchk.progr.lab05.client.controllers.CollectionInformationController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="32.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="32.0" left="50.0" right="50.0" top="32.0" />
+         </padding>
+         <children>
+            <Label fx:id="collectionInformationLabel" text="Label" />
+            <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+              <content>
+                  <AnchorPane>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="316.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+               <padding>
+                  <Insets bottom="32.0" left="32.0" right="32.0" top="32.0" />
+               </padding>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

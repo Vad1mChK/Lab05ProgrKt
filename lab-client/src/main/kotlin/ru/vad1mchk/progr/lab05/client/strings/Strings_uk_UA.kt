@@ -51,6 +51,8 @@ object Strings_uk_UA : Strings() {
             Дата ініціалізації: {5, date, full}
         """.trimIndent()),
         arrayOf("mainApplicationSettingsLanguage", "Мова програми:"),
+        arrayOf("mainApplicationSettingsUser", "Поточний користувач:"),
+        arrayOf("mainApplicationSettingsUserInfo", "Показати інформацію"),
         arrayOf("mainApplicationSettingsDemonstration", "Демонстрація:"),
         arrayOf("mainApplicationSettingsFormats", """
             Формат дати: {0, date, full}
@@ -86,5 +88,17 @@ object Strings_uk_UA : Strings() {
         arrayOf("userInformationSpaceMarinesOne", "космодесантник"),
         arrayOf("userInformationSpaceMarinesFew", "космодесантника"),
         arrayOf("userInformationSpaceMarinesMany", "космодесантників"),
+        arrayOf("userInformationServer", "сервер"),
+        arrayOf("userInformationTextServer", """
+            Колір користувача: {0}.
+            Серверу належить {2, number, integer} {3, choice}.
+        """.trimIndent()),
+        arrayOf("collectionInformationLabel", "Інформація"),
+        arrayOf("collectionInformationText", """
+            Тип колекції: зв'язний список ({0}).
+            Тип елементів: космічні десантники ({1}).
+            {2, number, integer} / {3, number, integer} елементів колекції належать вам, {4}.
+            Дата ініціалізації: {5, date, full}.
+        """.trimIndent()),
     )
 }

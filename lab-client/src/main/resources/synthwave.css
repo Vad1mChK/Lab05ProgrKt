@@ -67,6 +67,11 @@
     -fx-mark-color: #ffffff80;
 }
 
+.translucent-text {
+    -fx-text-fill: #ffffff80;
+    -fx-font-style: italic;
+}
+
 .choice-box .context-menu {
     -fx-background-color: #000000;
 }

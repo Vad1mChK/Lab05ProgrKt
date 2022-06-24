@@ -10,14 +10,15 @@ import ru.vad1mchk.progr.lab05.client.controllers.MainApplicationController
 import ru.vad1mchk.progr.lab05.client.util.Configuration
 import ru.vad1mchk.progr.lab05.client.util.Listener
 import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStage
+import ru.vad1mchk.progr.lab05.common.application.Drawable
 import tornadofx.Stylesheet.Companion.root
 
-class MainApplication (private val listener: Listener) {
+class MainApplication (private val listener: Listener): Drawable {
     lateinit var controller: MainApplicationController
         private set
     var isDrawn = false
         private set
-    fun draw() = runBlocking{
+    override fun draw() = runBlocking{
         val loader = FXMLLoader(javaClass.getResource("/MainApplicationController.fxml"))
         val mainAppRoot: Parent = loader.load()
         controller = loader.getController<MainApplicationController>()
