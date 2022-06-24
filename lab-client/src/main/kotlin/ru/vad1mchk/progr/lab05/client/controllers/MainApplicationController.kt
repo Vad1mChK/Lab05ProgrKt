@@ -14,6 +14,7 @@ import javafx.scene.layout.*
 import javafx.scene.text.Text
 import javafx.util.Callback
 import ru.vad1mchk.progr.lab05.client.application.CollectionInformation
+import ru.vad1mchk.progr.lab05.client.application.SpaceMarineInformation
 import ru.vad1mchk.progr.lab05.client.application.UserInformation
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import ru.vad1mchk.progr.lab05.client.strings.Strings
@@ -115,6 +116,7 @@ class MainApplicationController: Controller() {
     lateinit var mainApplicationBackground: AnchorPane
 
     lateinit var collectionInformation: CollectionInformation
+    lateinit var spaceMarineInformation: SpaceMarineInformation
     fun initialize() {
         mainApplicationBackground.styleClass.add("background")
         collectionInformation = CollectionInformation(
@@ -285,13 +287,28 @@ class MainApplicationController: Controller() {
     }
 
     private fun addColumnsToTable(table: TableView<FlatSpaceMarine>): TableView<FlatSpaceMarine> {
-        val idColumn = TableColumn<FlatSpaceMarine, Int>().apply {
+        val idColumn = TableColumn<FlatSpaceMarine, Int?>().apply {
             text = "ID"
-            setCellValueFactory(PropertyValueFactory("id"))
+            cellValueFactory = PropertyValueFactory("id")
+            setCellFactory {
+                val cell = object : TableCell<FlatSpaceMarine, Int?>() {
+                    override fun updateItem(item: Int?, empty: Boolean) {
+                        super.updateItem(item, empty)
+                        this.text = if(empty) null else string
+                    }
+
+                    val string: String
+                        get() = item?.let { StringPropertyManager.integerFormat.format(it) } ?: ""
+                }
+                cell.addEventFilter(MouseEvent.MOUSE_CLICKED) {
+                    displaySpaceMarineInformation(table.items.first { it.id == cell.item })
+                }
+                cell
+            }
         }
         val creatorNameColumn = TableColumn<FlatSpaceMarine, String?>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameCreator"))
-            setCellValueFactory(PropertyValueFactory("creatorName"))
+            cellValueFactory = PropertyValueFactory("creatorName")
             cellFactory = Callback<TableColumn<FlatSpaceMarine, String?>, TableCell<FlatSpaceMarine, String?>> {
                 val cell: TableCell<FlatSpaceMarine, String?> = object: TableCell<FlatSpaceMarine, String?>() {
                     override fun updateItem(item: String?, empty: Boolean) {
@@ -311,7 +328,7 @@ class MainApplicationController: Controller() {
                     cell.item, table.items.count { it.creatorName == cell.item }
                 ).draw() }
                 cell
-            }.also { cellFactory = it };
+            }
         }
         val nameColumn = TableColumn<FlatSpaceMarine, String>().apply {
             textProperty().bind(StringPropertyManager.createBinding("propertyNameName"))
@@ -429,6 +446,7 @@ class MainApplicationController: Controller() {
             healthColumn, heartCountColumn, loyalColumn, meleeWeaponColumn, chapterNameColumn,
             chapterParentLegionColumn, chapterMarinesCountColumn
         )
+
         table.columnResizePolicy = SmartResize.POLICY
         return table
     }
@@ -442,5 +460,10 @@ class MainApplicationController: Controller() {
     fun updateTable(list: LinkedList<FlatSpaceMarine>) {
         mainApplicationTableTable.items.clear()
         mainApplicationTableTable.items.setAll(list)
+    }
+
+    fun displaySpaceMarineInformation(flatSpaceMarine: FlatSpaceMarine) {
+        spaceMarineInformation = SpaceMarineInformation(flatSpaceMarine)
+        spaceMarineInformation.draw()
     }
 }

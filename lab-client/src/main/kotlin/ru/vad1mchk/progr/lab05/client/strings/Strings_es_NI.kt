@@ -99,5 +99,27 @@ object Strings_es_NI : Strings() {
             {2, number, integer} / {3, number, integer} elementos de la colección pertenecen a usted, {4}.
             Fecha de inicialización: {5, date, full}.
         """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNullChapter", """
+            Creador: {0}
+            Coordenadas: x: {1, number, integer} y: {2, number}
+            Fecha de creación: {3}
+            Salud: {4, number}
+            Número de corazones: {5, number, integer}
+            Leal: {6, choice}
+            Armas: {7, choice}
+            Capítulo:?
+        """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNonNullChapter", """
+            Creador: {0}
+            Coordenadas: x: {1, number, integer} y: {2, number}
+            Fecha de creación: {3}
+            Salud: {4, number}
+            Número de corazones: {5, number, integer}
+            Leal: {6, choice}
+            Armas: {7, choice}
+            Nombre del capítulo: {8}
+            Legión parental: {9}
+            Número de paracaidistas: {10, number, integer}
+        """.trimIndent()),
     )
 }

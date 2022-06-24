@@ -99,5 +99,27 @@ object Strings_ru_RU : Strings() {
             {2, number, integer}/{3, number, integer} элементов коллекции принадлежат Вам, {4}.
             Дата инициализации: {5, date, full}.
         """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNullChapter", """
+            Создатель: {0}
+            Координаты: x: {1, number, integer} y: {2, number}
+            Дата создания: {3}
+            Здоровье: {4, number}
+            Число сердец: {5, number, integer}
+            Лояльный: {6, choice}
+            Оружие: {7, choice}
+            Глава: ?
+        """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNonNullChapter", """
+            Создатель: {0}
+            Координаты: x: {1, number, integer} y: {2, number}
+            Дата создания: {3, date, full}
+            Здоровье: {4, number}
+            Число сердец: {5, number, integer}
+            Лояльный: {6, choice}
+            Оружие: {7, choice}
+            Имя главы: {8}
+            Родительский легион: {9}
+            Число десантников: {10, number, integer}
+        """.trimIndent()),
     )
 }

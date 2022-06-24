@@ -100,5 +100,27 @@ object Strings_uk_UA : Strings() {
             {2, number, integer} / {3, number, integer} елементів колекції належать вам, {4}.
             Дата ініціалізації: {5, date, full}.
         """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNullChapter", """
+            Творець: {0}
+            Координати: x: {1, number, integer} y: {2, number}
+            Дата створення: {3}
+            Здоров'я: {4, number}
+            Число сердець: {5, number, integer}
+            Лояльний: {6, choice}
+            Зброя: {7, choice}
+            Глава:?
+        """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNonNullChapter", """
+            Творець: {0}
+            Координати: x: {1, number, integer} y: {2, number}
+            Дата створення: {3}
+            Здоров'я: {4, number}
+            Число сердець: {5, number, integer}
+            Лояльний: {6, choice}
+            Зброя: {7, choice}
+            Назва глави: {8}
+            Батьківський легіон: {9}
+            Число Десантників: {10, number, integer}
+        """.trimIndent()),
     )
 }

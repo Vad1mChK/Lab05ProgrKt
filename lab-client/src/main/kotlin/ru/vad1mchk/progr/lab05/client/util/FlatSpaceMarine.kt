@@ -1,5 +1,6 @@
 package ru.vad1mchk.progr.lab05.client.util
 
+import ru.vad1mchk.progr.lab05.common.datatypes.Chapter
 import ru.vad1mchk.progr.lab05.common.datatypes.Coordinates
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
@@ -41,5 +42,20 @@ data class FlatSpaceMarine(
                 chapter?.marinesCount
             )
         }
+    }
+
+    fun toSpaceMarine(): SpaceMarine {
+        return SpaceMarine(
+            id,
+            creatorName,
+            name,
+            Coordinates(coordinatesX, coordinatesY),
+            creationDate,
+            health,
+            heartCount,
+            loyal,
+            meleeWeapon,
+            chapterName?.let { Chapter(it, chapterParentLegion, chapterMarinesCount ?: 1) }
+        )
     }
 }

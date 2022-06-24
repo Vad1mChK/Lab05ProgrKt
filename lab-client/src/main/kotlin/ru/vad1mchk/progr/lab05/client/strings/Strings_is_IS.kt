@@ -99,5 +99,27 @@ object Strings_is_IS : Strings() {
             {2, number, integer} / {3, number, integer} safn atriði tilheyra þér, {4}.
             Frumstillingardagur: {5, date, full}.
         """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNullChapter", """
+            Höfundur: {0}
+            Hnit: x: {1, number, integer} y: {2, number}
+            Dagsetning stofnunar: {3}
+            Heilsa: {4, number}
+            Hjartafjöldi: {5, number, integer}
+            Trygg: {6, choice}
+            Vopn: {7, choice}
+            Kafli: ?
+        """.trimIndent()),
+        arrayOf("spaceMarineInformationWithNonNullChapter", """
+            Höfundur: {0}
+            Hnit: x: {1, number, integer} y: {2, number}
+            Dagsetning stofnunar: {3}
+            Heilsa: {4, number}
+            Hjartafjöldi: {5, number, integer}
+            Trygg: {6, choice}
+            Vopn: {7, choice}
+            Kafli Nafn: {8}
+            Foreldrafélag: {9}
+            Fjöldi paratroopers: {10, number, integer}
+        """.trimIndent()),
     )
 }

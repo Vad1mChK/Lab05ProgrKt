@@ -113,8 +113,12 @@
     -fx-background-color: derive(#321450, 20%);
 }
 
-#loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel, #userInformationLabel, #collectionInformationLabel {
+#loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel, #userInformationLabel, #collectionInformationLabel, #spaceMarineInformationLabel {
     -fx-font-size: 32px;
+}
+
+#spaceMarineInformationName {
+    -fx-font-size: 24px;
 }
 
 Text {
