@@ -12,8 +12,15 @@ import ru.vad1mchk.progr.lab05.client.util.Listener
 import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStage
 import ru.vad1mchk.progr.lab05.common.application.Drawable
 import tornadofx.Stylesheet.Companion.root
+import java.util.EventListener
 
 class MainApplication (private val listener: Listener): Drawable {
+    companion object {
+        const val MAIN_APPLICATION_MIN_WIDTH = 960.0
+        const val MAIN_APPLICATION_MIN_HEIGHT = 540.0
+        const val MAIN_APPLICATION_MAX_WIDTH = 1920.0
+        const val MAIN_APPLICATION_MAX_HEIGHT = 1080.0
+    }
     lateinit var controller: MainApplicationController
         private set
     var isDrawn = false
@@ -25,6 +32,12 @@ class MainApplication (private val listener: Listener): Drawable {
         controller.initialize()
         val stage = Stage()
         stage.scene = Scene(mainAppRoot)
+        stage.apply {
+            minWidth = MAIN_APPLICATION_MIN_WIDTH
+            minHeight = MAIN_APPLICATION_MIN_HEIGHT
+            maxWidth = MAIN_APPLICATION_MAX_WIDTH
+            maxHeight = MAIN_APPLICATION_MAX_HEIGHT
+        }
         stage.decorateStage()
         stage.show()
         isDrawn = true
@@ -36,6 +49,11 @@ class MainApplication (private val listener: Listener): Drawable {
             controller.collectionInformation.draw()
         }
         controller.mainApplicationTableInfoButton.onMouseClicked = controller.mainApplicationMapInfoButton.onMouseClicked
+        controller.mainApplicationMapPrintFieldDescendingHealthButton.onMouseClicked = EventHandler {
+            controller.mainApplicationTableTable.items.sortByDescending { it.health }
+        }
+        controller.mainApplicationTablePrintFieldDescendingHealthButton.onMouseClicked =
+            controller.mainApplicationMapPrintFieldDescendingHealthButton.onMouseClicked
         listener.sendRequest("show", Configuration.user)
     }
 }

@@ -36,12 +36,6 @@ class ClientApplication : Application() {
 
     companion object {
         val ICON = Image(ClientApplication::class.java.getResourceAsStream("/icon.png"))
-        const val LOGIN_FORM_PREFERRED_WIDTH = 480.0
-        const val LOGIN_FORM_PREFERRED_HEIGHT = 640.0
-        const val MAIN_APPLICATION_MIN_WIDTH = 960.0
-        const val MAIN_APPLICATION_MIN_HEIGHT = 540.0
-        const val MAIN_APPLICATION_MAX_WIDTH = 1920.0
-        const val MAIN_APPLICATION_MAX_HEIGHT = 1080.0
     }
 
     @OptIn(DelicateCoroutinesApi::class)

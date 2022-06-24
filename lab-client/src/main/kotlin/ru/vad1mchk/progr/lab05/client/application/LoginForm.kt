@@ -36,7 +36,7 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
                 loginFormController.loginFormPasswordField.text)
             listener.sendRequest("login", user)
             //TODO тут хорошо бы PopUp с загрузочкой :)
-            Thread.sleep(1000L)
+            Thread.sleep(3000L)
             //TODO добавить вызов окна с результатом авторизации
             if (Configuration.user != null) {
                 mainApplication.draw()
