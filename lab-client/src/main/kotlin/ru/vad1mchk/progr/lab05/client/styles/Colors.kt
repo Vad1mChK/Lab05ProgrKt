@@ -13,20 +13,6 @@ object Colors {
     val GHOST_COLOR: Color = Color.rgb(197, 205, 216, 0.5)
 
     /**
-     * A useful constant for coloring container elements (RGBA: #80000000).
-     */
-    @JvmStatic
-    val BLACK_TRANSLUCENT: Color = Color.rgb(0, 0, 0, 0.5)
-
-    @JvmStatic
-    val GRADIENT_COLORS = arrayOf<Color>(
-        colorRgbFromInt(0x29132e),
-        colorRgbFromInt(0x321450),
-        colorRgbFromInt(0x860029),
-        colorRgbFromInt(0xde004e)
-    )
-
-    /**
      * Obtains a color from an integer number, modulo 16777216, where bytes 23..16 correspond to the red component,
      * bytes 15..8 to the green and 7..0 to the blue.
      * @param intValue Integer value to obtain the color from.
@@ -68,5 +54,10 @@ object Colors {
             return GHOST_COLOR
         }
         return colorRgbFromInt(any.hashCode())
+    }
+
+    @JvmStatic
+    fun toString(color: Color): String {
+        return "#"+color.toString().substring(2).removeSuffix("ff")
     }
 }

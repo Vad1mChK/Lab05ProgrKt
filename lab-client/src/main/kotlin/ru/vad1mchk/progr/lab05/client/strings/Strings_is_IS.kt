@@ -78,6 +78,12 @@ object Strings_is_IS : Strings() {
         arrayOf("mainApplicationHistoryCommand", "Saga aðgerða"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Heilsa í lækkandi röð"),
         arrayOf("mainApplicationExecuteScriptCommand", "Framkvæma handrit"),
-        arrayOf("userInformationLabel", "Notandaupplýsingar"),
+        arrayOf("userInformationText", """
+            Notandi litur: {0}.
+            Notandi {1} á {2, number, integer} {3, choice}.
+        """.trimIndent()),
+        arrayOf("userInformationSpaceMarinesOne", "geimskip"),
+        arrayOf("userInformationSpaceMarinesFew", "landgönguliðar"),
+        arrayOf("userInformationSpaceMarinesMany", "landgönguliðar"),
     )
 }

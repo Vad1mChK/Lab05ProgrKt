@@ -9,7 +9,12 @@
    <children>
       <VBox alignment="TOP_CENTER" spacing="32.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="userInformationLabel" text="Label" />
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="userInformationLabel" text="Label" HBox.hgrow="ALWAYS" />
+                  <Pane fx:id="userInformationColorSquare" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="NEVER" />
+               </children>
+            </HBox>
             <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0">

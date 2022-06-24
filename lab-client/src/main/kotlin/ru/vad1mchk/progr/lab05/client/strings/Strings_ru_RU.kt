@@ -78,6 +78,12 @@ object Strings_ru_RU : Strings() {
         arrayOf("mainApplicationHistoryCommand", "История действий"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Здоровье в убывающем порядке"),
         arrayOf("mainApplicationExecuteScriptCommand", "Выполнить скрипт"),
-        arrayOf("userInformationLabel", "Информация о пользователе"),
+        arrayOf("userInformationText", """
+            Цвет пользователя: {0}.
+            Пользователю {1} принадлежит {2, number, integer} {3, choice}.
+        """.trimIndent()),
+        arrayOf("userInformationSpaceMarinesOne", "космодесантник"),
+        arrayOf("userInformationSpaceMarinesFew", "космодесантника"),
+        arrayOf("userInformationSpaceMarinesMany", "космодесантников"),
     )
 }

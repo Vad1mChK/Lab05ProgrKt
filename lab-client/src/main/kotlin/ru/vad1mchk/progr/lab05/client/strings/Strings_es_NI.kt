@@ -78,6 +78,12 @@ object Strings_es_NI : Strings() {
         arrayOf("mainApplicationHistoryCommand", "Historia de acción"),
         arrayOf("mainApplicationPrintFieldDescendingHealthCommand", "Salud en orden decreciente"),
         arrayOf("mainApplicationExecuteScriptCommand", "Ejecutar secuencia de comandos"),
-        arrayOf("userInformationLabel", "Información del usuario"),
+        arrayOf("userInformationText", """
+            Color del usuario: {0}.
+            El usuario {1} posee {2, number, integer} {3, choice}.
+        """.trimIndent()),
+        arrayOf("userInformationSpaceMarinesOne", "astronauta"),
+        arrayOf("userInformationSpaceMarinesFew", "astronautas"),
+        arrayOf("userInformationSpaceMarinesMany", "astronautas"),
     )
 }
