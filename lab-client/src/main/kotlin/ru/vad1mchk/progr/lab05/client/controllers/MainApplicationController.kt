@@ -1,5 +1,6 @@
 package ru.vad1mchk.progr.lab05.client.controllers
 
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
@@ -112,13 +113,10 @@ class MainApplicationController: Controller() {
     lateinit var mainApplicationTabPane: TabPane
     @FXML
     lateinit var mainApplicationBackground: AnchorPane
-    @FXML
+
     lateinit var collectionInformation: CollectionInformation
     fun initialize() {
         mainApplicationBackground.styleClass.add("background")
-        mainApplicationTabPane.selectionModelProperty().addListener(ChangeListener { observable, oldValue, newValue ->
-            println("$oldValue was changed to $newValue")
-        })
         collectionInformation = CollectionInformation(
             mainApplicationTableTable.itemsProperty(), Configuration.user!!.userName
         )

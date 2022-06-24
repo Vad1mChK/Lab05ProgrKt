@@ -1,5 +1,6 @@
 package ru.vad1mchk.progr.lab05.client.application
 
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
@@ -37,6 +38,17 @@ class MainApplication (private val listener: Listener): Drawable {
             minHeight = MAIN_APPLICATION_MIN_HEIGHT
             maxWidth = MAIN_APPLICATION_MAX_WIDTH
             maxHeight = MAIN_APPLICATION_MAX_HEIGHT
+        }
+        stage.isResizable = false
+        controller.mainApplicationTabPane.selectionModel.selectedItemProperty().addListener {
+                observable, oldValue, newValue ->
+            if (newValue === controller.mainApplicationMapTab) {
+                println("Ресайз заблокирован")
+                stage.isResizable = false
+            } else {
+                println("Ресайз разблокирован")
+                stage.isResizable = true
+            }
         }
         stage.decorateStage()
         stage.show()
