@@ -112,12 +112,16 @@ class MainApplicationController: Controller() {
     lateinit var mainApplicationTabPane: TabPane
     @FXML
     lateinit var mainApplicationBackground: AnchorPane
-    val collectionInformation = CollectionInformation(mainApplicationTableTable.itemsProperty())
+    @FXML
+    lateinit var collectionInformation: CollectionInformation
     fun initialize() {
         mainApplicationBackground.styleClass.add("background")
         mainApplicationTabPane.selectionModelProperty().addListener(ChangeListener { observable, oldValue, newValue ->
             println("$oldValue was changed to $newValue")
         })
+        collectionInformation = CollectionInformation(
+            mainApplicationTableTable.itemsProperty(), Configuration.user!!.userName
+        )
         mainApplicationMapTab.textProperty().bind(StringPropertyManager.createBinding("mainApplicationMapLabel"))
         mainApplicationMapLabel.textProperty().bind(StringPropertyManager.createBinding("mainApplicationMapLabel"))
         mainApplicationTableTab.textProperty().bind(
@@ -169,7 +173,6 @@ class MainApplicationController: Controller() {
             StringPropertyManager.createBinding("mainApplicationFilterCommand")
         )
         mainApplicationMapInfoButton.apply {
-
             textProperty().bind(StringPropertyManager.createBinding("mainApplicationInfoCommand"))
         }
         mainApplicationTableInfoButton.textProperty().bind(

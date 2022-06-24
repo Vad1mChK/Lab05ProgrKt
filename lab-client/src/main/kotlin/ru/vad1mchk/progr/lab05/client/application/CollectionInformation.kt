@@ -14,7 +14,10 @@ import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStag
 import ru.vad1mchk.progr.lab05.common.application.Drawable
 import java.util.*
 
-class CollectionInformation(val collection: ObjectProperty<ObservableList<FlatSpaceMarine>>): Drawable {
+class CollectionInformation(
+    val collection: ObjectProperty<ObservableList<FlatSpaceMarine>>,
+    val userName: String
+): Drawable {
     companion object {
         val IS_OPEN = false
     }
@@ -24,7 +27,7 @@ class CollectionInformation(val collection: ObjectProperty<ObservableList<FlatSp
         val loader = FXMLLoader(javaClass.getResource("/CollectionInformationController.fxml"))
         val mainAppRoot: Parent = loader.load()
         val controller = loader.getController<CollectionInformationController>()
-        controller.initialize(collection.get())
+        controller.initialize(collection.get(), userName)
         val stage = Stage()
         stage.scene = Scene(mainAppRoot)
         stage.isResizable = false

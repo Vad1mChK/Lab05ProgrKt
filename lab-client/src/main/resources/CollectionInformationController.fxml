@@ -15,9 +15,9 @@
             <Label fx:id="collectionInformationLabel" text="Label" />
             <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <content>
-                  <AnchorPane>
+                  <AnchorPane minHeight="-Infinity">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="316.0" />
+                        <Text fx:id="collectionInformationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="316.0" />
                      </children>
                   </AnchorPane>
               </content>
