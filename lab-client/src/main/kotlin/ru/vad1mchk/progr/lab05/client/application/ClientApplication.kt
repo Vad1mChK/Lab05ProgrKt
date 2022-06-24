@@ -26,6 +26,7 @@ import java.net.InetAddress
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.*
+import ru.vad1mchk.progr.lab05.client.util.NewStageOpener
 
 class ClientApplication : Application() {
     var printer: Printer = Printer()
@@ -44,18 +45,16 @@ class ClientApplication : Application() {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    override fun start(primaryStage: Stage?) {
+    override fun start(primaryStage: Stage?) = runBlocking{
         commandListener = CommandListener(System.`in`, false, "1337h4x0r", printer = printer)
         connectionHandler = ClientConnectionHandler(printer)
         //TODO здесь я установил константные значения к коннекту, нужно будет также сделать это более гибким.
         // Либо забить и убрать вообще выбор данных для подключения, ибо я считаю, что это не нужно.
         // Т.е. фиксированные адрес подключения, порт и т.д. Эти данные не нужно знать пользователю приложения.
         connectionHandler.openConnection(InetAddress.getByName("127.0.0.1"), 1973)
-        listener = Listener(connectionHandler, printer)
-        GlobalScope.launch { listener.listenChanges() }
+        GlobalScope.launch { (Listener(connectionHandler, printer).listenChanges()) }
+        LoginForm(Listener(connectionHandler, printer), primaryStage).draw()
 
-        //И ещё я вынес логин-форму в отдельный класс. Не дело ему находиться в основном ClientApplication
-        LoginForm(listener, primaryStage).draw()
     }
 
 }

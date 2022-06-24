@@ -16,13 +16,9 @@ class ShowCommand(
     FOR_SERVER_AND_LOGGED_IN_CLIENT
 ) {
     override fun invoke(request: Request): Response {
-        return Response(
-            "Элементов в коллекции: ${
-                collectionManager.collection().size
-            }.", LinkedList(
-                collectionManager
-                    .collection()
-                    .sortedWith(SpaceMarineComparator())
+        return Response("Элементов в коллекции: ${collectionManager.collection().size}.",
+            notification = true,
+            spaceMarines = LinkedList(collectionManager.collection().sortedWith(SpaceMarineComparator())
             )
         )
     }

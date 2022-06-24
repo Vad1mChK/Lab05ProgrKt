@@ -263,7 +263,7 @@ class MainApplicationController: Controller() {
         }
 
         StringPropertyManager.localeProperty.addListener(ChangeListener { observable, oldValue, newValue ->
-            updateTable(mainApplicationTableTable)
+            refreshTable(mainApplicationTableTable)
         })
     }
 
@@ -372,9 +372,14 @@ class MainApplicationController: Controller() {
         return table
     }
 
-    fun updateTable(table: TableView<FlatSpaceMarine>) {
+    private fun refreshTable(table: TableView<FlatSpaceMarine>) {
         val temporaryStorage = LinkedList(table.items)
         table.items.clear()
         table.items.setAll(temporaryStorage)
+    }
+
+    fun updateTable(list: LinkedList<FlatSpaceMarine>) {
+        mainApplicationTableTable.items.clear()
+        mainApplicationTableTable.items.setAll(list)
     }
 }

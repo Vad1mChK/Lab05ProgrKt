@@ -7,6 +7,8 @@ import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import javafx.stage.StageStyle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import ru.vad1mchk.progr.lab05.client.controllers.LoginFormController
 import ru.vad1mchk.progr.lab05.client.controllers.MainApplicationController
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
@@ -28,9 +30,11 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
             val user = User(1,
                 loginFormController.loginFormUsernameField.text,
                 loginFormController.loginFormPasswordField.text)
-            listener.listener("login", user)
+            listener.sendRequest("login", user)
+            //TODO тут хорошо бы PopUp с загрузочкой :)
+            Thread.sleep(3000L)
             //TODO добавить вызов окна с результатом авторизации
-            if (Configuration.user != null)
+            if (Configuration.user != null) {
                 newStageOpener.newStage<MainApplicationController>("/MainApplicationController.fxml")
                     .decorateStage()
                     .apply {
@@ -40,15 +44,25 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
                         maxHeight = ClientApplication.MAIN_APPLICATION_MAX_HEIGHT
                     }
                     .show()
+                MainApplication(listener, primaryStage).draw()
+            } else {
+                //TODO авторизация не выполнена и что тогда
+                println("Authorization failed")
+            }
             primaryStage?.hide()
+
         }
         loginFormController.loginFormRegisterButton.onMouseClicked = EventHandler {
-            val user = User(1,
+            val user = User(
+                1,
                 loginFormController.loginFormUsernameField.text,
-                loginFormController.loginFormPasswordField.text)
-            listener.listener("register", user)
+                loginFormController.loginFormPasswordField.text
+            )
+            listener.sendRequest("register", user)
+            //TODO тут хорошо бы PopUp с загрузочкой :)
+            Thread.sleep(3000L)
             //TODO добавить вызов окна с результатом регистрации
-            if (Configuration.user != null)
+            if (Configuration.user != null) {
                 newStageOpener.newStage<MainApplicationController>("/MainApplicationController.fxml")
                     .decorateStage()
                     .apply {
@@ -58,13 +72,18 @@ class LoginForm (private val listener: Listener, private val primaryStage: Stage
                         maxHeight = ClientApplication.MAIN_APPLICATION_MAX_HEIGHT
                     }
                     .show()
+                MainApplication(listener, primaryStage).draw()
+            } else {
+                //TODO регистрация не выполнена и что тогда
+                println("Registration failed")
+            }
             primaryStage?.hide()
         }
         primaryStage?.apply {
             scene = Scene(loginFormRoot)
             decorateStage()
             isResizable = false
-            initStyle(StageStyle.UNIFIED)
+            //initStyle(StageStyle.UNIFIED)
             show()
         }
     }
