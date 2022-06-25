@@ -19,7 +19,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.ArcType;
 import javafx.scene.paint.Color;
 import ru.vad1mchk.progr.lab05.client.util.FlatSpaceMarine
+import tornadofx.*
 import java.awt.event.MouseEvent
+import kotlin.collections.sortByDescending
 import kotlin.io.path.createTempDirectory
 
 class MainApplication (private val listener: Listener): Drawable {
@@ -86,7 +88,7 @@ class MainApplication (private val listener: Listener): Drawable {
         controller.mainApplicationMapAddIfMinButton.onMouseClicked =
             controller.mainApplicationTableAddIfMinButton.onMouseClicked
         controller.mainApplicationMapUpdateButton.onMouseClicked = EventHandler {
-            SpaceMarineModifier(null, listener).draw()
+            SpaceMarineModifier(controller.mainApplicationTableTable.selectedItem, listener).draw()
             GlobalScope.launch { listener.sendRequest("update", Configuration.user) }
         }
         controller.mainApplicationTableUpdateButton.onMouseClicked =

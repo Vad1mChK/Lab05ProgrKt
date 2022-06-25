@@ -16,6 +16,7 @@ import ru.vad1mchk.progr.lab05.client.util.FlatSpaceMarine
 import ru.vad1mchk.progr.lab05.client.util.Listener
 import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStage
 import ru.vad1mchk.progr.lab05.common.application.Drawable
+import ru.vad1mchk.progr.lab05.common.communication.Request
 import tornadofx.*
 import java.time.LocalDate
 
@@ -45,17 +46,27 @@ class SpaceMarineModifier(val flatSpaceMarine: FlatSpaceMarine?, private val lis
         }
         controller.spaceMarineModifierSubmitButton.onMouseClicked = EventHandler {
             if (flatSpaceMarine == null) {
-                FlatSpaceMarine(1, Configuration.user?.userName, controller.spaceMarineModifierNameField.text,
-                    StringPropertyManager.integerFormat.parse(controller.spaceMarineModifierCoordinatesXField.text).toInt(),
-                    StringPropertyManager.numberFormat.parse(controller.spaceMarineModifierCoordinatesYField.text).toFloat(),
+                val marine = FlatSpaceMarine(
+                    1, Configuration.user?.userName, controller.spaceMarineModifierNameField.text,
+                    StringPropertyManager.integerFormat.parse(controller.spaceMarineModifierCoordinatesXField.text)
+                        .toInt(),
+                    StringPropertyManager.numberFormat.parse(controller.spaceMarineModifierCoordinatesYField.text)
+                        .toFloat(),
                     LocalDate.now(),
                     StringPropertyManager.numberFormat.parse(controller.spaceMarineModifierHealthField.text).toDouble(),
-                    StringPropertyManager.integerFormat.parse(controller.spaceMarineHeartCountSlider.value.toString()).toLong(),
+                    StringPropertyManager.integerFormat.parse(controller.spaceMarineHeartCountSlider.value.toString())
+                        .toLong(),
                     controller.spaceMarineModifierLoyalBox.isSelected,
-                    StringPropertyManager
-                    )
-                GlobalScope.launch { listener.sendRequest("add", Configuration.user) }
-        }
+                    controller.spaceMarineModifierMeleeWeaponChoice.value,
+                    controller.spaceMarineModifierChapterNameField.text,
+                    controller.spaceMarineModifierChapterParentLegionField.text,
+                    StringPropertyManager.integerFormat.parse(controller.spaceMarineModifierChapterMarinesCountField.text)
+                        .toInt()
+                )
+                GlobalScope.launch { Request("add", marine.toSpaceMarine()) }
+            } else {
+                GlobalScope.launch { Request("update", flatSpaceMarine.toSpaceMarine()) }
+            }
         }
     }
 }
