@@ -7,7 +7,9 @@ import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.exceptions.CollectionException
 import ru.vad1mchk.progr.lab05.common.exceptions.DatabaseException
 import ru.vad1mchk.progr.lab05.common.io.Printer
+import ru.vad1mchk.progr.lab05.common.util.SpaceMarineComparator
 import ru.vad1mchk.progr.lab05.server.database.DatabaseNegotiator
+import java.util.*
 
 class UpdateCommand(
     private val collectionManager: CollectionManager<SpaceMarine>,
@@ -32,7 +34,9 @@ class UpdateCommand(
             }
             negotiator.updateSpaceMarine(spaceMarine)
             collectionManager.update(spaceMarine.id, spaceMarine)
-            Response("Элемент успешно добавлен в коллекцию.")
+            Response("Элемент успешно добавлен в коллекцию.", notification = true,
+                spaceMarines = LinkedList(collectionManager.collection().sortedWith(SpaceMarineComparator()))
+            )
         } catch (e: DatabaseException) {
             return Response(printer.formatError(e))
         } catch (e: CollectionException) {

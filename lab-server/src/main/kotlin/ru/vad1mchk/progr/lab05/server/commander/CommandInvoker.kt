@@ -41,7 +41,7 @@ class CommandInvoker(
             RemoveByIdentifierCommand(collectionManager, negotiator, printer),
             AddIfMinCommand(collectionManager, negotiator, printer),
             RemoveGreaterCommand(collectionManager, negotiator, printer),
-            HistoryCommand(commandHistory),
+            HistoryCommand(collectionManager, commandHistory),
             FilterGreaterThanHeartCountCommand(collectionManager),
             FilterLessThanMeleeWeaponCommand(collectionManager),
             PrintFieldDescendingHealthCommand(collectionManager),
@@ -57,7 +57,7 @@ class CommandInvoker(
     fun executeRequest(request: Request): Response? {
         val commandName = request.commandName.lowercase()
         return if (commandMap.containsKey(commandName)) {
-            addToHistory(commandName)
+            if (commandName != "show" || commandName != "login" || commandName != "register") addToHistory(commandName)
             val command = commandMap[commandName]!!
             if (
                 (request.isServerRequest && command.isForServer()) ||
