@@ -4,6 +4,7 @@ import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.stage.Modality
 import javafx.stage.Stage
 import ru.vad1mchk.progr.lab05.client.controllers.SpaceMarineInformationController
 import ru.vad1mchk.progr.lab05.client.util.FlatSpaceMarine

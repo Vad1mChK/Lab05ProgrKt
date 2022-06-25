@@ -7,7 +7,9 @@ import ru.vad1mchk.progr.lab05.common.datatypes.SpaceMarine
 import ru.vad1mchk.progr.lab05.common.exceptions.CollectionException
 import ru.vad1mchk.progr.lab05.common.exceptions.DatabaseException
 import ru.vad1mchk.progr.lab05.common.io.Printer
+import ru.vad1mchk.progr.lab05.common.util.SpaceMarineComparator
 import ru.vad1mchk.progr.lab05.server.database.DatabaseNegotiator
+import java.util.*
 
 class RemoveGreaterCommand(
     val collectionManager: CollectionManager<SpaceMarine>,
@@ -28,7 +30,9 @@ class RemoveGreaterCommand(
                 negotiator.deleteSpaceMarineById(element.id)
                 collectionManager.removeById(element.id)
             }
-            Response("Элементы успешно удалены из коллекции.")
+            Response("Элементы успешно удалены из коллекции.", notification = true,
+                spaceMarines = LinkedList(collectionManager.collection().sortedWith(SpaceMarineComparator()))
+            )
         } catch (e: DatabaseException) {
             Response(printer.formatError(e))
         } catch (e: CollectionException) {

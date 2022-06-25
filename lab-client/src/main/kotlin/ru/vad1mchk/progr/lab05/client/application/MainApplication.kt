@@ -14,6 +14,11 @@ import ru.vad1mchk.progr.lab05.client.util.NewStageOpener.Companion.decorateStag
 import ru.vad1mchk.progr.lab05.common.application.Drawable
 import tornadofx.Stylesheet.Companion.root
 import java.util.EventListener
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.ArcType;
+import javafx.scene.paint.Color;
+import java.awt.event.MouseEvent
 
 class MainApplication (private val listener: Listener): Drawable {
     companion object {
@@ -26,6 +31,8 @@ class MainApplication (private val listener: Listener): Drawable {
         private set
     var isDrawn = false
         private set
+
+    @OptIn(DelicateCoroutinesApi::class)
     override fun draw() = runBlocking{
         val loader = FXMLLoader(javaClass.getResource("/MainApplicationController.fxml"))
         val mainAppRoot: Parent = loader.load()
@@ -53,19 +60,60 @@ class MainApplication (private val listener: Listener): Drawable {
         stage.decorateStage()
         stage.show()
         isDrawn = true
-        controller.mainApplicationTableCreateButton.onMouseClicked = EventHandler {
-            listener.sendRequest("add", Configuration.user)
-            println("111")
-        }
+        listener.sendRequest("show", Configuration.user)
         controller.mainApplicationMapInfoButton.onMouseClicked = EventHandler {
             controller.collectionInformation.draw()
         }
         controller.mainApplicationTableInfoButton.onMouseClicked = controller.mainApplicationMapInfoButton.onMouseClicked
+
         controller.mainApplicationMapPrintFieldDescendingHealthButton.onMouseClicked = EventHandler {
             controller.mainApplicationTableTable.items.sortByDescending { it.health }
         }
         controller.mainApplicationTablePrintFieldDescendingHealthButton.onMouseClicked =
             controller.mainApplicationMapPrintFieldDescendingHealthButton.onMouseClicked
-        listener.sendRequest("show", Configuration.user)
+        controller.mainApplicationTableCreateButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("add", Configuration.user) }
+        }
+        controller.mainApplicationMapCreateButton.onMouseClicked =
+            controller.mainApplicationTableCreateButton.onMouseClicked
+        controller.mainApplicationTableAddIfMinButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("add_if_min", Configuration.user) }
+        }
+        controller.mainApplicationMapAddIfMinButton.onMouseClicked =
+            controller.mainApplicationTableAddIfMinButton.onMouseClicked
+        controller.mainApplicationMapUpdateButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("update", Configuration.user) }
+        }
+        controller.mainApplicationTableUpdateButton.onMouseClicked =
+            controller.mainApplicationMapUpdateButton.onMouseClicked
+        controller.mainApplicationMapDeleteButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("remove_by_id", Configuration.user) }
+        }
+        controller.mainApplicationTableDeleteButton.onMouseClicked =
+            controller.mainApplicationMapDeleteButton.onMouseClicked
+        controller.mainApplicationMapClearButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("clear", Configuration.user) }
+        }
+        controller.mainApplicationTableClearButton.onMouseClicked =
+            controller.mainApplicationMapClearButton.onMouseClicked
+        controller.mainApplicationMapDeleteGreaterButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("remove_greater", Configuration.user) }
+        }
+        controller.mainApplicationTableDeleteGreaterButton.onMouseClicked =
+            controller.mainApplicationMapDeleteGreaterButton.onMouseClicked
+        controller.mainApplicationMapHistoryButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("history", Configuration.user) }
+        }
+        controller.mainApplicationTableHistoryButton.onMouseClicked =
+            controller.mainApplicationMapHistoryButton.onMouseClicked
+        controller.mainApplicationMapExecuteScriptButton.onMouseClicked = EventHandler {
+            GlobalScope.launch { listener.sendRequest("execute_script", Configuration.user) }
+        }
+        controller.mainApplicationTableExecuteScriptButton.onMouseClicked =
+            controller.mainApplicationMapExecuteScriptButton.onMouseClicked
+
+
+
     }
+
 }
