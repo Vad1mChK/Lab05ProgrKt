@@ -121,5 +121,8 @@ object Strings_es_NI : Strings() {
             Legión parental: {9}
             Número de paracaidistas: {10, number, integer}
         """.trimIndent()),
+        arrayOf("spaceMarineModifierLabelCreate", "Creación"),
+        arrayOf("spaceMarineModifierLabelUpdate", "Actualización #{0}"),
+        arrayOf("spaceMarineModifierSubmit", "Enviar")
     )
 }

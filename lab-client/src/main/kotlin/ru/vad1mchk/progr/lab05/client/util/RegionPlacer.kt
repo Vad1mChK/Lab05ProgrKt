@@ -10,6 +10,7 @@ import javafx.scene.paint.Color
 import javafx.util.Duration
 import ru.vad1mchk.progr.lab05.client.application.SpaceMarineInformation
 import ru.vad1mchk.progr.lab05.client.styles.Colors
+import ru.vad1mchk.progr.lab05.common.datatypes.User
 import tornadofx.SVGIcon
 import tornadofx.add
 import java.util.LinkedList
@@ -17,10 +18,26 @@ import kotlin.math.exp
 
 class RegionPlacer(val region: Region) {
     companion object {
+        var flatSpaceMarines = LinkedList<FlatSpaceMarine>()
+            set(newFlatSpaceMarines) {
+                field.clear()
+                field.addAll(newFlatSpaceMarines)
+            }
         const val DEFAULT_SIZE = 96.0
     }
     fun place(newFlatSpaceMarines: LinkedList<FlatSpaceMarine>) {
         for (flatSpaceMarine in newFlatSpaceMarines) {
+            draw(flatSpaceMarine)
+        }
+        flatSpaceMarines.clear()
+        flatSpaceMarines.addAll(newFlatSpaceMarines)
+    }
+
+    fun clear(user: User) {
+        region.childrenUnmodifiable.clear()
+        for (flatSpaceMarine in flatSpaceMarines.also {
+            it.removeIf { spaceMarine -> spaceMarine.creatorName != user.userName }
+        }) {
             draw(flatSpaceMarine)
         }
     }

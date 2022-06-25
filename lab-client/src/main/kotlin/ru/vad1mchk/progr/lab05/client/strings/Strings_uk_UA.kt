@@ -122,5 +122,8 @@ object Strings_uk_UA : Strings() {
             Батьківський легіон: {9}
             Число Десантників: {10, number, integer}
         """.trimIndent()),
+        arrayOf("spaceMarineModifierLabelCreate", "Створення"),
+        arrayOf("spaceMarineModifierLabelUpdate", "Оновлення #{0}"),
+        arrayOf("spaceMarineModifierSubmit", "Відправивши")
     )
 }

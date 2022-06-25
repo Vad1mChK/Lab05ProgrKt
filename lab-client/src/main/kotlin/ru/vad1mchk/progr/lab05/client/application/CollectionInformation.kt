@@ -19,11 +19,11 @@ class CollectionInformation(
     val userName: String
 ): Drawable {
     companion object {
-        val IS_OPEN = false
+        var IS_OPEN = false
     }
 
     override fun draw() {
-        if (UserInformation.IS_OPEN) return
+        if (IS_OPEN) return
         val loader = FXMLLoader(javaClass.getResource("/CollectionInformationController.fxml"))
         val mainAppRoot: Parent = loader.load()
         val controller = loader.getController<CollectionInformationController>()
@@ -32,10 +32,10 @@ class CollectionInformation(
         stage.scene = Scene(mainAppRoot)
         stage.isResizable = false
         stage.decorateStage()
-        UserInformation.IS_OPEN = true
+        IS_OPEN = true
         stage.show()
         stage.onCloseRequest = EventHandler {
-            UserInformation.IS_OPEN = false
+            IS_OPEN = false
             stage.close()
         }
         stage.onHidden = EventHandler {

@@ -121,5 +121,8 @@ object Strings_is_IS : Strings() {
             Foreldrafélag: {9}
             Fjöldi paratroopers: {10, number, integer}
         """.trimIndent()),
+        arrayOf("spaceMarineModifierLabelCreate", "Sköpun"),
+        arrayOf("spaceMarineModifierLabelUpdate", "Uppfæra #{0}"),
+        arrayOf("spaceMarineModifierSubmit", "Senda")
     )
 }

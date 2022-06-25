@@ -121,5 +121,8 @@ object Strings_ru_RU : Strings() {
             Родительский легион: {9}
             Число десантников: {10, number, integer}
         """.trimIndent()),
+        arrayOf("spaceMarineModifierLabelCreate", "Создание"),
+        arrayOf("spaceMarineModifierLabelUpdate", "Обновление #{0}"),
+        arrayOf("spaceMarineModifierSubmit", "Отправить")
     )
 }

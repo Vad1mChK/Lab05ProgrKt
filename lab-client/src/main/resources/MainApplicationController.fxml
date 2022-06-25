@@ -40,11 +40,11 @@
                                            <Button fx:id="mainApplicationMapExecuteScriptButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Execute Script" />
                                        </children>
                                     </FlowPane>
-                                    <ScrollPane fx:id="mainApplicationMapScrollPane" pannable="true" prefViewportHeight="1000.0">
+                                    <ScrollPane fx:id="mainApplicationMapScrollPane" hbarPolicy="ALWAYS" pannable="true" prefViewportHeight="1000.0" vbarPolicy="ALWAYS">
                                       <content>
                                         <AnchorPane maxHeight="200.0" maxWidth="200.0" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Region fx:id="mainApplicationMapRegion" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2048.0" prefWidth="2048.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Region fx:id="mainApplicationMapRegion" centerShape="false" disable="true" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="2048.0" prefWidth="2048.0" scaleShape="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                       </content>
