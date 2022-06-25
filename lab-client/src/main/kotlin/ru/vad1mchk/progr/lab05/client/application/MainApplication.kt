@@ -18,6 +18,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.ArcType;
 import javafx.scene.paint.Color;
+import ru.vad1mchk.progr.lab05.client.util.FlatSpaceMarine
 import java.awt.event.MouseEvent
 import kotlin.io.path.createTempDirectory
 
@@ -74,10 +75,8 @@ class MainApplication (private val listener: Listener): Drawable {
             controller.mainApplicationMapPrintFieldDescendingHealthButton.onMouseClicked
         controller.mainApplicationTableCreateButton.onMouseClicked = EventHandler {
             //...
-            SpaceMarineModifier(null).draw()
+            SpaceMarineModifier(null, listener).draw()
             //...
-
-            GlobalScope.launch { listener.sendRequest("add", Configuration.user) }
         }
         controller.mainApplicationMapCreateButton.onMouseClicked =
             controller.mainApplicationTableCreateButton.onMouseClicked
@@ -87,6 +86,7 @@ class MainApplication (private val listener: Listener): Drawable {
         controller.mainApplicationMapAddIfMinButton.onMouseClicked =
             controller.mainApplicationTableAddIfMinButton.onMouseClicked
         controller.mainApplicationMapUpdateButton.onMouseClicked = EventHandler {
+            SpaceMarineModifier(null, listener).draw()
             GlobalScope.launch { listener.sendRequest("update", Configuration.user) }
         }
         controller.mainApplicationTableUpdateButton.onMouseClicked =
