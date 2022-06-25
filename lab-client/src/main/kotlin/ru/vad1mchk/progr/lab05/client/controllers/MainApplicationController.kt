@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.fxml.FXML
+import javafx.scene.canvas.Canvas
 import javafx.scene.control.*
 import javafx.scene.control.cell.ChoiceBoxTableCell
 import javafx.scene.control.cell.PropertyValueFactory
@@ -28,6 +29,8 @@ import java.time.LocalDate
 import java.util.*
 
 class MainApplicationController: Controller() {
+    @FXML
+    lateinit var mainApplicationMapRegion: Region
     @FXML
     lateinit var mainApplicationAboutText: Text
     @FXML
@@ -117,6 +120,7 @@ class MainApplicationController: Controller() {
 
     lateinit var collectionInformation: CollectionInformation
     lateinit var spaceMarineInformation: SpaceMarineInformation
+    private val random = Random()
     fun initialize() {
         mainApplicationBackground.styleClass.add("background")
         collectionInformation = CollectionInformation(
@@ -239,7 +243,7 @@ class MainApplicationController: Controller() {
         mainApplicationSettingsDemonstrationText.apply {
             textProperty().bind(StringPropertyManager.createBinding {
                 val messageFormat = MessageFormat(StringPropertyManager["mainApplicationSettingsFormats"])
-                val number=Configuration.spaceMarinesCreated
+                val number=random.nextInt().toUShort()
                 messageFormat.locale = StringPropertyManager.locale
                 messageFormat.format( arrayOf(
                     StringPropertyManager.dateFormat.format(
@@ -250,7 +254,7 @@ class MainApplicationController: Controller() {
                     Configuration.user?.userName,
                     StringPropertyManager.integerFormat.format(number.toInt()),
                     CustomChoiceFormat.formatByRules {
-                        when(number% 100u) {
+                        when(number % 100u) {
                             1u, in (21u..91u step 10) -> {
                                 StringPropertyManager["mainApplicationSettingsFormatSpaceMarineSingular"]
                             }

@@ -1,19 +1,15 @@
 package ru.vad1mchk.progr.lab05.client.util
 
-import ru.vad1mchk.progr.lab05.client.application.MainApplication
 import ru.vad1mchk.progr.lab05.client.connection.ClientConnectionHandler
-import ru.vad1mchk.progr.lab05.client.controllers.MainApplicationController
 import ru.vad1mchk.progr.lab05.common.communication.EnteredCommand
 import ru.vad1mchk.progr.lab05.common.communication.Request
 import ru.vad1mchk.progr.lab05.common.communication.RequestCreator
 import ru.vad1mchk.progr.lab05.common.datatypes.User
 import ru.vad1mchk.progr.lab05.common.io.Printer
 import java.io.IOException
-import java.lang.Thread.sleep
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.util.*
-import kotlin.concurrent.thread
 
 /*
     Тут вынес слушатель в отдельный класс, чтобы позже можно было использовать его в отдельном потоке
@@ -73,6 +69,7 @@ class Listener (private val connectionHandler: ClientConnectionHandler, private 
                                 }
                             }
                             Configuration.mainApplication.controller.updateTable(newSpaceMarines)
+                            RegionPlacer(Configuration.mainApplication.controller.mainApplicationMapRegion).place(newSpaceMarines)
                         } else if (response != null){
                             println(response.stringMessage)
                             response.spaceMarines?.stream()?.forEach {

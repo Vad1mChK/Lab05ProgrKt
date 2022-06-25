@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -41,11 +40,11 @@
                                            <Button fx:id="mainApplicationMapExecuteScriptButton" layoutX="475.0" layoutY="10.0" mnemonicParsing="false" text="Execute Script" />
                                        </children>
                                     </FlowPane>
-                                    <ScrollPane fx:id="mainApplicationMapScrollPane" hbarPolicy="NEVER" pannable="true" prefViewportHeight="1000.0" vbarPolicy="NEVER">
+                                    <ScrollPane fx:id="mainApplicationMapScrollPane" pannable="true" prefViewportHeight="1000.0">
                                       <content>
                                         <AnchorPane maxHeight="200.0" maxWidth="200.0" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Canvas height="200.0" width="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Region fx:id="mainApplicationMapRegion" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2048.0" prefWidth="2048.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                       </content>
