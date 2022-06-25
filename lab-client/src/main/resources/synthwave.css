@@ -76,7 +76,7 @@
     -fx-background-color: #000000;
 }
 
-.choice-box .menu-item:hover, .choice-box .menu-item:focused, .table-row-cell:focused {
+.choice-box .menu-item:hover, .choice-box .menu-item:focused, .table-row-cell:focused, #spaceMarineModifierSubmitButton {
     -fx-background-color: #860029;
 }
 
@@ -113,7 +113,7 @@
     -fx-background-color: derive(#321450, 20%);
 }
 
-#loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel, #userInformationLabel, #collectionInformationLabel, #spaceMarineInformationLabel {
+#loginFormWelcomeLabel, #mainApplicationMapLabel, #mainApplicationTableLabel, #mainApplicationSettingsLabel, #mainApplicationAboutLabel, #userInformationLabel, #collectionInformationLabel, #spaceMarineInformationLabel, #spaceMarineModifierLabel {
     -fx-font-size: 32px;
 }
 

@@ -36,17 +36,13 @@
                   <Label fx:id="spaceMarineModifierHealthLabel" layoutX="10.0" layoutY="79.0" text="Label" GridPane.rowIndex="2" />
                   <TextField fx:id="spaceMarineModifierHealthField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
                   <Label fx:id="spaceMarineModifierHeartCountLabel" layoutX="10.0" layoutY="141.0" text="Label" GridPane.rowIndex="3" />
-                  <Slider fx:id="spaceMarineHeartCount" blockIncrement="3.0" max="3.0" min="1.0" value="1.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                  <Slider fx:id="spaceMarineHeartCountSlider" blockIncrement="3.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" snapToTicks="true" value="1.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
                   <Label fx:id="spaceMarineModifierLoyalLabel" layoutX="10.0" layoutY="203.0" text="Label" GridPane.rowIndex="4" />
-                  <CheckBox fx:id="spaceMarineModifierLoyalLabelBox" alignment="CENTER_RIGHT" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" textAlignment="RIGHT" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
-                     <padding>
-                        <Insets left="112.0" />
-                     </padding></CheckBox>
+                  <CheckBox fx:id="spaceMarineModifierLoyalBox" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" textAlignment="RIGHT" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" GridPane.vgrow="NEVER" />
                   <Label fx:id="spaceMarineModifierMeleeWeaponLabel" layoutX="10.0" layoutY="265.0" text="Label" GridPane.rowIndex="5" />
                   <ChoiceBox fx:id="spaceMarineModifierMeleeWeaponChoice" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
                   <Label fx:id="spaceMarineModifierChapterNameLabel" text="Label" GridPane.rowIndex="6" />
                   <TextField fx:id="spaceMarineModifierChapterNameField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
-                  <Label layoutX="10.0" layoutY="389.0" text="Label" />
                   <Label fx:id="spaceMarineModifierChapterParentLegionLabel" layoutX="10.0" layoutY="17.0" text="Label" GridPane.rowIndex="7" />
                   <TextField fx:id="spaceMarineModifierChapterParentLegionField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
                   <Label fx:id="spaceMarineModifierChapterMarinesCountLabel" layoutX="10.0" layoutY="451.0" text="Label" GridPane.rowIndex="8" />

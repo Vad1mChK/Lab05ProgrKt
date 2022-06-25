@@ -19,6 +19,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.ArcType;
 import javafx.scene.paint.Color;
 import java.awt.event.MouseEvent
+import kotlin.io.path.createTempDirectory
 
 class MainApplication (private val listener: Listener): Drawable {
     companion object {
@@ -72,6 +73,10 @@ class MainApplication (private val listener: Listener): Drawable {
         controller.mainApplicationTablePrintFieldDescendingHealthButton.onMouseClicked =
             controller.mainApplicationMapPrintFieldDescendingHealthButton.onMouseClicked
         controller.mainApplicationTableCreateButton.onMouseClicked = EventHandler {
+            //...
+            SpaceMarineModifier(null).draw()
+            //...
+
             GlobalScope.launch { listener.sendRequest("add", Configuration.user) }
         }
         controller.mainApplicationMapCreateButton.onMouseClicked =
@@ -111,9 +116,5 @@ class MainApplication (private val listener: Listener): Drawable {
         }
         controller.mainApplicationTableExecuteScriptButton.onMouseClicked =
             controller.mainApplicationMapExecuteScriptButton.onMouseClicked
-
-
-
     }
-
 }

@@ -4,7 +4,7 @@ import javafx.util.StringConverter
 import ru.vad1mchk.progr.lab05.client.strings.StringPropertyManager
 import ru.vad1mchk.progr.lab05.common.datatypes.MeleeWeapon
 
-class MeleeWeaponConverter: StringConverter<MeleeWeapon>() {
+open class MeleeWeaponConverter: StringConverter<MeleeWeapon?>() {
     override fun toString(meleeWeapon: MeleeWeapon?): String? {
         if (meleeWeapon == null) return null
         return StringPropertyManager[
